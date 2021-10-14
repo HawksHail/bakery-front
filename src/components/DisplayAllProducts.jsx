@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import AppContext from "../contexts";
 import { getAllProducts } from "../api/productAPI";
-import Product from "./Product";
+import DisplayProduct from "./DisplayProduct";
 
 function DisplayAllProducts() {
 	const { products, setProducts } = useContext(AppContext);
@@ -11,7 +11,7 @@ function DisplayAllProducts() {
 		getAllProducts()
 			.then(products => setProducts(products))
 			.catch(error => console.log(error));
-	}, [products, setProducts]);
+	}, []);
 
 	return (
 		<table className="table table-striped">
@@ -24,9 +24,16 @@ function DisplayAllProducts() {
 				</tr>
 			</thead>
 			<tbody>
-				{products.map(product => (
-					<Product product={product} key={product.productId} />
-				))}
+				{products ? (
+					products.map(product => (
+						<DisplayProduct
+							product={product}
+							key={product.productId}
+						/>
+					))
+				) : (
+					<div></div>
+				)}
 			</tbody>
 		</table>
 	);

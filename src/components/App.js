@@ -6,7 +6,7 @@ import Navbar from "./Navbar";
 import Home from "./Home";
 import DisplayAllProducts from "./DisplayAllProducts";
 import DisplayCart from "./DisplayCart";
-import DisplayCategories from "./DisplayCategories";
+import DisplayAllCategories from "./DisplayAllCategories";
 
 function App() {
 	return (
@@ -17,7 +17,7 @@ function App() {
 					<Home />
 				</Route>
 				<Route path="/category">
-					<DisplayCategories />
+					<DisplayAllCategories />
 				</Route>
 				<Route path="/products">
 					<DisplayAllProducts />

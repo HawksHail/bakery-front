@@ -1,16 +1,16 @@
 import React, { useContext, useEffect } from "react";
 import AppContext from "../contexts";
 import { getAllCategories } from "../api/categoryAPI";
-import Category from "./Category";
+import DisplayCategory from "./DisplayCategory";
 
-function DisplayCategories() {
+function DisplayAllCategories() {
 	const { categories, setCategories } = useContext(AppContext);
 
 	useEffect(() => {
 		getAllCategories()
 			.then(categories => setCategories(categories))
 			.catch(error => console.log(error));
-	}, [categories, setCategories]);
+	}, []);
 
 	return (
 		<table className="table table-striped">
@@ -22,11 +22,14 @@ function DisplayCategories() {
 			</thead>
 			<tbody>
 				{categories.map(category => (
-					<Category category={category} key={category.categoryId} />
+					<DisplayCategory
+						category={category}
+						key={category.categoryId}
+					/>
 				))}
 			</tbody>
 		</table>
 	);
 }
 
-export default DisplayCategories;
+export default DisplayAllCategories;
