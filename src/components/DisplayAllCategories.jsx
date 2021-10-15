@@ -21,12 +21,16 @@ function DisplayAllCategories() {
 				</tr>
 			</thead>
 			<tbody>
-				{categories.map(category => (
-					<DisplayCategory
-						category={category}
-						key={category.categoryId}
-					/>
-				))}
+				{categories.length > 0 ? (
+					categories.map(category => (
+						<DisplayCategory
+							category={category}
+							key={category.id}
+						/>
+					))
+				) : (
+					<div>Loading</div>
+				)}
 			</tbody>
 		</table>
 	);

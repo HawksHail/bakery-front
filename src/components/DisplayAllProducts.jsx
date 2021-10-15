@@ -7,7 +7,6 @@ function DisplayAllProducts() {
 	const { products, setProducts } = useContext(AppContext);
 
 	useEffect(() => {
-		console.log("All products");
 		getAllProducts()
 			.then(products => setProducts(products))
 			.catch(error => console.log(error));
@@ -24,15 +23,12 @@ function DisplayAllProducts() {
 				</tr>
 			</thead>
 			<tbody>
-				{products ? (
+				{products.length > 0 ? (
 					products.map(product => (
-						<DisplayProduct
-							product={product}
-							key={product.productId}
-						/>
+						<DisplayProduct product={product} key={product.id} />
 					))
 				) : (
-					<div></div>
+					<tr>Loading</tr>
 				)}
 			</tbody>
 		</table>
