@@ -3,18 +3,15 @@ import { render, screen } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import AppContext from "../contexts";
-import DisplayAllProducts from "../components/DisplayAllProducts";
+import DisplayAllCategories from "../components/DisplayAllCategories";
 import Supplier from "../models/supplier";
 import Category from "../models/category";
 import Product from "../models/product";
 
-let supplier = new Supplier(2, "company name", "contact name", []);
-let category = new Category(3, "category name", "description", []);
-
-const fakeProducts = {
-	products: [
-		new Product(1, "name1", supplier, category, 3),
-		new Product(4, "name2", supplier, category, 4),
+const fakeCategories = {
+	categories: [
+		new Category(1, "name1", "description1", [1]),
+		new Category(4, "name2", "description2", [2]),
 	],
 };
 
@@ -22,16 +19,16 @@ let fetchSpy;
 beforeEach(() => {
 	fetchSpy = jest.spyOn(global, "fetch").mockImplementation(() =>
 		Promise.resolve({
-			json: () => JSON.stringify(fakeProducts),
+			json: () => JSON.stringify(fakeCategories),
 		})
 	);
 });
 
 test("all products are rendered", () => {
 	render(
-		<AppContext.Provider value={fakeProducts}>
+		<AppContext.Provider value={fakeCategories}>
 			<Router>
-				<DisplayAllProducts />
+				<DisplayAllCategories />
 			</Router>
 		</AppContext.Provider>
 	);
@@ -39,14 +36,14 @@ test("all products are rendered", () => {
 	const cards = screen.getAllByText(/name[0-9]/);
 	expect(cards.length).toBe(2);
 
-	expect(fetchSpy).toBeCalledWith("http://localhost:8091/product");
+	expect(fetchSpy).toBeCalledWith("http://localhost:8091/category");
 });
 
 test("list not loaded yet", () => {
 	render(
-		<AppContext.Provider value={{ products: [] }}>
+		<AppContext.Provider value={{ categories: [] }}>
 			<Router>
-				<DisplayAllProducts />
+				<DisplayAllCategories />
 			</Router>
 		</AppContext.Provider>
 	);
