@@ -28,7 +28,9 @@ function DisplayAllProducts() {
 						<DisplayProduct product={product} key={product.id} />
 					))
 				) : (
-					<div>Loading</div>
+					<tr>
+						<td colSpan="4">Loading</td>
+					</tr>
 				)}
 			</tbody>
 		</table>

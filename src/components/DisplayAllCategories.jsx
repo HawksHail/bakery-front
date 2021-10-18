@@ -29,7 +29,9 @@ function DisplayAllCategories() {
 						/>
 					))
 				) : (
-					<div>Loading</div>
+					<tr>
+						<td colSpan="2">Loading</td>
+					</tr>
 				)}
 			</tbody>
 		</table>
