@@ -13,27 +13,17 @@ function DisplayAllProducts() {
 	}, []);
 
 	return (
-		<table className="table table-striped">
-			<thead>
-				<tr>
-					<th>Product Name</th>
-					<th>Category</th>
-					<th>Supplier</th>
-					<th>Price</th>
-				</tr>
-			</thead>
-			<tbody>
-				{products.length > 0 ? (
-					products.map(product => (
-						<DisplayProduct product={product} key={product.id} />
-					))
-				) : (
-					<tr>
-						<td colSpan="4">Loading</td>
-					</tr>
-				)}
-			</tbody>
-		</table>
+		<div className="row">
+			{products.length > 0 ? (
+				products.map(product => (
+					<DisplayProduct product={product} key={product.id} />
+				))
+			) : (
+				<div>
+					<h3 colSpan="4">Loading</h3>
+				</div>
+			)}
+		</div>
 	);
 }
 
