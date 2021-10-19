@@ -7,6 +7,7 @@ import Home from "./Home";
 import DisplayAllProducts from "./DisplayAllProducts";
 import DisplayCart from "./DisplayCart";
 import DisplayAllCategories from "./DisplayAllCategories";
+import DisplayCategoryItems from "./DisplayCategoryItems";
 
 function App() {
 	return (
@@ -18,6 +19,9 @@ function App() {
 				</Route>
 				<Route path="/category">
 					<DisplayAllCategories />
+				</Route>
+				<Route path="/category-items/:id">
+					<DisplayCategoryItems />
 				</Route>
 				<Route path="/products">
 					<DisplayAllProducts />

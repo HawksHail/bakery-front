@@ -4,9 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import AppContext from "../contexts";
 import DisplayAllCategories from "../components/DisplayAllCategories";
-import Supplier from "../models/supplier";
 import Category from "../models/category";
-import Product from "../models/product";
 
 const fakeCategories = {
 	categories: [
@@ -24,7 +22,7 @@ beforeEach(() => {
 	);
 });
 
-test("all products are rendered", () => {
+test("API is called and all products are rendered", () => {
 	render(
 		<AppContext.Provider value={fakeCategories}>
 			<Router>

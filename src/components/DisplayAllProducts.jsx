@@ -7,9 +7,7 @@ function DisplayAllProducts() {
 	const { products, setProducts } = useContext(AppContext);
 
 	useEffect(() => {
-		getAllProducts()
-			.then(products => setProducts(products))
-			.catch(error => console.log(error));
+		getAllProducts().then(setProducts).catch(console.log);
 	}, []);
 
 	return (

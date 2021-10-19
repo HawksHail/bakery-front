@@ -7,9 +7,7 @@ function DisplayAllCategories() {
 	const { categories, setCategories } = useContext(AppContext);
 
 	useEffect(() => {
-		getAllCategories()
-			.then(categories => setCategories(categories))
-			.catch(error => console.log(error));
+		getAllCategories().then(setCategories).catch(console.log);
 	}, []);
 
 	return (
