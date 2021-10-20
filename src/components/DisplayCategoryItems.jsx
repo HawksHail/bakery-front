@@ -16,7 +16,7 @@ function DisplayCategoryItems() {
 	}
 
 	return (
-		<div className="row">
+		<div className="row p-3">
 			{category.productList.map(product => (
 				<DisplayProduct
 					product={product}

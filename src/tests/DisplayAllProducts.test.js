@@ -8,8 +8,8 @@ import Supplier from "../models/supplier";
 import Category from "../models/category";
 import Product from "../models/product";
 
-let supplier = new Supplier(2, "company name", "contact name", []);
-let category = new Category(3, "category name", "description", []);
+const supplier = new Supplier(2, "company name", "contact name", []);
+const category = new Category(3, "category name", "description", []);
 
 const fakeProducts = {
 	products: [

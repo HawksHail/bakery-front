@@ -11,7 +11,7 @@ function DisplayAllProducts() {
 	}, []);
 
 	return (
-		<div className="row">
+		<div className="row p-3">
 			{products.length > 0 ? (
 				products.map(product => (
 					<DisplayProduct product={product} key={product.id} />
