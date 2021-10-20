@@ -5,18 +5,25 @@ import Supplier from "../models/supplier";
 import Category from "../models/category";
 import Product from "../models/product";
 
-let supplier = new Supplier(2, "company name", "contact name", []);
-let category = new Category(3, "category name", "description", []);
-let product = new Product(1, "product name", supplier, category, 5);
+let supplier = new Supplier(2, "test company", "contact name", []);
+let category = new Category(3, "test category", "description", []);
+let product = new Product(1, "test product", supplier, category, 5);
 test("Card containing all info about product", () => {
-	render(<DisplayProduct product={product} />);
+	const { getByTestId } = render(<DisplayProduct product={product} />);
 
-	const name = screen.getByText(/product name/);
+	const name = getByTestId("productName");
 	expect(name).toBeInTheDocument();
-	const supplier = screen.getByText(/Sold by:/);
-	expect(supplier).toBeInTheDocument();
-	const category = screen.getByText(/category/);
+	expect(name.innerHTML).toBe("test product");
+
+	const category = getByTestId("categoryName");
 	expect(category).toBeInTheDocument();
-	const price = screen.getByText(/5/);
+	expect(category.innerHTML).toBe("test category");
+
+	const company = getByTestId("companyName");
+	expect(company).toBeInTheDocument();
+	expect(company.innerHTML).toBe("Sold by: test company");
+
+	const price = getByTestId("unitPrice");
 	expect(price).toBeInTheDocument();
+	expect(price.innerHTML).toBe("$5");
 });

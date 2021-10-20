@@ -12,15 +12,19 @@ function DisplayProduct(props) {
 					alt="{props.product.productName} image"
 				/> */}
 				<div className="card-body">
-					<h5 className="card-title">{props.product.productName}</h5>
+					<h5 className="card-title" data-testid="productName">
+						{props.product.productName}
+					</h5>
 					<p>
-						<em>
+						<em data-testid="categoryName">
 							{props.categoryName ||
 								props.product.category.categoryName}
 						</em>
 					</p>
-					<p>Sold by: {props.product.supplier.companyName}</p>
-					<p>${props.product.unitPrice}</p>
+					<p data-testid="companyName">
+						Sold by: {props.product.supplier.companyName}
+					</p>
+					<p data-testid="unitPrice">${props.product.unitPrice}</p>
 				</div>
 			</div>
 		</div>
