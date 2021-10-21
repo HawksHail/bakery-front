@@ -1,39 +1,44 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import Container from "react-bootstrap/Container";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
 import "../styles/Navbar.css";
 import logo from "../logo.svg";
 
-function Navbar() {
+function DisplayNavbar() {
 	return (
-		<nav className="navbar navbar-expand-sm bg-dark navbar-dark justify-content-between">
-			<Link className="navbar-brand" to="/">
-				<img className="brand" src={logo} alt="logo" />
-			</Link>
-			<ul className="navbar-nav">
-				<li className="nav-item">
-					<Link to="/" className="nav-link">
-						Home
-					</Link>
-				</li>
-				<li className="nav-item">
-					<Link to="/category" className="nav-link">
-						Category
-					</Link>
-				</li>
-				<li className="nav-item">
-					<Link to="/products" className="nav-link">
-						Products
-					</Link>
-				</li>
-				<li className="nav-item">
-					<Link to="/cart" className="nav-link">
-						Cart
-					</Link>
-				</li>
-			</ul>
-		</nav>
+		<Navbar
+			bg="dark"
+			variant="dark"
+			expand="sm"
+			sticky="top"
+			className="justify-content-between"
+		>
+			<Container>
+				<Navbar.Brand as={Link} to="/">
+					<img className="brand" src={logo} alt="logo" />
+				</Navbar.Brand>
+				<Navbar.Toggle aria-controls="basic-navbar-nav" />
+				<Navbar.Collapse id="basic-navbar-nav">
+					<Nav className="me-auto mb-2 mb-lg-0">
+						<Nav.Link as={Link} to="/">
+							Home
+						</Nav.Link>
+						<Nav.Link as={Link} to="/category">
+							Category
+						</Nav.Link>
+						<Nav.Link as={Link} to="/products">
+							Products
+						</Nav.Link>
+						<Nav.Link as={Link} to="/cart">
+							Cart
+						</Nav.Link>
+					</Nav>
+				</Navbar.Collapse>
+			</Container>
+		</Navbar>
 	);
 }
 
-export default Navbar;
+export default DisplayNavbar;
