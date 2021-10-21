@@ -1,4 +1,6 @@
 import React, { useContext, useEffect } from "react";
+import Row from "react-bootstrap/Row";
+
 import AppContext from "../contexts";
 import { getAllProducts } from "../api/productAPI";
 import DisplayProduct from "./DisplayProduct";
@@ -11,17 +13,15 @@ function DisplayAllProducts() {
 	}, []);
 
 	return (
-		<div className="row p-3">
+		<Row className="p-1">
 			{products.length > 0 ? (
 				products.map(product => (
 					<DisplayProduct product={product} key={product.id} />
 				))
 			) : (
-				<div>
-					<h3 colSpan="4">Loading</h3>
-				</div>
+				<h3 colSpan="4">Loading</h3>
 			)}
-		</div>
+		</Row>
 	);
 }
 

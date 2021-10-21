@@ -15,7 +15,7 @@ function DisplayNavbar() {
 			sticky="top"
 			className="justify-content-between"
 		>
-			<Container>
+			<Container fluid>
 				<Navbar.Brand as={Link} to="/">
 					<img className="brand" src={logo} alt="logo" />
 				</Navbar.Brand>

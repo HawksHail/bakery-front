@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from "react";
+import Table from "react-bootstrap/Table";
 import AppContext from "../contexts";
 import { getAllCategories } from "../api/categoryAPI";
 import DisplayCategory from "./DisplayCategory";
@@ -11,7 +12,7 @@ function DisplayAllCategories() {
 	}, []);
 
 	return (
-		<table className="table table-striped">
+		<Table striped hover bordered>
 			<thead>
 				<tr>
 					<th>Category Name</th>
@@ -32,7 +33,7 @@ function DisplayAllCategories() {
 					</tr>
 				)}
 			</tbody>
-		</table>
+		</Table>
 	);
 }
 

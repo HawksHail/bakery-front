@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Container from "react-bootstrap/Container";
 
 import "../styles/App.css";
 import Navbar from "./Navbar";
@@ -13,23 +14,25 @@ function App() {
 	return (
 		<Router>
 			<Navbar />
-			<Switch>
-				<Route exact path="/">
-					<Home />
-				</Route>
-				<Route path="/category">
-					<DisplayAllCategories />
-				</Route>
-				<Route path="/category-items/:id">
-					<DisplayCategoryItems />
-				</Route>
-				<Route path="/products">
-					<DisplayAllProducts />
-				</Route>
-				<Route path="/cart">
-					<DisplayCart />
-				</Route>
-			</Switch>
+			<Container fluid className="pt-1">
+				<Switch>
+					<Route exact path="/">
+						<Home />
+					</Route>
+					<Route path="/category">
+						<DisplayAllCategories />
+					</Route>
+					<Route path="/category-items/:id">
+						<DisplayCategoryItems />
+					</Route>
+					<Route path="/products">
+						<DisplayAllProducts />
+					</Route>
+					<Route path="/cart">
+						<DisplayCart />
+					</Route>
+				</Switch>
+			</Container>
 		</Router>
 	);
 }

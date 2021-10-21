@@ -1,4 +1,6 @@
 import React, { useContext, useEffect } from "react";
+import Row from "react-bootstrap/Row";
+
 import { getCart } from "../api/cartAPI";
 import AppContext from "../contexts";
 import DisplayProduct from "./DisplayProduct";
@@ -17,9 +19,7 @@ function DisplayCart() {
 		return (
 			<div className="p-3">
 				<h1>Cart</h1>
-				<div className="row">
-					<h3>Loading</h3>
-				</div>
+				<h4>Loading</h4>
 			</div>
 		);
 	}
@@ -27,15 +27,15 @@ function DisplayCart() {
 	return (
 		<div className="p-3">
 			<h1>Cart</h1>
-			<div className="row">
+			<Row>
 				{cart.length > 0 ? (
 					cart.map(product => (
 						<DisplayProduct product={product} key={product.id} />
 					))
 				) : (
-					<h3>Your cart is empty</h3>
+					<h4>Your cart is empty</h4>
 				)}
-			</div>
+			</Row>
 		</div>
 	);
 }

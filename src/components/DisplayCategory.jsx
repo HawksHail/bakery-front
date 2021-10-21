@@ -11,6 +11,7 @@ function DisplayCategory(props) {
 				<a
 					className="link-primary"
 					data-testid="link"
+					style={{ cursor: "pointer" }}
 					onClick={() =>
 						props.history.push(
 							`/category-items/${props.category.id}`
