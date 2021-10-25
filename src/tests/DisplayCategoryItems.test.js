@@ -8,6 +8,7 @@ import Supplier from "../models/supplier";
 import Category from "../models/category";
 import Product from "../models/product";
 import DisplayCategoryItems from "../components/DisplayCategoryItems";
+import { url } from "../api/url";
 
 let fetchSpy;
 let fakeCategory = new Category(1, "category name", "description", [
@@ -56,7 +57,7 @@ test("API is called and all products in category are rendered", () => {
 	//TODO check that all are rendered
 	// const cards = screen.getAllByTestId("card");
 
-	expect(fetchSpy).toBeCalledWith("http://localhost:8091/category/1");
+	expect(fetchSpy).toBeCalledWith(`${url}/category/1`);
 	// expect(cards.length).toBe(2);
 });
 

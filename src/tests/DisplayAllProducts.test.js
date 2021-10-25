@@ -7,6 +7,8 @@ import DisplayAllProducts from "../components/DisplayAllProducts";
 import Supplier from "../models/supplier";
 import Category from "../models/category";
 import Product from "../models/product";
+import { url } from "../api/url";
+
 
 const supplier = new Supplier(2, "company name", "contact name", []);
 const category = new Category(3, "category name", "description", []);
@@ -39,7 +41,7 @@ test("all products are rendered", () => {
 	const cards = screen.getAllByText(/name[0-9]/);
 	expect(cards.length).toBe(2);
 
-	expect(fetchSpy).toBeCalledWith("http://localhost:8091/product");
+	expect(fetchSpy).toBeCalledWith(`${url}/product`);
 });
 
 test("list not loaded yet", () => {
