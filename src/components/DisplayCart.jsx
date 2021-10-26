@@ -24,6 +24,8 @@ function DisplayCart() {
 		);
 	}
 
+	console.log(cart);
+
 	return (
 		<div className="p-3">
 			<h1>Cart</h1>
