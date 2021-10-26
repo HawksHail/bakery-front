@@ -5,6 +5,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import AppContext from "../contexts";
 import DisplayAllCategories from "../components/DisplayAllCategories";
 import Category from "../models/category";
+import { url } from "../api/url";
 
 const fakeCategories = {
 	categories: [
@@ -34,7 +35,7 @@ test("API is called and all products are rendered", () => {
 	const cards = screen.getAllByText(/name[0-9]/);
 	expect(cards.length).toBe(2);
 
-	expect(fetchSpy).toBeCalledWith("http://localhost:8091/category");
+	expect(fetchSpy).toBeCalledWith(`${url}/category`);
 });
 
 test("list not loaded yet", () => {
