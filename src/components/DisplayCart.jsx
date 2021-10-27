@@ -13,9 +13,9 @@ function DisplayCart() {
 
 	useEffect(() => {
 		getCart(customerId).then(setCart).catch(console.log);
-	}, []);
+	}, [customerId]);
 
-	if (!cart) {
+	if (!cart.items) {
 		return (
 			<div className="p-3">
 				<h1>Cart</h1>
@@ -24,19 +24,25 @@ function DisplayCart() {
 		);
 	}
 
-	console.log(cart);
+	if (cart.items.length < 1) {
+		return (
+			<div className="p-3">
+				<h1>Cart</h1>
+				<h4>Your cart is empty</h4>
+			</div>
+		);
+	}
 
 	return (
 		<div className="p-3">
 			<h1>Cart</h1>
 			<Row>
-				{cart.length > 0 ? (
-					cart.map(product => (
-						<DisplayProduct product={product} key={product.id} />
-					))
-				) : (
-					<h4>Your cart is empty</h4>
-				)}
+				{cart.items.map(item => (
+					<DisplayProduct
+						product={item.product}
+						key={item.product.id}
+					/>
+				))}
 			</Row>
 		</div>
 	);

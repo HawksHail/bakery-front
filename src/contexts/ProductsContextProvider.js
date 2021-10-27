@@ -6,7 +6,7 @@ import AppContext from ".";
 const ProductsContextProvider = ({ children }) => {
 	const [products, setProducts] = useState([]);
 	const [categories, setCategories] = useState([]);
-	const [cart, setCart] = useState(null);
+	const [cart, setCart] = useState({});
 
 	const context = {
 		products,
