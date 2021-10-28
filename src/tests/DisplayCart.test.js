@@ -57,17 +57,16 @@ beforeEach(() => {
 	);
 });
 
-test("contents of cart are loaded and displayed", () => {
+test("Cart not loaded from API yet", () => {
 	render(
-		<AppContext.Provider value={{ cart: fakeCart, setCart: () => {} }}>
+		<AppContext.Provider value={{ cart: {}, setCart: () => {} }}>
 			<DisplayCart />
 		</AppContext.Provider>
 	);
 
 	expect(screen.getByText(/Cart/)).toBeInTheDocument();
 
-	const cards = screen.getAllByText(/test product/i);
-	expect(cards.length).toBe(2);
+	expect(screen.getByText(/Loading/)).toBeInTheDocument();
 });
 
 test("Empty cart", () => {
@@ -82,14 +81,15 @@ test("Empty cart", () => {
 	expect(screen.getByText(/Your cart is empty/)).toBeInTheDocument();
 });
 
-test("Cart not loaded from API yet", () => {
+test("contents of cart are loaded and displayed", () => {
 	render(
-		<AppContext.Provider value={{ cart: {}, setCart: () => {} }}>
+		<AppContext.Provider value={{ cart: fakeCart, setCart: () => {} }}>
 			<DisplayCart />
 		</AppContext.Provider>
 	);
 
 	expect(screen.getByText(/Cart/)).toBeInTheDocument();
 
-	expect(screen.getByText(/Loading/)).toBeInTheDocument();
+	const cards = screen.getAllByText(/test product/i);
+	expect(cards.length).toBe(2);
 });
