@@ -18,7 +18,7 @@ let fetchSpy;
 beforeEach(() => {
 	fetchSpy = jest.spyOn(global, "fetch").mockImplementation(() =>
 		Promise.resolve({
-			json: () => JSON.stringify(fakeCategories),
+			json: () => Promise.resolve(fakeCategories),
 		})
 	);
 });
