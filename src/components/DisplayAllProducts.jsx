@@ -17,7 +17,6 @@ function DisplayAllProducts() {
 	const custId = "test1";
 
 	const addToCartButton = prodId => {
-		console.log("addToCartButton", custId, prodId);
 		addToCart(custId, prodId).then(setCart);
 	};
 
