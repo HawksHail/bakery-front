@@ -1,5 +1,7 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+
 import App from "../components/App";
 import ProductsContextProvider from "../contexts/ProductsContextProvider";
 
@@ -9,18 +11,18 @@ test("Has Router with Route tags", () => {
 			<App />
 		</ProductsContextProvider>
 	);
-	const linkElement = screen.getByText(/learn react/i);
-	expect(linkElement).toBeInTheDocument();
+
+	expect(screen.getByText(/learn react/i)).toBeInTheDocument();
 
 	const category = screen.getByText(/category/i);
-	fireEvent.click(category);
+	userEvent.click(category);
 	expect(document.location.toString()).toContain("/category");
 
 	const products = screen.getByText(/products/i);
-	fireEvent.click(products);
+	userEvent.click(products);
 	expect(document.location.toString()).toContain("/products");
 
 	const cart = screen.getByText(/cart/i);
-	fireEvent.click(cart);
+	userEvent.click(cart);
 	expect(document.location.toString()).toContain("/cart");
 });

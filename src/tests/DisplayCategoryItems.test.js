@@ -14,7 +14,6 @@ import Product from "../models/product";
 import DisplayCategoryItems from "../components/DisplayCategoryItems";
 import { url } from "../api/url";
 
-let fetchSpy;
 const fakeCategory = new Category(1, "category name", "description", [
 	new Product(
 		5,
@@ -39,6 +38,7 @@ const fakeCategory = new Category(1, "category name", "description", [
 	),
 ]);
 
+let fetchSpy;
 beforeEach(() => {
 	fetchSpy = jest.spyOn(global, "fetch").mockImplementation(() =>
 		Promise.resolve({
@@ -60,7 +60,6 @@ test("API is called and all products in category are rendered", async () => {
 
 	waitForElementToBeRemoved(screen.getByText("Loading"));
 
-	//TODO check that all are rendered
 	const cards = await screen.findAllByText(/product[0-9]/);
 	expect(cards.length).toBe(3);
 });
@@ -74,8 +73,7 @@ test("API call not loaded yet", () => {
 		</MemoryRouter>
 	);
 
-	const load = screen.getByText(/Loading/);
-	expect(load).toBeInTheDocument();
+	expect(screen.getByText(/Loading/)).toBeInTheDocument();
 });
 
 test("Button POSTS to API", async () => {

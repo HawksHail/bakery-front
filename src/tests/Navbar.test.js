@@ -1,7 +1,8 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import Navbar from "../components/Navbar";
 import { BrowserRouter as Router } from "react-router-dom";
+
+import Navbar from "../components/Navbar";
 
 test("Navbar renders Home link with correct href value", () => {
 	render(

@@ -1,5 +1,6 @@
 import React from "react";
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import AppContext from "../contexts";
@@ -37,10 +38,10 @@ test("all products are rendered", () => {
 		</AppContext.Provider>
 	);
 
+	expect(fetchSpy).toBeCalledWith(`${url}/product`);
+
 	const cards = screen.getAllByText(/name[0-9]/);
 	expect(cards.length).toBe(2);
-
-	expect(fetchSpy).toBeCalledWith(`${url}/product`);
 });
 
 test("list not loaded yet", () => {
@@ -52,12 +53,11 @@ test("list not loaded yet", () => {
 		</AppContext.Provider>
 	);
 
-	const load = screen.getByText(/Loading/);
-	expect(load).toBeInTheDocument();
+	expect(screen.getByText(/Loading/)).toBeInTheDocument();
 });
 
 test("Button POSTS to API", () => {
-	const { getAllByTestId } = render(
+	render(
 		<AppContext.Provider value={fakeProducts}>
 			<Router>
 				<DisplayAllProducts />
@@ -67,12 +67,10 @@ test("Button POSTS to API", () => {
 
 	expect(fetchSpy).toBeCalledWith(`${url}/product`);
 
-	const buttons = getAllByTestId("productCardButton");
+	const buttons = screen.getAllByRole("button", { name: /add to cart/i });
 	expect(buttons.length).toBe(2);
 
-	act(() => {
-		fireEvent.click(buttons[0]);
-	});
+	userEvent.click(buttons[0]);
 
 	expect(fetchSpy).toBeCalledWith(
 		`${url}/cart/test1/${fakeProducts.products[0].id}`,

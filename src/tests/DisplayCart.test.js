@@ -1,5 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
+
 import DisplayCart from "../components/DisplayCart";
 import AppContext from "../contexts";
 
@@ -57,16 +58,15 @@ beforeEach(() => {
 });
 
 test("contents of cart are loaded and displayed", () => {
-	const { getByTestId, getAllByTestId } = render(
+	render(
 		<AppContext.Provider value={{ cart: fakeCart, setCart: () => {} }}>
 			<DisplayCart />
 		</AppContext.Provider>
 	);
 
-	const title = screen.getByText(/Cart/);
-	expect(title).toBeInTheDocument();
+	expect(screen.getByText(/Cart/)).toBeInTheDocument();
 
-	const cards = getAllByTestId("productCard");
+	const cards = screen.getAllByText(/test product/i);
 	expect(cards.length).toBe(2);
 });
 
@@ -77,11 +77,9 @@ test("Empty cart", () => {
 		</AppContext.Provider>
 	);
 
-	const title = screen.getByText(/Cart/);
-	expect(title).toBeInTheDocument();
+	expect(screen.getByText(/Cart/)).toBeInTheDocument();
 
-	const empty = screen.getByText(/Your cart is empty/);
-	expect(empty).toBeInTheDocument();
+	expect(screen.getByText(/Your cart is empty/)).toBeInTheDocument();
 });
 
 test("Cart not loaded from API yet", () => {
@@ -91,9 +89,7 @@ test("Cart not loaded from API yet", () => {
 		</AppContext.Provider>
 	);
 
-	const title = screen.getByText(/Cart/);
-	expect(title).toBeInTheDocument();
+	expect(screen.getByText(/Cart/)).toBeInTheDocument();
 
-	const empty = screen.getByText(/Loading/);
-	expect(empty).toBeInTheDocument();
+	expect(screen.getByText(/Loading/)).toBeInTheDocument();
 });
