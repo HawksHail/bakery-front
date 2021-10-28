@@ -66,7 +66,7 @@ test("contents of cart are loaded and displayed", () => {
 	const title = screen.getByText(/Cart/);
 	expect(title).toBeInTheDocument();
 
-	const cards = getAllByTestId("card");
+	const cards = getAllByTestId("productCard");
 	expect(cards.length).toBe(2);
 });
 

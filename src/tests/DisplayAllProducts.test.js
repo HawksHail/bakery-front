@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import AppContext from "../contexts";
@@ -8,7 +8,6 @@ import Supplier from "../models/supplier";
 import Category from "../models/category";
 import Product from "../models/product";
 import { url } from "../api/url";
-
 
 const supplier = new Supplier(2, "company name", "contact name", []);
 const category = new Category(3, "category name", "description", []);
@@ -55,4 +54,28 @@ test("list not loaded yet", () => {
 
 	const load = screen.getByText(/Loading/);
 	expect(load).toBeInTheDocument();
+});
+
+test("Button POSTS to API", () => {
+	const { getAllByTestId } = render(
+		<AppContext.Provider value={fakeProducts}>
+			<Router>
+				<DisplayAllProducts />
+			</Router>
+		</AppContext.Provider>
+	);
+
+	expect(fetchSpy).toBeCalledWith(`${url}/product`);
+
+	const buttons = getAllByTestId("productCardButton");
+	expect(buttons.length).toBe(2);
+
+	act(() => {
+		fireEvent.click(buttons[0]);
+	});
+
+	expect(fetchSpy).toBeCalledWith(
+		`${url}/cart/test1/${fakeProducts.products[0].id}`,
+		{ method: "POST" }
+	);
 });
