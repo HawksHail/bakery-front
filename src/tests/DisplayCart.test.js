@@ -1,12 +1,14 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 import DisplayCart from "../components/DisplayCart";
 import AppContext from "../contexts";
+import { url } from "../api/url";
+import userEvent from "@testing-library/user-event";
 
 const fakeCart = {
 	customer: {
-		customerId: "TEST1",
+		customerId: "test1",
 	},
 	items: [
 		{
@@ -92,4 +94,31 @@ test("contents of cart are loaded and displayed", () => {
 
 	const cards = screen.getAllByText(/test product/i);
 	expect(cards.length).toBe(2);
+});
+
+test("Button POSTS to API", async () => {
+	render(
+		<AppContext.Provider
+			value={{
+				cart: fakeCart,
+				setCart: c => {},
+			}}
+		>
+			<DisplayCart />
+		</AppContext.Provider>
+	);
+
+	expect(fetchSpy).toBeCalledWith(
+		`${url}/cart/${fakeCart.customer.customerId}`
+	);
+
+	const buttons = screen.getAllByRole("button", { name: /remove/i });
+	expect(buttons.length).toBe(2);
+
+	userEvent.click(buttons[0]);
+
+	expect(fetchSpy).toBeCalledWith(
+		`${url}/cart/${fakeCart.customer.customerId}/${fakeCart.items[0].product.id}`,
+		{ method: "DELETE" }
+	);
 });
