@@ -1,22 +1,50 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import { BrowserRouter as Router } from "react-router-dom";
 import DisplayCart from "../components/DisplayCart";
-import Supplier from "../models/supplier";
-import Category from "../models/category";
-import Product from "../models/product";
 import AppContext from "../contexts";
 
-const supplier = new Supplier(2, "company name", "contact name", []);
-const category = new Category(3, "category name", "description", []);
-
 const fakeCart = {
-	cart: {
-		items: [
-			new Product(1, "name1", supplier, category, 3),
-			new Product(4, "name2", supplier, category, 4),
-		],
+	customer: {
+		customerId: "TEST1",
 	},
+	items: [
+		{
+			product: {
+				id: 4,
+				productName: "Test Product",
+				supplier: {
+					id: 1,
+					companyName: "Test Company",
+					contactName: "Test Contact",
+				},
+				category: {
+					id: 2,
+					categoryName: "Test Category",
+					description: "Test description",
+				},
+				unitPrice: 22.0,
+			},
+			quantity: 2,
+		},
+		{
+			product: {
+				id: 5,
+				productName: "Test Product2",
+				supplier: {
+					id: 1,
+					companyName: "Test Company",
+					contactName: "Test Contact",
+				},
+				category: {
+					id: 13,
+					categoryName: "Test Category2",
+					description: "Second category",
+				},
+				unitPrice: 17.0,
+			},
+			quantity: 2,
+		},
+	],
 };
 
 let fetchSpy;
@@ -29,8 +57,8 @@ beforeEach(() => {
 });
 
 test("contents of cart are loaded and displayed", () => {
-	render(
-		<AppContext.Provider value={{ fakeCart, setCart: () => {} }}>
+	const { getByTestId, getAllByTestId } = render(
+		<AppContext.Provider value={{ cart: fakeCart, setCart: () => {} }}>
 			<DisplayCart />
 		</AppContext.Provider>
 	);
@@ -38,8 +66,8 @@ test("contents of cart are loaded and displayed", () => {
 	const title = screen.getByText(/Cart/);
 	expect(title).toBeInTheDocument();
 
-	const empty = screen.getByText(/Your cart is empty/);
-	expect(empty).toBeInTheDocument();
+	const cards = getAllByTestId("card");
+	expect(cards.length).toBe(2);
 });
 
 test("Empty cart", () => {
