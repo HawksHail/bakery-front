@@ -1,59 +1,62 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
-import { BrowserRouter as Router } from "react-router-dom";
-import DisplayCart from "../components/DisplayCart";
-import Supplier from "../models/supplier";
-import Category from "../models/category";
-import Product from "../models/product";
-import AppContext from "../contexts";
+import { fireEvent, render, screen } from "@testing-library/react";
 
-const supplier = new Supplier(2, "company name", "contact name", []);
-const category = new Category(3, "category name", "description", []);
+import DisplayCart from "../components/DisplayCart";
+import AppContext from "../contexts";
+import { url } from "../api/url";
+import userEvent from "@testing-library/user-event";
 
 const fakeCart = {
-	cart: {
-		items: [
-			new Product(1, "name1", supplier, category, 3),
-			new Product(4, "name2", supplier, category, 4),
-		],
+	customer: {
+		customerId: "test1",
 	},
+	items: [
+		{
+			product: {
+				id: 4,
+				productName: "Test Product",
+				supplier: {
+					id: 1,
+					companyName: "Test Company",
+					contactName: "Test Contact",
+				},
+				category: {
+					id: 2,
+					categoryName: "Test Category",
+					description: "Test description",
+				},
+				unitPrice: 22.0,
+			},
+			quantity: 2,
+		},
+		{
+			product: {
+				id: 5,
+				productName: "Test Product2",
+				supplier: {
+					id: 1,
+					companyName: "Test Company",
+					contactName: "Test Contact",
+				},
+				category: {
+					id: 13,
+					categoryName: "Test Category2",
+					description: "Second category",
+				},
+				unitPrice: 17.0,
+			},
+			quantity: 2,
+		},
+	],
 };
 
 let fetchSpy;
 beforeEach(() => {
 	fetchSpy = jest.spyOn(global, "fetch").mockImplementation(() =>
 		Promise.resolve({
-			json: () => JSON.stringify(fakeCart),
+			json: () => Promise.resolve(fakeCart),
 		})
 	);
-});
-
-test("contents of cart are loaded and displayed", () => {
-	render(
-		<AppContext.Provider value={{ fakeCart, setCart: () => {} }}>
-			<DisplayCart />
-		</AppContext.Provider>
-	);
-
-	const title = screen.getByText(/Cart/);
-	expect(title).toBeInTheDocument();
-
-	const empty = screen.getByText(/Your cart is empty/);
-	expect(empty).toBeInTheDocument();
-});
-
-test("Empty cart", () => {
-	render(
-		<AppContext.Provider value={{ cart: { items: [] }, setCart: () => {} }}>
-			<DisplayCart />
-		</AppContext.Provider>
-	);
-
-	const title = screen.getByText(/Cart/);
-	expect(title).toBeInTheDocument();
-
-	const empty = screen.getByText(/Your cart is empty/);
-	expect(empty).toBeInTheDocument();
 });
 
 test("Cart not loaded from API yet", () => {
@@ -63,9 +66,59 @@ test("Cart not loaded from API yet", () => {
 		</AppContext.Provider>
 	);
 
-	const title = screen.getByText(/Cart/);
-	expect(title).toBeInTheDocument();
+	expect(screen.getByText(/Cart/)).toBeInTheDocument();
 
-	const empty = screen.getByText(/Loading/);
-	expect(empty).toBeInTheDocument();
+	expect(screen.getByText(/Loading/)).toBeInTheDocument();
+});
+
+test("Empty cart", () => {
+	render(
+		<AppContext.Provider value={{ cart: { items: [] }, setCart: () => {} }}>
+			<DisplayCart />
+		</AppContext.Provider>
+	);
+
+	expect(screen.getByText(/Cart/)).toBeInTheDocument();
+
+	expect(screen.getByText(/Your cart is empty/)).toBeInTheDocument();
+});
+
+test("contents of cart are loaded and displayed", () => {
+	render(
+		<AppContext.Provider value={{ cart: fakeCart, setCart: () => {} }}>
+			<DisplayCart />
+		</AppContext.Provider>
+	);
+
+	expect(screen.getByText(/Cart/)).toBeInTheDocument();
+
+	const cards = screen.getAllByText(/test product/i);
+	expect(cards.length).toBe(2);
+});
+
+test("Button POSTS to API", async () => {
+	render(
+		<AppContext.Provider
+			value={{
+				cart: fakeCart,
+				setCart: c => {},
+			}}
+		>
+			<DisplayCart />
+		</AppContext.Provider>
+	);
+
+	expect(fetchSpy).toBeCalledWith(
+		`${url}/cart/${fakeCart.customer.customerId}`
+	);
+
+	const buttons = screen.getAllByRole("button", { name: /remove/i });
+	expect(buttons.length).toBe(2);
+
+	userEvent.click(buttons[0]);
+
+	expect(fetchSpy).toBeCalledWith(
+		`${url}/cart/${fakeCart.customer.customerId}/${fakeCart.items[0].product.id}`,
+		{ method: "DELETE" }
+	);
 });

@@ -18,24 +18,9 @@ let fetchSpy;
 beforeEach(() => {
 	fetchSpy = jest.spyOn(global, "fetch").mockImplementation(() =>
 		Promise.resolve({
-			json: () => JSON.stringify(fakeCategories),
+			json: () => Promise.resolve(fakeCategories),
 		})
 	);
-});
-
-test("API is called and all products are rendered", () => {
-	render(
-		<AppContext.Provider value={fakeCategories}>
-			<Router>
-				<DisplayAllCategories />
-			</Router>
-		</AppContext.Provider>
-	);
-
-	const cards = screen.getAllByText(/name[0-9]/);
-	expect(cards.length).toBe(2);
-
-	expect(fetchSpy).toBeCalledWith(`${url}/category`);
 });
 
 test("list not loaded yet", () => {
@@ -47,6 +32,20 @@ test("list not loaded yet", () => {
 		</AppContext.Provider>
 	);
 
-	const load = screen.getByText(/Loading/);
-	expect(load).toBeInTheDocument();
+	expect(screen.getByText(/Loading/)).toBeInTheDocument();
+});
+
+test("API is called and all products are rendered", () => {
+	render(
+		<AppContext.Provider value={fakeCategories}>
+			<Router>
+				<DisplayAllCategories />
+			</Router>
+		</AppContext.Provider>
+	);
+
+	expect(fetchSpy).toBeCalledWith(`${url}/category`);
+
+	const cards = screen.getAllByText(/name[0-9]/);
+	expect(cards.length).toBe(2);
 });

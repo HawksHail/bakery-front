@@ -1,9 +1,10 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { BrowserRouter as Router } from "react-router-dom";
+
 import DisplayCategory from "../components/DisplayCategory";
 import Category from "../models/category";
-import { BrowserRouter as Router } from "react-router-dom";
-import { act } from "react-dom/test-utils";
 
 test("Card containing all info about product", () => {
 	render(
@@ -20,11 +21,9 @@ test("Card containing all info about product", () => {
 		</Router>
 	);
 
-	const name = screen.getByText(/category name/);
-	expect(name).toBeInTheDocument();
+	expect(screen.getByText(/category name/)).toBeInTheDocument();
 
-	const description = screen.getByText(/description/);
-	expect(description).toBeInTheDocument();
+	expect(screen.getByText(/description/)).toBeInTheDocument();
 });
 
 test("Click link to category items", () => {
@@ -41,9 +40,9 @@ test("Click link to category items", () => {
 			</table>
 		</Router>
 	);
+
 	const link = getByTestId("link");
-	act(() => {
-		fireEvent.click(link);
-	});
+	userEvent.click(link);
+
 	expect(document.location.toString()).toContain("category-items/3");
 });

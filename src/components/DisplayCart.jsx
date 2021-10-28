@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import Row from "react-bootstrap/Row";
 
-import { getCart } from "../api/cartAPI";
+import { getCart, removeFromCart } from "../api/cartAPI";
 import AppContext from "../contexts";
 import DisplayProduct from "./DisplayProduct";
 
@@ -14,6 +14,10 @@ function DisplayCart() {
 	useEffect(() => {
 		getCart(customerId).then(setCart).catch(console.log);
 	}, [customerId]);
+
+	const removeFromCartButton = prodId => {
+		removeFromCart(customerId, prodId).then(setCart);
+	};
 
 	if (!cart.items) {
 		return (
@@ -33,6 +37,7 @@ function DisplayCart() {
 		);
 	}
 
+	//todo add cart quantity
 	return (
 		<div className="p-3">
 			<h1>Cart</h1>
@@ -41,6 +46,8 @@ function DisplayCart() {
 					<DisplayProduct
 						product={item.product}
 						key={item.product.id}
+						buttonText="Remove"
+						buttonClick={removeFromCartButton}
 					/>
 				))}
 			</Row>

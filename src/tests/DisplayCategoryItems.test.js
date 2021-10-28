@@ -1,8 +1,12 @@
 import React from "react";
-import { render, screen, act } from "@testing-library/react";
-import { Router, Route } from "react-router-dom";
+import {
+	render,
+	screen,
+	waitForElementToBeRemoved,
+} from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { Route } from "react-router-dom";
 import { MemoryRouter } from "react-router";
-import { createMemoryHistory } from "history";
 
 import Supplier from "../models/supplier";
 import Category from "../models/category";
@@ -10,8 +14,7 @@ import Product from "../models/product";
 import DisplayCategoryItems from "../components/DisplayCategoryItems";
 import { url } from "../api/url";
 
-let fetchSpy;
-let fakeCategory = new Category(1, "category name", "description", [
+const fakeCategory = new Category(1, "category name", "description", [
 	new Product(
 		5,
 		"product5",
@@ -35,30 +38,30 @@ let fakeCategory = new Category(1, "category name", "description", [
 	),
 ]);
 
+let fetchSpy;
 beforeEach(() => {
 	fetchSpy = jest.spyOn(global, "fetch").mockImplementation(() =>
 		Promise.resolve({
-			json: () => JSON.stringify(fakeCategory),
+			json: () => Promise.resolve(fakeCategory),
 		})
 	);
 });
 
-test("API is called and all products in category are rendered", () => {
-	act(() => {
-		render(
-			<MemoryRouter initialEntries={["/category-items/1"]}>
-				<Route path="/category-items/:id">
-					<DisplayCategoryItems />
-				</Route>
-			</MemoryRouter>
-		);
-	});
-
-	//TODO check that all are rendered
-	// const cards = screen.getAllByTestId("card");
+test("API is called and all products in category are rendered", async () => {
+	render(
+		<MemoryRouter initialEntries={["/category-items/1"]}>
+			<Route path="/category-items/:id">
+				<DisplayCategoryItems />
+			</Route>
+		</MemoryRouter>
+	);
 
 	expect(fetchSpy).toBeCalledWith(`${url}/category/1`);
-	// expect(cards.length).toBe(2);
+
+	waitForElementToBeRemoved(screen.getByText("Loading"));
+
+	const cards = await screen.findAllByText(/product[0-9]/);
+	expect(cards.length).toBe(3);
 });
 
 test("API call not loaded yet", () => {
@@ -70,6 +73,29 @@ test("API call not loaded yet", () => {
 		</MemoryRouter>
 	);
 
-	const load = screen.getByText(/Loading/);
-	expect(load).toBeInTheDocument();
+	expect(screen.getByText(/Loading/)).toBeInTheDocument();
+});
+
+test("Button POSTS to API", async () => {
+	render(
+		<MemoryRouter initialEntries={["/category-items/1"]}>
+			<Route path="/category-items/:id">
+				<DisplayCategoryItems />
+			</Route>
+		</MemoryRouter>
+	);
+
+	expect(fetchSpy).toBeCalledWith(`${url}/category/1`);
+
+	const buttons = await screen.findAllByRole("button", {
+		name: "Add to Cart",
+	});
+	expect(buttons.length).toBe(3);
+
+	userEvent.click(buttons[0]);
+
+	expect(fetchSpy).toBeCalledWith(
+		`${url}/cart/test1/${fakeCategory.productList[0].id}`,
+		{ method: "POST" }
+	);
 });
