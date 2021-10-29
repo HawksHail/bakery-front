@@ -37,7 +37,6 @@ function DisplayCart() {
 		);
 	}
 
-	//todo add cart quantity
 	return (
 		<div className="p-3">
 			<h1>Cart</h1>
@@ -48,6 +47,7 @@ function DisplayCart() {
 						key={item.product.id}
 						buttonText="Remove"
 						buttonClick={removeFromCartButton}
+						quantity={item.quantity}
 					/>
 				))}
 			</Row>
