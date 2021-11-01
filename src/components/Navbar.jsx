@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
@@ -8,9 +8,25 @@ import { useAuth0 } from "@auth0/auth0-react";
 import "../styles/Navbar.css";
 import logo from "../logo.svg";
 import AuthenticationButton from "./AuthenticationButton";
+import AppContext from "../contexts/index";
+import { getCustomerIdFromSub } from "../api/customerAPI";
 
 function DisplayNavbar() {
 	const { user, isAuthenticated } = useAuth0();
+	const { setCustomer } = useContext(AppContext);
+
+	useEffect(async () => {
+		if (user?.sub) {
+			try {
+				const customer = await getCustomerIdFromSub(user.sub);
+				setCustomer(customer);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+	}, [user]);
+
+	console.log(user);
 
 	return (
 		<Navbar bg="dark" variant="dark" expand="sm" sticky="top">
