@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import Row from "react-bootstrap/Row";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import { getCart, removeFromCart } from "../api/cartAPI";
 import AppContext from "../contexts";
@@ -7,16 +8,32 @@ import DisplayProduct from "./DisplayProduct";
 
 function DisplayCart() {
 	const { cart, setCart } = useContext(AppContext);
+	const { getAccessTokenSilently } = useAuth0();
 
 	//TODO get customerID from auth
-	let customerId = "test1";
+	let customerId = 90;
 
-	useEffect(() => {
-		getCart(customerId).then(setCart).catch(console.log);
-	}, [customerId]);
+	useEffect(async () => {
+		try {
+			const accessToken = await getAccessTokenSilently({
+				audience: "https://zion.ee-cognizantacademy.com",
+			});
 
-	const removeFromCartButton = prodId => {
-		removeFromCart(customerId, prodId).then(setCart);
+			getCart(customerId, accessToken).then(setCart).catch(console.log);
+		} catch (error) {
+			console.log(error);
+		}
+	}, [customerId, getAccessTokenSilently]);
+
+	const removeFromCartButton = async prodId => {
+		try {
+			const accessToken = await getAccessTokenSilently({
+				audience: "https://zion.ee-cognizantacademy.com",
+			});
+			removeFromCart(customerId, prodId, accessToken).then(setCart);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	if (!cart.items) {

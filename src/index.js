@@ -13,6 +13,7 @@ ReactDOM.render(
 		domain="dev-1en1mmfn.us.auth0.com"
 		clientId="EL35E8d1cWm7zpI61PhIG8ubgsj8xx6O"
 		redirectUri={window.location.origin}
+		audience="https://zion.ee-cognizantacademy.com"
 	>
 		<React.StrictMode>
 			<ProductsContextProvider>

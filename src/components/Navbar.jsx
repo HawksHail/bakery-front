@@ -7,8 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import "../styles/Navbar.css";
 import logo from "../logo.svg";
-import LogoutButton from "./LogoutButton";
-import LoginButton from "./LoginButton";
+import AuthenticationButton from "./AuthenticationButton";
 
 function DisplayNavbar() {
 	const { user, isAuthenticated } = useAuth0();
@@ -39,19 +38,16 @@ function DisplayNavbar() {
 						</Nav.Link>
 					</Nav>
 					<Nav>
+						<AuthenticationButton />
 						{isAuthenticated && (
-							<div>
-								<LogoutButton />
-								<img
-									src={user.picture}
-									alt={user.name}
-									className="rounded-circle mx-2"
-									height="40px"
-									width="40px"
-								/>
-							</div>
+							<img
+								src={user.picture}
+								alt={user.name}
+								className="rounded-circle mx-2"
+								height="40px"
+								width="40px"
+							/>
 						)}
-						{!isAuthenticated && <LoginButton />}
 					</Nav>
 				</Navbar.Collapse>
 			</Container>
