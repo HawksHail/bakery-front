@@ -1,11 +1,13 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
-import { Auth0Provider } from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import Navbar from "../components/Navbar";
+import AppContext from "../contexts";
 
-//todo how to properly mock auth0 for logged in/logged out testing
+jest.mock("@auth0/auth0-react");
+
 const user = {
 	email: "johndoe@me.com",
 	name: "johndoe",
@@ -13,84 +15,130 @@ const user = {
 	sub: "google-oauth2|12345678901234",
 };
 
-jest.mock("@auth0/auth0-react", () => ({
-	Auth0Provider: ({ children }) => children,
-	withAuthenticationRequired: (component, _) => component,
-	useAuth0: () => {
-		return {
-			isLoading: false,
-			user,
-			isAuthenticated: true,
-			logout: jest.fn(),
-			loginWithRedirect: jest.fn(),
-			getAccessTokenWithPopup: jest.fn(),
-			getAccessTokenSilently: jest.fn(),
-			getIdTokenClaims: jest.fn(),
-			loginWithPopup: jest.fn(),
-		};
-	},
-}));
+const fakeCustomer = {
+	customerId: 99,
+	sub: "auth0|id",
+	companyName: "test company",
+	contactName: "test contact",
+	street: "test street",
+	city: "test town",
+	state: "test state",
+	cart: null,
+};
 
-test("Navbar renders Home link with correct href value", () => {
-	render(
-		<Router>
-			<Navbar />
-		</Router>
+let fetchSpy;
+beforeEach(() => {
+	fetchSpy = jest.spyOn(global, "fetch").mockImplementation(() =>
+		Promise.resolve({
+			json: () => Promise.resolve(fakeCustomer),
+		})
 	);
-
-	const homeLink = screen.getByText(/Home/);
-	expect(homeLink).toBeInTheDocument();
-	expect(homeLink.getAttribute("href")).toBe("/");
-});
-
-test("Navbar renders Category link with correct href value", () => {
-	render(
-		<Router>
-			<Navbar />
-		</Router>
-	);
-
-	const homeLink = screen.getByText(/Category/);
-	expect(homeLink).toBeInTheDocument();
-	expect(homeLink.getAttribute("href")).toBe("/category");
-});
-
-test("Navbar renders Products link with correct href value", () => {
-	render(
-		<Router>
-			<Navbar />
-		</Router>
-	);
-
-	const homeLink = screen.getByText(/Products/);
-	expect(homeLink).toBeInTheDocument();
-	expect(homeLink.getAttribute("href")).toBe("/products");
-});
-
-test("Navbar renders Cart link with correct href value", () => {
-	render(
-		<Router>
-			<Navbar />
-		</Router>
-	);
-
-	const homeLink = screen.getByText(/Cart/);
-	expect(homeLink).toBeInTheDocument();
-	expect(homeLink.getAttribute("href")).toBe("/cart");
 });
 
 describe("Logged in tests", () => {
-	beforeEach(() => {});
+	beforeEach(() => {
+		useAuth0.mockReturnValue({
+			isAuthenticated: true,
+			user,
+			logout: jest.fn(),
+			loginWithRedirect: jest.fn(),
+			getAccessTokenSilently: jest.fn().mockReturnValue("token"),
+		});
+	});
+
+	test("Navbar renders Home link with correct href value", () => {
+		render(
+			<AppContext.Provider value={{ setCustomer: jest.fn() }}>
+				<Router>
+					<Navbar />
+				</Router>
+			</AppContext.Provider>
+		);
+
+		const homeLink = screen.getByText(/Home/);
+		expect(homeLink).toBeInTheDocument();
+		expect(homeLink.getAttribute("href")).toBe("/");
+	});
+
+	test("Navbar renders Category link with correct href value", () => {
+		render(
+			<AppContext.Provider value={{ setCustomer: jest.fn() }}>
+				<Router>
+					<Navbar />
+				</Router>
+			</AppContext.Provider>
+		);
+
+		const homeLink = screen.getByText(/Category/);
+		expect(homeLink).toBeInTheDocument();
+		expect(homeLink.getAttribute("href")).toBe("/category");
+	});
+
+	test("Navbar renders Products link with correct href value", () => {
+		render(
+			<AppContext.Provider value={{ setCustomer: jest.fn() }}>
+				<Router>
+					<Navbar />
+				</Router>
+			</AppContext.Provider>
+		);
+
+		const homeLink = screen.getByText(/Products/);
+		expect(homeLink).toBeInTheDocument();
+		expect(homeLink.getAttribute("href")).toBe("/products");
+	});
+
+	test("Navbar renders Cart link with correct href value", () => {
+		render(
+			<AppContext.Provider value={{ setCustomer: jest.fn() }}>
+				<Router>
+					<Navbar />
+				</Router>
+			</AppContext.Provider>
+		);
+
+		const homeLink = screen.getByText(/Cart/);
+		expect(homeLink).toBeInTheDocument();
+		expect(homeLink.getAttribute("href")).toBe("/cart");
+	});
 
 	test("Log out button appears", () => {
 		render(
-			<Router>
-				<Navbar />
-			</Router>
+			<AppContext.Provider value={{ setCustomer: jest.fn() }}>
+				<Router>
+					<Navbar />
+				</Router>
+			</AppContext.Provider>
 		);
 
 		expect(screen.getByText(/log out/i)).toBeInTheDocument();
 
 		expect(screen.getByAltText("johndoe")).toBeInTheDocument();
+	});
+});
+
+describe("Logged out tests", () => {
+	beforeEach(() => {
+		useAuth0.mockReturnValue({
+			isAuthenticated: false,
+			user,
+			logout: jest.fn(),
+			loginWithRedirect: jest.fn(),
+			getAccessTokenSilently: jest.fn().mockReturnValue("token"),
+		});
+	});
+
+	test("Log in button appears", () => {
+		render(
+			<AppContext.Provider value={{ setCustomer: jest.fn() }}>
+				<Router>
+					<Navbar />
+				</Router>
+			</AppContext.Provider>
+		);
+
+		expect(screen.getByText(/log in/i)).toBeInTheDocument();
+
+		expect(screen.queryByAltText("johndoe")).not.toBeInTheDocument();
 	});
 });
