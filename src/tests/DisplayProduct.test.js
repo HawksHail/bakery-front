@@ -47,7 +47,7 @@ test("quantity is displayed on button when provided", () => {
 			product={product}
 			buttonText="Remove"
 			buttonClick={() => {}}
-			quantity="99"
+			quantity={99}
 		/>
 	);
 

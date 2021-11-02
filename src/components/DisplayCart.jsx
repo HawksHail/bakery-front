@@ -10,8 +10,6 @@ function DisplayCart() {
 	const { cart, setCart, customer } = useContext(AppContext);
 	const { getAccessTokenSilently } = useAuth0();
 
-	//TODO get customerID from auth
-
 	useEffect(async () => {
 		try {
 			const accessToken = await getAccessTokenSilently({
@@ -22,7 +20,7 @@ function DisplayCart() {
 		} catch (error) {
 			console.log(error);
 		}
-	}, [customer.customerId, getAccessTokenSilently]);
+	}, [customer?.customerId, getAccessTokenSilently]);
 
 	const removeFromCartButton = async prodId => {
 		try {
