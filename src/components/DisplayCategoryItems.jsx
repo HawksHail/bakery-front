@@ -1,18 +1,19 @@
 import React, { useEffect, useState, useContext } from "react";
-import Row from "react-bootstrap/Row";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useParams, withRouter } from "react-router";
+import PropTypes from "prop-types";
+import Row from "react-bootstrap/Row";
 
 import AppContext from "../contexts";
-import { useParams } from "react-router";
 import { getCategory } from "../api/categoryAPI";
 import { addToCart } from "../api/cartAPI";
 import DisplayProduct from "./DisplayProduct";
 
-function DisplayCategoryItems() {
+function DisplayCategoryItems({ history }) {
 	const { id } = useParams();
 	const [category, setCategory] = useState({});
 	const { setCart, customer } = useContext(AppContext);
-	const { getAccessTokenSilently } = useAuth0();
+	const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
 	useEffect(() => {
 		getCategory(id).then(setCategory).catch(console.log);
@@ -41,11 +42,21 @@ function DisplayCategoryItems() {
 					key={product.id}
 					categoryName={category.categoryName}
 					buttonText="Add to Cart"
-					buttonClick={addToCartButton}
+					buttonClick={
+						isAuthenticated
+							? addToCartButton
+							: () => {
+									history.push("/login");
+							  }
+					}
 				/>
 			))}
 		</Row>
 	);
 }
 
-export default DisplayCategoryItems;
+DisplayCategoryItems.propTypes = {
+	history: PropTypes.object,
+};
+
+export default withRouter(DisplayCategoryItems);
