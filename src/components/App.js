@@ -5,10 +5,12 @@ import Container from "react-bootstrap/Container";
 import "../styles/App.css";
 import Navbar from "./Navbar";
 import Home from "./Home";
+import Login from "./Login";
 import DisplayAllProducts from "./DisplayAllProducts";
 import DisplayCart from "./DisplayCart";
 import DisplayAllCategories from "./DisplayAllCategories";
 import DisplayCategoryItems from "./DisplayCategoryItems";
+import PrivateRoute from "./PrivateRoute";
 
 function App() {
 	return (
@@ -19,6 +21,9 @@ function App() {
 					<Route exact path="/">
 						<Home />
 					</Route>
+					<Route path="/login">
+						<Login />
+					</Route>
 					<Route path="/category">
 						<DisplayAllCategories />
 					</Route>
@@ -28,9 +33,9 @@ function App() {
 					<Route path="/products">
 						<DisplayAllProducts />
 					</Route>
-					<Route path="/cart">
+					<PrivateRoute path="/cart">
 						<DisplayCart />
-					</Route>
+					</PrivateRoute>
 				</Switch>
 			</Container>
 		</Router>

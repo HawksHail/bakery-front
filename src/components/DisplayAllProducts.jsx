@@ -1,20 +1,21 @@
 import React, { useContext, useEffect } from "react";
-import Row from "react-bootstrap/Row";
 import { useAuth0 } from "@auth0/auth0-react";
+import { withRouter } from "react-router";
+import PropTypes from "prop-types";
+import Row from "react-bootstrap/Row";
 
 import AppContext from "../contexts";
 import { getAllProducts } from "../api/productAPI";
 import { addToCart } from "../api/cartAPI";
 import DisplayProduct from "./DisplayProduct";
 
-function DisplayAllProducts() {
+function DisplayAllProducts({ history }) {
 	const { products, setProducts, setCart, customer } = useContext(AppContext);
-	const { getAccessTokenSilently } = useAuth0();
+	const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
 	useEffect(() => {
 		getAllProducts().then(setProducts).catch(console.log);
 	}, []);
-
 
 	const addToCartButton = async prodId => {
 		try {
@@ -35,7 +36,13 @@ function DisplayAllProducts() {
 						product={product}
 						key={product.id}
 						buttonText="Add to Cart"
-						buttonClick={addToCartButton}
+						buttonClick={
+							isAuthenticated
+								? addToCartButton
+								: () => {
+										history.push("/login");
+								  }
+						}
 					/>
 				))
 			) : (
@@ -45,4 +52,8 @@ function DisplayAllProducts() {
 	);
 }
 
-export default DisplayAllProducts;
+DisplayAllProducts.propTypes = {
+	history: PropTypes.object,
+};
+
+export default withRouter(DisplayAllProducts);
