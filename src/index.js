@@ -7,7 +7,6 @@ import "./styles/index.css";
 import App from "./components/App";
 import reportWebVitals from "./reportWebVitals";
 import ProductsContextProvider from "./contexts/ProductsContextProvider";
-import CustomerContextProvider from "./contexts/CustomerContextProvider";
 
 ReactDOM.render(
 	<Auth0Provider
@@ -17,11 +16,9 @@ ReactDOM.render(
 		audience="https://zion.ee-cognizantacademy.com"
 	>
 		<React.StrictMode>
-			<CustomerContextProvider>
-				<ProductsContextProvider>
-					<App />
-				</ProductsContextProvider>
-			</CustomerContextProvider>
+			<ProductsContextProvider>
+				<App />
+			</ProductsContextProvider>
 		</React.StrictMode>
 	</Auth0Provider>,
 	document.getElementById("root")

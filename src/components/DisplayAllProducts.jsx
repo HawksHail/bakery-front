@@ -8,22 +8,20 @@ import { addToCart } from "../api/cartAPI";
 import DisplayProduct from "./DisplayProduct";
 
 function DisplayAllProducts() {
-	const { products, setProducts, setCart } = useContext(AppContext);
+	const { products, setProducts, setCart, customer } = useContext(AppContext);
 	const { getAccessTokenSilently } = useAuth0();
 
 	useEffect(() => {
 		getAllProducts().then(setProducts).catch(console.log);
 	}, []);
 
-	//todo get custId from auth
-	const custId = 90;
 
 	const addToCartButton = async prodId => {
 		try {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			addToCart(custId, prodId, accessToken).then(setCart);
+			addToCart(customer.customerId, prodId, accessToken).then(setCart);
 		} catch (error) {
 			console.log(error);
 		}

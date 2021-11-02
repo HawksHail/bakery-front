@@ -12,21 +12,26 @@ import AppContext from "../contexts/index";
 import { getCustomerIdFromSub } from "../api/customerAPI";
 
 function DisplayNavbar() {
-	const { user, isAuthenticated } = useAuth0();
+	const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 	const { setCustomer } = useContext(AppContext);
 
 	useEffect(async () => {
 		if (user?.sub) {
 			try {
-				const customer = await getCustomerIdFromSub(user.sub);
+				const accessToken = await getAccessTokenSilently({
+					audience: "https://zion.ee-cognizantacademy.com",
+				});
+
+				const customer = await getCustomerIdFromSub(
+					user.sub,
+					accessToken
+				);
 				setCustomer(customer);
 			} catch (error) {
 				console.log(error);
 			}
 		}
 	}, [user]);
-
-	console.log(user);
 
 	return (
 		<Navbar bg="dark" variant="dark" expand="sm" sticky="top">

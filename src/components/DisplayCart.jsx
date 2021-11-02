@@ -7,11 +7,10 @@ import AppContext from "../contexts";
 import DisplayProduct from "./DisplayProduct";
 
 function DisplayCart() {
-	const { cart, setCart } = useContext(AppContext);
+	const { cart, setCart, customer } = useContext(AppContext);
 	const { getAccessTokenSilently } = useAuth0();
 
 	//TODO get customerID from auth
-	let customerId = 90;
 
 	useEffect(async () => {
 		try {
@@ -19,18 +18,18 @@ function DisplayCart() {
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
 
-			getCart(customerId, accessToken).then(setCart).catch(console.log);
+			getCart(customer.customerId, accessToken).then(setCart).catch(console.log);
 		} catch (error) {
 			console.log(error);
 		}
-	}, [customerId, getAccessTokenSilently]);
+	}, [customer.customerId, getAccessTokenSilently]);
 
 	const removeFromCartButton = async prodId => {
 		try {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			removeFromCart(customerId, prodId, accessToken).then(setCart);
+			removeFromCart(customer.customerId, prodId, accessToken).then(setCart);
 		} catch (error) {
 			console.log(error);
 		}
