@@ -8,7 +8,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import "../styles/Navbar.css";
 import logo from "../logo.svg";
 import AuthenticationButton from "./AuthenticationButton";
-import AppContext from "../contexts/index";
+import AppContext from "../contexts";
 import { getCustomerIdFromSub } from "../api/customerAPI";
 
 function DisplayNavbar() {

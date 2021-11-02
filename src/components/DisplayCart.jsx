@@ -11,14 +11,18 @@ function DisplayCart() {
 	const { getAccessTokenSilently } = useAuth0();
 
 	useEffect(async () => {
-		try {
-			const accessToken = await getAccessTokenSilently({
-				audience: "https://zion.ee-cognizantacademy.com",
-			});
+		if (customer?.customerId) {
+			try {
+				const accessToken = await getAccessTokenSilently({
+					audience: "https://zion.ee-cognizantacademy.com",
+				});
 
-			getCart(customer.customerId, accessToken).then(setCart).catch(console.log);
-		} catch (error) {
-			console.log(error);
+				getCart(customer.customerId, accessToken)
+					.then(setCart)
+					.catch(console.log);
+			} catch (error) {
+				console.log(error);
+			}
 		}
 	}, [customer?.customerId, getAccessTokenSilently]);
 
@@ -27,7 +31,9 @@ function DisplayCart() {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			removeFromCart(customer.customerId, prodId, accessToken).then(setCart);
+			removeFromCart(customer.customerId, prodId, accessToken).then(
+				setCart
+			);
 		} catch (error) {
 			console.log(error);
 		}

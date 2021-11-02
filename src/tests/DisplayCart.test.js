@@ -1,9 +1,5 @@
 import React from "react";
-import {
-	render,
-	screen,
-	waitFor,
-} from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { useAuth0 } from "@auth0/auth0-react";
 import userEvent from "@testing-library/user-event";
 
@@ -130,6 +126,7 @@ test("Button POSTS to API", async () => {
 			value={{
 				cart: fakeCart,
 				setCart: jest.fn(),
+				customer: { customerId: 99 },
 			}}
 		>
 			<DisplayCart />
