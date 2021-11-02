@@ -1,5 +1,9 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import {
+	render,
+	screen,
+	waitFor,
+} from "@testing-library/react";
 import { useAuth0 } from "@auth0/auth0-react";
 import userEvent from "@testing-library/user-event";
 
@@ -17,7 +21,7 @@ const user = {
 
 const fakeCart = {
 	customer: {
-		customerId: "test1",
+		customerId: 90,
 	},
 	items: [
 		{
@@ -108,10 +112,11 @@ test("contents of cart are loaded from API and displayed", () => {
 			<DisplayCart />
 		</AppContext.Provider>
 	);
-
-	expect(fetchSpy).toBeCalledWith(
-		`${url}/cart/${fakeCart.customer.customerId}`
-	);
+	waitFor(() => {
+		expect(fetchSpy).toBeCalledWith(
+			`${url}/cart/${fakeCart.customer.customerId}`
+		);
+	});
 
 	expect(screen.getByText(/Cart/)).toBeInTheDocument();
 
@@ -131,27 +136,31 @@ test("Button POSTS to API", async () => {
 		</AppContext.Provider>
 	);
 
-	expect(fetchSpy).toBeCalledWith(
-		`${url}/cart/${fakeCart.customer.customerId}`,
-		{
-			headers: {
-				Authorization: "Bearer token",
-			},
-		}
-	);
+	waitFor(() => {
+		expect(fetchSpy).toBeCalledWith(
+			`${url}/cart/${fakeCart.customer.customerId}`,
+			{
+				headers: {
+					Authorization: "Bearer token",
+				},
+			}
+		);
+	});
 
-	const buttons = screen.getAllByRole("button", { name: /remove/i });
+	const buttons = await screen.findAllByRole("button", { name: /remove/i });
 	expect(buttons.length).toBe(2);
 
 	userEvent.click(buttons[0]);
 
-	expect(fetchSpy).toBeCalledWith(
-		`${url}/cart/${fakeCart.customer.customerId}/${fakeCart.items[0].product.id}`,
-		{
-			method: "DELETE",
-			headers: {
-				Authorization: "Bearer token",
-			},
-		}
-	);
+	waitFor(() => {
+		expect(fetchSpy).toBeCalledWith(
+			`${url}/cart/${fakeCart.customer.customerId}/${fakeCart.items[0].product.id}`,
+			{
+				method: "DELETE",
+				headers: {
+					Authorization: "Bearer token",
+				},
+			}
+		);
+	});
 });
