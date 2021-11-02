@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import PropTypes from "prop-types";
 import Product from "../models/product";
+import Badge from "react-bootstrap/Badge";
 
 function DisplayProduct(props) {
 	const buttonClick = () => {
@@ -32,11 +33,18 @@ function DisplayProduct(props) {
 					<Card.Text data-testid="unitPrice">
 						${props.product.unitPrice}
 					</Card.Text>
+
 					<Button
+						className="w-100 d-flex justify-content-around"
 						onClick={buttonClick}
 						data-testid="productCardButton"
 					>
 						{props.buttonText}
+						{props.quantity ? (
+							<span>
+								<Badge bg="secondary">{props.quantity}</Badge>
+							</span>
+						) : null}
 					</Button>
 				</Card.Body>
 			</Card>
@@ -49,6 +57,7 @@ DisplayProduct.propTypes = {
 	categoryName: PropTypes.string,
 	buttonClick: PropTypes.func,
 	buttonText: PropTypes.string,
+	quantity: PropTypes.number,
 };
 
 export default DisplayProduct;

@@ -7,6 +7,8 @@ const ProductsContextProvider = ({ children }) => {
 	const [products, setProducts] = useState([]);
 	const [categories, setCategories] = useState([]);
 	const [cart, setCart] = useState({});
+	const [customer, setCustomer] = useState(null);
+
 
 	const context = {
 		products,
@@ -15,6 +17,8 @@ const ProductsContextProvider = ({ children }) => {
 		setCategories,
 		cart,
 		setCart,
+		customer,
+		setCustomer,
 	};
 
 	return (

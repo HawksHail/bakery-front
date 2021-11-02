@@ -1,14 +1,27 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import {
+	render,
+	screen,
+	waitFor,
+} from "@testing-library/react";
+import { useAuth0 } from "@auth0/auth0-react";
+import userEvent from "@testing-library/user-event";
 
 import DisplayCart from "../components/DisplayCart";
 import AppContext from "../contexts";
 import { url } from "../api/url";
-import userEvent from "@testing-library/user-event";
+
+jest.mock("@auth0/auth0-react");
+
+const user = {
+	email: "johndoe@me.com",
+	email_verified: true,
+	sub: "google-oauth2|2147627834623744883746",
+};
 
 const fakeCart = {
 	customer: {
-		customerId: "test1",
+		customerId: 90,
 	},
 	items: [
 		{
@@ -57,6 +70,14 @@ beforeEach(() => {
 			json: () => Promise.resolve(fakeCart),
 		})
 	);
+
+	useAuth0.mockReturnValue({
+		isAuthenticated: true,
+		user,
+		logout: jest.fn(),
+		loginWithRedirect: jest.fn(),
+		getAccessTokenSilently: jest.fn().mockReturnValue("token"),
+	});
 });
 
 test("Cart not loaded from API yet", () => {
@@ -73,7 +94,9 @@ test("Cart not loaded from API yet", () => {
 
 test("Empty cart", () => {
 	render(
-		<AppContext.Provider value={{ cart: { items: [] }, setCart: () => {} }}>
+		<AppContext.Provider
+			value={{ cart: { items: [] }, setCart: jest.fn() }}
+		>
 			<DisplayCart />
 		</AppContext.Provider>
 	);
@@ -83,12 +106,17 @@ test("Empty cart", () => {
 	expect(screen.getByText(/Your cart is empty/)).toBeInTheDocument();
 });
 
-test("contents of cart are loaded and displayed", () => {
+test("contents of cart are loaded from API and displayed", () => {
 	render(
-		<AppContext.Provider value={{ cart: fakeCart, setCart: () => {} }}>
+		<AppContext.Provider value={{ cart: fakeCart, setCart: jest.fn() }}>
 			<DisplayCart />
 		</AppContext.Provider>
 	);
+	waitFor(() => {
+		expect(fetchSpy).toBeCalledWith(
+			`${url}/cart/${fakeCart.customer.customerId}`
+		);
+	});
 
 	expect(screen.getByText(/Cart/)).toBeInTheDocument();
 
@@ -101,24 +129,38 @@ test("Button POSTS to API", async () => {
 		<AppContext.Provider
 			value={{
 				cart: fakeCart,
-				setCart: c => {},
+				setCart: jest.fn(),
 			}}
 		>
 			<DisplayCart />
 		</AppContext.Provider>
 	);
 
-	expect(fetchSpy).toBeCalledWith(
-		`${url}/cart/${fakeCart.customer.customerId}`
-	);
+	waitFor(() => {
+		expect(fetchSpy).toBeCalledWith(
+			`${url}/cart/${fakeCart.customer.customerId}`,
+			{
+				headers: {
+					Authorization: "Bearer token",
+				},
+			}
+		);
+	});
 
-	const buttons = screen.getAllByRole("button", { name: /remove/i });
+	const buttons = await screen.findAllByRole("button", { name: /remove/i });
 	expect(buttons.length).toBe(2);
 
 	userEvent.click(buttons[0]);
 
-	expect(fetchSpy).toBeCalledWith(
-		`${url}/cart/${fakeCart.customer.customerId}/${fakeCart.items[0].product.id}`,
-		{ method: "DELETE" }
-	);
+	waitFor(() => {
+		expect(fetchSpy).toBeCalledWith(
+			`${url}/cart/${fakeCart.customer.customerId}/${fakeCart.items[0].product.id}`,
+			{
+				method: "DELETE",
+				headers: {
+					Authorization: "Bearer token",
+				},
+			}
+		);
+	});
 });

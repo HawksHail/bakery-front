@@ -40,3 +40,19 @@ test("Button displayed and triggers action", () => {
 	expect(funcMock.mock.calls.length).toBe(1);
 	expect(funcMock.mock.calls[0][0]).toBe(product.id);
 });
+
+test("quantity is displayed on button when provided", () => {
+	render(
+		<DisplayProduct
+			product={product}
+			buttonText="Remove"
+			buttonClick={() => {}}
+			quantity={99}
+		/>
+	);
+
+	const button = screen.getByRole("button");
+	expect(button).toBeInTheDocument();
+
+	expect(screen.getByText(/99/)).toBeInTheDocument();
+});

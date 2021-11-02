@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import Row from "react-bootstrap/Row";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import AppContext from "../contexts";
 import { useParams } from "react-router";
@@ -10,17 +11,22 @@ import DisplayProduct from "./DisplayProduct";
 function DisplayCategoryItems() {
 	const { id } = useParams();
 	const [category, setCategory] = useState({});
-	const { setCart } = useContext(AppContext);
+	const { setCart, customer } = useContext(AppContext);
+	const { getAccessTokenSilently } = useAuth0();
 
 	useEffect(() => {
 		getCategory(id).then(setCategory).catch(console.log);
 	}, [id]);
 
-	//todo get custId from auth
-	const custId = "test1";
-
-	const addToCartButton = prodId => {
-		addToCart(custId, prodId).then(setCart);
+	const addToCartButton = async prodId => {
+		try {
+			const accessToken = await getAccessTokenSilently({
+				audience: "https://zion.ee-cognizantacademy.com",
+			});
+			addToCart(customer.customerId, prodId, accessToken).then(setCart);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	if (!category.productList) {
