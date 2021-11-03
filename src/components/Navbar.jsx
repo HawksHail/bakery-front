@@ -5,7 +5,6 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import "../styles/Navbar.css";
 import logo from "../logo.svg";
 import AuthenticationButton from "./AuthenticationButton";
 import AppContext from "../contexts";
@@ -22,10 +21,17 @@ function DisplayNavbar() {
 					audience: "https://zion.ee-cognizantacademy.com",
 				});
 
-				const customer = await getCustomerIdFromSub(
-					user.sub,
-					accessToken
-				);
+				//todo create customer DB row if not found
+				let customer;
+				try {
+					customer = await getCustomerIdFromSub(
+						user.sub,
+						accessToken
+					);
+				} catch (error) {
+					console.log("Error customer not found", error);
+					//create customer w/ API
+				}
 				setCustomer(customer);
 			} catch (error) {
 				console.log(error);
@@ -37,7 +43,11 @@ function DisplayNavbar() {
 		<Navbar bg="dark" variant="dark" expand="sm" sticky="top">
 			<Container fluid>
 				<Navbar.Brand as={Link} to="/">
-					<img className="brand" src={logo} alt="logo" />
+					<img
+						className="brand rounded-circle"
+						src={logo}
+						alt="logo"
+					/>
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse
