@@ -7,7 +7,7 @@ const LogoutButton = () => {
 
 	return (
 		<Button
-			className="btn-secondary"
+			className="btn-warning"
 			onClick={() => logout({ returnTo: window.location.origin })}
 		>
 			Log Out
