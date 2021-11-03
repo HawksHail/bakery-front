@@ -1,5 +1,5 @@
-import { getCart, addToCart, removeFromCart } from "../api/cartAPI";
-import { url } from "../api/url";
+import { getCart, addToCart, removeFromCart } from "../../api/cartAPI";
+import { url } from "../../api/url";
 
 let fetchSpy;
 beforeEach(() => {
