@@ -2,6 +2,13 @@ import React, { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Container, Navbar, Nav } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faHome,
+	faShoppingCart,
+	faCookie,
+	faBookOpen,
+} from "@fortawesome/free-solid-svg-icons";
 
 import logo from "../logo.svg";
 import AuthenticationButton from "./AuthenticationButton";
@@ -57,16 +64,20 @@ function DisplayNavbar() {
 				>
 					<Nav className="me-auto mb-2 mb-lg-0">
 						<Nav.Link as={Link} to="/">
-							Home
+							<FontAwesomeIcon icon={faHome} />
+							&nbsp;Home
 						</Nav.Link>
 						<Nav.Link as={Link} to="/category">
-							Category
+							<FontAwesomeIcon icon={faBookOpen} />
+							&nbsp;Category
 						</Nav.Link>
 						<Nav.Link as={Link} to="/products">
-							Products
+							<FontAwesomeIcon icon={faCookie} />
+							&nbsp;Products
 						</Nav.Link>
 						<Nav.Link as={Link} to="/cart">
-							Cart
+							<FontAwesomeIcon icon={faShoppingCart} />
+							&nbsp;Cart
 						</Nav.Link>
 					</Nav>
 					<Nav>
