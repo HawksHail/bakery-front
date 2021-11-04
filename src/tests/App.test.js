@@ -25,7 +25,7 @@ test("Has Router with Route tags", () => {
 		</ProductsContextProvider>
 	);
 
-	expect(screen.getByText(/learn react/i)).toBeInTheDocument();
+	expect(screen.getByText(/Welcome/i)).toBeInTheDocument();
 
 	const category = screen.getByText(/category/i);
 	userEvent.click(category);
