@@ -6,7 +6,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import logo from "../logo.svg";
 import AuthenticationButton from "./AuthenticationButton";
 import AppContext from "../contexts";
-import { getCustomerIdFromSub } from "../api/customerAPI";
+import { getCustomerIdFromSub, createCustomer } from "../api/customerAPI";
 
 function DisplayNavbar() {
 	const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -19,7 +19,6 @@ function DisplayNavbar() {
 					audience: "https://zion.ee-cognizantacademy.com",
 				});
 
-				//todo create customer DB row if not found
 				let customer;
 				try {
 					customer = await getCustomerIdFromSub(
@@ -27,8 +26,12 @@ function DisplayNavbar() {
 						accessToken
 					);
 				} catch (error) {
-					console.log("Error customer not found", error);
 					//create customer w/ API
+					if (error.message == 404) {
+						customer = await createCustomer(user.sub, accessToken);
+					} else {
+						console.log("Error customer not found", error);
+					}
 				}
 				setCustomer(customer);
 			} catch (error) {

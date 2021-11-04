@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import {Row} from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import { getCart, removeFromCart } from "../api/cartAPI";
@@ -39,7 +39,7 @@ function DisplayCart() {
 		}
 	};
 
-	if (!cart.items) {
+	if (!cart) {
 		return (
 			<div className="p-3">
 				<h1>Cart</h1>
@@ -48,7 +48,7 @@ function DisplayCart() {
 		);
 	}
 
-	if (cart.items.length < 1) {
+	if (cart.length < 1) {
 		return (
 			<div className="p-3">
 				<h1>Cart</h1>
@@ -61,7 +61,7 @@ function DisplayCart() {
 		<div className="p-3">
 			<h1>Cart</h1>
 			<Row>
-				{cart.items.map(item => (
+				{cart.map(item => (
 					<DisplayProduct
 						product={item.product}
 						key={item.product.id}
