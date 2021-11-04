@@ -15,49 +15,44 @@ const user = {
 	sub: "google-oauth2|2147627834623744883746",
 };
 
-const fakeCart = {
-	customer: {
-		customerId: 90,
+const fakeCart = [
+	{
+		product: {
+			id: 4,
+			productName: "Test Product",
+			supplier: {
+				id: 1,
+				companyName: "Test Company",
+				contactName: "Test Contact",
+			},
+			category: {
+				id: 2,
+				categoryName: "Test Category",
+				description: "Test description",
+			},
+			unitPrice: 22.0,
+		},
+		quantity: 2,
 	},
-	items: [
-		{
-			product: {
-				id: 4,
-				productName: "Test Product",
-				supplier: {
-					id: 1,
-					companyName: "Test Company",
-					contactName: "Test Contact",
-				},
-				category: {
-					id: 2,
-					categoryName: "Test Category",
-					description: "Test description",
-				},
-				unitPrice: 22.0,
+	{
+		product: {
+			id: 5,
+			productName: "Test Product2",
+			supplier: {
+				id: 1,
+				companyName: "Test Company",
+				contactName: "Test Contact",
 			},
-			quantity: 2,
-		},
-		{
-			product: {
-				id: 5,
-				productName: "Test Product2",
-				supplier: {
-					id: 1,
-					companyName: "Test Company",
-					contactName: "Test Contact",
-				},
-				category: {
-					id: 13,
-					categoryName: "Test Category2",
-					description: "Second category",
-				},
-				unitPrice: 17.0,
+			category: {
+				id: 13,
+				categoryName: "Test Category2",
+				description: "Second category",
 			},
-			quantity: 2,
+			unitPrice: 17.0,
 		},
-	],
-};
+		quantity: 2,
+	},
+];
 
 let fetchSpy;
 beforeEach(() => {
@@ -78,7 +73,7 @@ beforeEach(() => {
 
 test("Cart not loaded from API yet", () => {
 	render(
-		<AppContext.Provider value={{ cart: {}, setCart: () => {} }}>
+		<AppContext.Provider value={{ cart: null, setCart: () => {} }}>
 			<DisplayCart />
 		</AppContext.Provider>
 	);
@@ -90,9 +85,7 @@ test("Cart not loaded from API yet", () => {
 
 test("Empty cart", () => {
 	render(
-		<AppContext.Provider
-			value={{ cart: { items: [] }, setCart: jest.fn() }}
-		>
+		<AppContext.Provider value={{ cart: [], setCart: jest.fn() }}>
 			<DisplayCart />
 		</AppContext.Provider>
 	);

@@ -10,12 +10,17 @@ import DisplayCart from "./DisplayCart";
 import DisplayAllCategories from "./DisplayAllCategories";
 import DisplayCategoryItems from "./DisplayCategoryItems";
 import PrivateRoute from "./PrivateRoute";
+import Footer from "./Footer";
 
 function App() {
 	return (
 		<Router>
 			<Navbar />
-			<Container fluid className="pt-1">
+			<Container
+				fluid
+				className="pt-1 d-flex flex-column justify-content-between"
+				style={{ minHeight: "100vh" }}
+			>
 				<Switch>
 					<Route exact path="/">
 						<Home />
@@ -37,6 +42,7 @@ function App() {
 					</PrivateRoute>
 				</Switch>
 			</Container>
+			<Footer />
 		</Router>
 	);
 }
