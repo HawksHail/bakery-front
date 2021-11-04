@@ -1,10 +1,8 @@
 import React from "react";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
+import { Col, Button, Card, Badge } from "react-bootstrap";
 import PropTypes from "prop-types";
+
 import Product from "../models/product";
-import Badge from "react-bootstrap/Badge";
 
 function DisplayProduct(props) {
 	const buttonClick = () => {

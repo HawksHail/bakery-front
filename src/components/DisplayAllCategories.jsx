@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import Table from "react-bootstrap/Table";
+import { Table } from "react-bootstrap";
 import AppContext from "../contexts";
 import { getAllCategories } from "../api/categoryAPI";
 import DisplayCategory from "./DisplayCategory";

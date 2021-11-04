@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import Row from "react-bootstrap/Row";
+import {Row} from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import { getCart, removeFromCart } from "../api/cartAPI";

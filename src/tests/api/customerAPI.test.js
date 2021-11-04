@@ -1,5 +1,5 @@
-import { getCustomerIdFromSub } from "../api/customerAPI";
-import { url } from "../api/url";
+import { getCustomerIdFromSub } from "../../api/customerAPI";
+import { url } from "../../api/url";
 
 let fetchSpy;
 beforeEach(() => {

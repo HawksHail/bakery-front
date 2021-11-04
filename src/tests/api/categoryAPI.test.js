@@ -1,5 +1,5 @@
-import { getAllCategories, getCategory } from "../api/categoryAPI";
-import { url } from "../api/url";
+import { getAllCategories, getCategory } from "../../api/categoryAPI";
+import { url } from "../../api/url";
 
 let fetchSpy;
 beforeEach(() => {

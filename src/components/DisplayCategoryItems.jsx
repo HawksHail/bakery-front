@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useParams, withRouter } from "react-router";
 import PropTypes from "prop-types";
-import Row from "react-bootstrap/Row";
+import { Row } from "react-bootstrap";
 
 import AppContext from "../contexts";
 import { getCategory } from "../api/categoryAPI";
