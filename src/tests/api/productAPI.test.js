@@ -1,5 +1,5 @@
-import { getAllProducts } from "../api/productAPI";
-import { url } from "../api/url";
+import { getAllProducts } from "../../api/productAPI";
+import { url } from "../../api/url";
 
 let fetchSpy;
 beforeEach(() => {

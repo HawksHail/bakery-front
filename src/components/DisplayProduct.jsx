@@ -11,31 +11,39 @@ function DisplayProduct(props) {
 
 	return (
 		<Col xs={6} sm={4} md={3} lg={2} className="p-1">
-			<Card className="m-2" data-testid="productCard">
-				{/* <img
-					className="card-img-top img-fluid p-5 p-sm-2"
-					src="https://m.media-amazon.com/images/I/61KB6fUhcSL._AC_SL1500_.jpg"
-					alt="{props.product.productName} image"
-				/> */}
-				<Card.Body>
-					<Card.Title data-testid="productName">
-						{props.product.productName}
-					</Card.Title>
-					<Card.Subtitle data-testid="categoryName">
+			<Card className="m-2 h-100">
+				<Card.Body className="d-flex align-items-start flex-column">
+					<a
+						href={
+							props.product.imgCredit
+								? props.product.imgCredit
+								: null
+						}
+					>
+						<img
+							className="card-img-top img-fluid rounded-3 mb-1"
+							src={
+								props.product.imgURL
+									? props.product.imgURL
+									: `https://picsum.photos/400/400?random=${props.product.id}`
+							}
+							alt={props.product.productName}
+						/>
+					</a>
+					<Card.Title>{props.product.productName}</Card.Title>
+					<Card.Subtitle>
 						{props.categoryName ||
 							props.product.category.categoryName}
 					</Card.Subtitle>
-					<Card.Text data-testid="companyName">
+					<Card.Text>
 						Sold by: {props.product.supplier.companyName}
 					</Card.Text>
-					<Card.Text data-testid="unitPrice">
+					<Card.Text className="mb-0">
 						${props.product.unitPrice}
 					</Card.Text>
-
 					<Button
-						className="w-100 d-flex justify-content-around"
+						className="w-100 mt-auto d-flex justify-content-around"
 						onClick={buttonClick}
-						data-testid="productCardButton"
 					>
 						{props.buttonText}
 						{props.quantity ? (

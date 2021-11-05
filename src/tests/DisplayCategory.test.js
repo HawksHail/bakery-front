@@ -27,7 +27,7 @@ test("Card containing all info about product", () => {
 });
 
 test("Click link to category items", () => {
-	const { getByTestId } = render(
+	 render(
 		<Router>
 			<table>
 				<tbody>
@@ -41,7 +41,7 @@ test("Click link to category items", () => {
 		</Router>
 	);
 
-	const link = getByTestId("link");
+	const link = screen.getByTestId("link");
 	userEvent.click(link);
 
 	expect(document.location.toString()).toContain("category-items/3");
