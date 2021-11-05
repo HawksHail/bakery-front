@@ -86,7 +86,7 @@ function DisplayNavbar() {
 							<img
 								src={user.picture}
 								alt={user.name}
-								className="rounded-circle mx-2"
+								className="rounded-circle mx-1 d-none d-sm-inline"
 								height="40px"
 								width="40px"
 							/>
