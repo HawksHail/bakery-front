@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
 import logo from "../logo.svg";
+import { getFeaturedProducts } from "../api/productAPI";
 import DisplayCarousel from "./DisplayCarousel";
 
 function Home() {
+	const [featured, setFeatured] = useState([]);
+
+	useEffect(() => {
+		getFeaturedProducts().then(setFeatured).catch(console.log);
+	}, []);
+
 	return (
 		<main>
 			<Container>
 				<Row className="align-items-lg-center mb-4 mt-2">
-					<Col className="col-8 mx-auto col-md-4 order-md-2 col-lg-5">
+					<Col className="mx-auto col-9 col-md-4 col-lg-5 order-md-2">
 						<img
 							className="img-fluid rounded-3 mb-3 mb-md-0"
 							src={logo}
@@ -18,36 +25,19 @@ function Home() {
 							alt="cupcake logo"
 						/>
 					</Col>
-					<Col className="col-8 mx-auto col-md-4 order-md-1 col-lg-5">
+					<Col className="mx-auto col-9 col-md-4 col-lg-5 order-md-1">
 						<h1>Welcome to Blissful&nbsp;Bakery</h1>
 						<p className="lead">A small family owned bakery</p>
 					</Col>
 				</Row>
 			</Container>
 			<Container className="mb-5">
-				<h2>Featured Products</h2>
-				<DisplayCarousel
-					arr={[
-						{
-							id: 1,
-							src: "https://picsum.photos/800/400?random=1",
-							title: "First item title",
-							description: "First item description",
-						},
-						{
-							id: 2,
-							src: "https://picsum.photos/800/400?random=2",
-							title: "Second item title",
-							description: "Second item description",
-						},
-						{
-							id: 3,
-							src: "https://picsum.photos/800/400?random=3",
-							title: "Third item title",
-							description: "Third item description",
-						},
-					]}
-				/>
+				<Row>
+					<Col className="mx-auto col-9 col-md-10 col-lg-8">
+						<h2>Featured Products</h2>
+						<DisplayCarousel arr={featured} />
+					</Col>
+				</Row>
 			</Container>
 		</main>
 	);

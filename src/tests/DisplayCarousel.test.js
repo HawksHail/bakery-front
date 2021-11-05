@@ -20,15 +20,17 @@ test("renders slides", () => {
 			arr={[
 				{
 					id: 1,
-					src: "https://picsum.photos/800/400?random=1",
-					title: "First item title",
-					description: "First item description",
+					imgURL: "https://picsum.photos/800/400?random=1",
+					imgCredit: "credit link",
+					productName: "First item title",
+					category: { categoryName: "First item description" },
 				},
 				{
 					id: 2,
 					src: "https://picsum.photos/800/400?random=2",
-					title: "Second item title",
-					description: "Second item description",
+					imgCredit: "credit link",
+					productName: "Second item title",
+					category: { categoryName: "Second item description" },
 				},
 			]}
 		/>
