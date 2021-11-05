@@ -13,15 +13,18 @@ function DisplayCarousel({ arr }) {
 			{arr.map(item => (
 				<Carousel.Item key={item.id}>
 					<img
-						className="d-block w-100"
-						src={item.src}
-						width={800}
-						height={400}
-						alt={item.title}
+						className="d-block w-100 rounded-3"
+						src={item.imgURL}
+						alt={item.productName}
 					/>
 					<Carousel.Caption className="bg-primary bg-opacity-50">
-						<h3>{item.title}</h3>
-						<p>{item.description}</p>
+						<h3>{item.productName}</h3>
+						<a
+							href={`/category-items/${item.category.id}`}
+							className="text-secondary"
+						>
+							<p>{item.category.categoryName}</p>
+						</a>
 					</Carousel.Caption>
 				</Carousel.Item>
 			))}

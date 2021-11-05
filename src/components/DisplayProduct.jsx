@@ -19,6 +19,8 @@ function DisplayProduct(props) {
 								? props.product.imgCredit
 								: null
 						}
+						target="_blank"
+						rel="noreferrer"
 					>
 						<img
 							className="card-img-top img-fluid rounded-3 mb-1"
