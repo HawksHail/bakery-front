@@ -12,12 +12,12 @@ function DisplayProduct(props) {
 	return (
 		<Col xs={6} sm={4} md={3} lg={2} className="p-1">
 			<Card className="m-2 h-100" data-testid="productCard">
-				{/* <img
-					className="card-img-top img-fluid p-5 p-sm-2"
-					src="https://m.media-amazon.com/images/I/61KB6fUhcSL._AC_SL1500_.jpg"
-					alt="{props.product.productName} image"
-				/> */}
 				<Card.Body className="d-flex align-items-start flex-column">
+					<img
+						className="card-img-top img-fluid rounded-3 mb-1"
+						src={`https://picsum.photos/400/400?random=${props.product.id}`}
+						alt="{props.product.productName} image"
+					/>
 					<Card.Title data-testid="productName">
 						{props.product.productName}
 					</Card.Title>
@@ -28,12 +28,12 @@ function DisplayProduct(props) {
 					<Card.Text data-testid="companyName">
 						Sold by: {props.product.supplier.companyName}
 					</Card.Text>
-					<Card.Text data-testid="unitPrice">
+					<Card.Text data-testid="unitPrice" className="mb-0">
 						${props.product.unitPrice}
 					</Card.Text>
 
 					<Button
-						className="w-100 mt-auto"
+						className="w-100 mt-auto d-flex justify-content-around"
 						onClick={buttonClick}
 						data-testid="productCardButton"
 					>
