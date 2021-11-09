@@ -1,5 +1,10 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import {
+	render,
+	screen,
+	waitFor,
+	waitForElementToBeRemoved,
+} from "@testing-library/react";
 import { useAuth0 } from "@auth0/auth0-react";
 import userEvent from "@testing-library/user-event";
 
@@ -142,6 +147,9 @@ test("Button POSTS to API", async () => {
 
 	userEvent.click(buttons[0]);
 
+	const alert = await screen.findByText(/Item removed!/i);
+	expect(alert).toBeInTheDocument();
+
 	waitFor(() => {
 		expect(fetchSpy).toBeCalledWith(
 			`${url}/cart/${fakeCart.customer.customerId}/${fakeCart.items[0].product.id}`,
@@ -153,4 +161,7 @@ test("Button POSTS to API", async () => {
 			}
 		);
 	});
+
+	userEvent.click(screen.getByRole("button", { name: /Close alert/i }));
+	waitForElementToBeRemoved(alert);
 });
