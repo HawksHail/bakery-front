@@ -37,7 +37,10 @@ function DisplayNavbar() {
 					if (error.message == 404) {
 						customer = await createCustomer(user.sub, accessToken);
 					} else {
-						console.log("Error customer not found", error);
+						console.log(
+							"Error customer could not be created",
+							error
+						);
 					}
 				}
 				setCustomer(customer);
