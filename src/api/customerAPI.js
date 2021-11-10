@@ -1,10 +1,13 @@
 import { url } from "./url";
 
 export const getCustomerIdFromSub = async (sub, accessToken) => {
-	const res = await fetch(`${url}/customer/sub/${sub}`, {
+	const res = await fetch(`${url}/customer/sub`, {
+		method: "POST",
 		headers: {
 			Authorization: `Bearer ${accessToken}`,
+			"Content-Type": "text/plain",
 		},
+		body: sub,
 	});
 	if (res.status == 404) {
 		throw new Error(404, { cause: res });
