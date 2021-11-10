@@ -1,6 +1,7 @@
 {
     "env": {
         "browser": true,
+        "node": true,
         "es2021": true
     },
     "extends": [
@@ -19,5 +20,16 @@
     ],
     "rules": {
         "no-mixed-spaces-and-tabs": ["error", "smart-tabs"]
-    }
+    },
+    "overrides": [
+        {
+          "files": [
+            "**/*.test.js",
+            "**/*.test.jsx"
+          ],
+          "env": {
+            "jest": true
+          }
+        }
+      ]
 }
