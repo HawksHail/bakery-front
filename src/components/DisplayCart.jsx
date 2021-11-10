@@ -103,13 +103,26 @@ function DisplayCart() {
 							/>
 						))}
 					</Row>
-					<Button
-						variant="danger"
-						className="mt-3"
-						onClick={clearCartButton}
-					>
-						Clear cart
-					</Button>
+					<div className="vstack gap-1">
+						<div>
+							<Button
+								variant="danger"
+								className="mt-3"
+								onClick={clearCartButton}
+							>
+								Clear cart
+							</Button>
+						</div>
+						<div>
+							Total: $
+							{cart.reduce(
+								(prev, curr) =>
+									prev +
+									curr.quantity * curr.product.unitPrice,
+								0
+							)}
+						</div>
+					</div>
 				</div>
 			)}
 		</div>
