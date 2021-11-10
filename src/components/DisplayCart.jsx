@@ -44,7 +44,7 @@ function DisplayCart() {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			removeFromCart(customer.customerId, prodId, accessToken).then(
+			await removeFromCart(customer.customerId, prodId, accessToken).then(
 				setCart
 			);
 			setShowAlert(true);
@@ -58,7 +58,7 @@ function DisplayCart() {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			clearCart(customer.customerId, accessToken);
+			await clearCart(customer.customerId, accessToken);
 			setCart([]);
 			setShowAlert(true);
 		} catch (error) {

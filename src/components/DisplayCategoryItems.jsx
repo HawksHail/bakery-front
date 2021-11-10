@@ -37,7 +37,9 @@ function DisplayCategoryItems({ history }) {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			addToCart(customer.customerId, prodId, accessToken).then(setCart);
+			await addToCart(customer.customerId, prodId, accessToken).then(
+				setCart
+			);
 			setShowAlert(true);
 		} catch (error) {
 			console.log(error);
