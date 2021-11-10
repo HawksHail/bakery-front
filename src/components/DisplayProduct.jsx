@@ -61,7 +61,7 @@ function DisplayProduct(props) {
 }
 
 DisplayProduct.propTypes = {
-	product: PropTypes.objectOf(Product),
+	product: PropTypes.shape(Product),
 	categoryName: PropTypes.string,
 	buttonClick: PropTypes.func,
 	buttonText: PropTypes.string,
