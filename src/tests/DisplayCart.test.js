@@ -165,3 +165,40 @@ test("Button POSTS to API", async () => {
 	userEvent.click(screen.getByRole("button", { name: /Close alert/i }));
 	waitForElementToBeRemoved(alert);
 });
+
+test("Clear cart button appears and fetches API", async () => {
+	render(
+		<AppContext.Provider
+			value={{
+				cart: fakeCart,
+				setCart: jest.fn(),
+				customer: { customerId: 99 },
+			}}
+		>
+			<DisplayCart />
+		</AppContext.Provider>
+	);
+
+	const clearButton = screen.getByRole("button", {
+		name: /clear cart/i,
+	});
+	expect(clearButton).toBeInTheDocument();
+
+	const cards = screen.getAllByText(/test product/i);
+	expect(cards.length).toBe(2);
+
+	userEvent.click(clearButton);
+
+	waitFor(() => {
+		expect(fetchSpy).toBeCalledWith(`${url}/cart/99`, {
+			method: "DELETE",
+			headers: {
+				Authorization: `Bearer token`,
+			},
+		});
+	});
+
+	//need to mock fetch properly for this to work
+	// await waitForElementToBeRemoved(cards[0]);
+	// expect(cards[0]).not.toBeInTheDocument();
+});

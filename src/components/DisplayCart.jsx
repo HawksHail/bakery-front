@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Row, Alert } from "react-bootstrap";
+import { Row, Alert, Button } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { getCart, removeFromCart } from "../api/cartAPI";
+import { getCart, removeFromCart, clearCart } from "../api/cartAPI";
 import AppContext from "../contexts";
 import DisplayProduct from "./DisplayProduct";
 
@@ -53,6 +53,18 @@ function DisplayCart() {
 		}
 	};
 
+	const clearCartButton = async () => {
+		try {
+			const accessToken = await getAccessTokenSilently({
+				audience: "https://zion.ee-cognizantacademy.com",
+			});
+			clearCart(customer.customerId, accessToken).then(setCart([]));
+			setShowAlert(true);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	if (!cart) {
 		return (
 			<div className="p-3">
@@ -78,17 +90,22 @@ function DisplayCart() {
 			{cart.length < 1 ? (
 				<h4>Your cart is empty</h4>
 			) : (
-				<Row>
-					{cart.map(item => (
-						<DisplayProduct
-							product={item.product}
-							key={item.product.id}
-							buttonText="Remove"
-							buttonClick={removeFromCartButton}
-							quantity={item.quantity}
-						/>
-					))}
-				</Row>
+				<div>
+					<Row>
+						{cart.map(item => (
+							<DisplayProduct
+								product={item.product}
+								key={item.product.id}
+								buttonText="Remove"
+								buttonClick={removeFromCartButton}
+								quantity={item.quantity}
+							/>
+						))}
+					</Row>
+					<Button className="mt-3" onClick={clearCartButton}>
+						Clear cart
+					</Button>
+				</div>
 			)}
 		</div>
 	);
