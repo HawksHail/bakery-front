@@ -28,3 +28,13 @@ export const removeFromCart = async (custId, prodId, accessToken) => {
 	});
 	return await res.json();
 };
+
+export const clearCart = async (custId, accessToken) => {
+	const res = await fetch(`${url}/cart/${custId}`, {
+		method: "DELETE",
+		headers: {
+			Authorization: `Bearer ${accessToken}`,
+		},
+	});
+	return await res.json();
+};
