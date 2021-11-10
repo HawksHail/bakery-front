@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PropTypes from "react";
+import PropTypes from "prop-types";
 
 import AppContext from ".";
 
@@ -26,7 +26,7 @@ const ProductsContextProvider = ({ children }) => {
 };
 
 ProductsContextProvider.propTypes = {
-	children: PropTypes.Component,
+	children: PropTypes.node,
 };
 
 export default ProductsContextProvider;
