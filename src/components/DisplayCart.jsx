@@ -58,7 +58,8 @@ function DisplayCart() {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			clearCart(customer.customerId, accessToken).then(setCart([]));
+			clearCart(customer.customerId, accessToken);
+			setCart([]);
 			setShowAlert(true);
 		} catch (error) {
 			console.log(error);
@@ -102,7 +103,11 @@ function DisplayCart() {
 							/>
 						))}
 					</Row>
-					<Button className="mt-3" onClick={clearCartButton}>
+					<Button
+						variant="danger"
+						className="mt-3"
+						onClick={clearCartButton}
+					>
 						Clear cart
 					</Button>
 				</div>
