@@ -11,7 +11,7 @@ import DisplayProduct from "./DisplayProduct";
 
 function DisplayCategoryItems({ history }) {
 	const { id } = useParams();
-	const [category, setCategory] = useState({});
+	const [category, setCategory] = useState(null);
 	const { setCart, customer } = useContext(AppContext);
 	const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 	const [showAlert, setShowAlert] = useState(false);
@@ -46,7 +46,7 @@ function DisplayCategoryItems({ history }) {
 		}
 	};
 
-	if (!category.productList) {
+	if (!category?.productList) {
 		return <div>Loading</div>;
 	}
 

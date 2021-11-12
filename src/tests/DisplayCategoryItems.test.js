@@ -6,6 +6,7 @@ import {
 	waitForElementToBeRemoved,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import nock from "nock";
 import { Route } from "react-router-dom";
 import { MemoryRouter } from "react-router";
 
@@ -39,13 +40,23 @@ const fakeCategory = new Category(1, "category name", "description", [
 	),
 ]);
 
-let fetchSpy;
+// let fetchSpy;
+// beforeEach(() => {
+// 	fetchSpy = jest.spyOn(global, "fetch").mockImplementation(() =>
+// 		Promise.resolve({
+// 			json: () => Promise.resolve(fakeCategory),
+// 		})
+// 	);
+// });
+
 beforeEach(() => {
-	fetchSpy = jest.spyOn(global, "fetch").mockImplementation(() =>
-		Promise.resolve({
-			json: () => Promise.resolve(fakeCategory),
+	nock(url)
+		.defaultReplyHeaders({
+			"access-control-allow-origin": "*",
+			"access-control-allow-credentials": "true",
 		})
-	);
+		.get("/category/1")
+		.reply(200, fakeCategory);
 });
 
 test("API is called and all products in category are rendered", async () => {
@@ -57,12 +68,10 @@ test("API is called and all products in category are rendered", async () => {
 		</MemoryRouter>
 	);
 
-	expect(fetchSpy).toBeCalledWith(`${url}/category/1`);
-
-	waitForElementToBeRemoved(screen.getByText("Loading"));
+	await waitForElementToBeRemoved(screen.getByText("Loading"));
 
 	const cards = await screen.findAllByText(/product[0-9]/);
-	expect(cards.length).toBe(3);
+	expect(cards).toHaveLength(3);
 });
 
 test("API call not loaded yet", () => {
@@ -86,18 +95,18 @@ test("Button POSTS to API", async () => {
 		</MemoryRouter>
 	);
 
-	expect(fetchSpy).toBeCalledWith(`${url}/category/1`);
+	await waitForElementToBeRemoved(screen.getByText("Loading"));
 
 	const buttons = await screen.findAllByRole("button", {
 		name: "Add to Cart",
 	});
-	expect(buttons.length).toBe(3);
+	expect(buttons).toHaveLength(3);
 
+	//TODO fix using nock
 	userEvent.click(buttons[0]);
-	waitFor(() => {
-		expect(fetchSpy).toBeCalledWith(
-			`${url}/cart/test1/${fakeCategory.productList[0].id}`,
-			{ method: "POST" }
-		);
+
+	buttons = await screen.findAllByRole("button", {
+		name: "Add to Cart",
 	});
+	expect(buttons).toHaveLength(2);
 });
