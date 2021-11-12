@@ -44,7 +44,7 @@ function DisplayCart() {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			removeFromCart(customer.customerId, prodId, accessToken).then(
+			await removeFromCart(customer.customerId, prodId, accessToken).then(
 				setCart
 			);
 			setShowAlert(true);
@@ -58,7 +58,8 @@ function DisplayCart() {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			clearCart(customer.customerId, accessToken).then(setCart([]));
+			await clearCart(customer.customerId, accessToken);
+			setCart([]);
 			setShowAlert(true);
 		} catch (error) {
 			console.log(error);
@@ -102,9 +103,26 @@ function DisplayCart() {
 							/>
 						))}
 					</Row>
-					<Button className="mt-3" onClick={clearCartButton}>
-						Clear cart
-					</Button>
+					<div className="vstack gap-1">
+						<div>
+							<Button
+								variant="danger"
+								className="mt-3"
+								onClick={clearCartButton}
+							>
+								Clear cart
+							</Button>
+						</div>
+						<div>
+							Total: $
+							{cart.reduce(
+								(prev, curr) =>
+									prev +
+									curr.quantity * curr.product.unitPrice,
+								0
+							)}
+						</div>
+					</div>
 				</div>
 			)}
 		</div>

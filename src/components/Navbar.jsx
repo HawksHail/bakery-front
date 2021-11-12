@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Container, Navbar, Nav } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -12,43 +12,9 @@ import {
 
 import logo from "../logo.svg";
 import AuthenticationButton from "./AuthenticationButton";
-import AppContext from "../contexts";
-import { getCustomerIdFromSub, createCustomer } from "../api/customerAPI";
 
 function DisplayNavbar() {
-	const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
-	const { setCustomer } = useContext(AppContext);
-
-	useEffect(async () => {
-		if (user?.sub) {
-			try {
-				const accessToken = await getAccessTokenSilently({
-					audience: "https://zion.ee-cognizantacademy.com",
-				});
-
-				let customer;
-				try {
-					customer = await getCustomerIdFromSub(
-						user.sub,
-						accessToken
-					);
-				} catch (error) {
-					//create customer w/ API
-					if (error.message == 404) {
-						customer = await createCustomer(user.sub, accessToken);
-					} else {
-						console.log(
-							"Error customer could not be created",
-							error
-						);
-					}
-				}
-				setCustomer(customer);
-			} catch (error) {
-				console.log(error);
-			}
-		}
-	}, [user]);
+	const { user, isAuthenticated } = useAuth0();
 
 	return (
 		<Navbar bg="dark" variant="dark" expand="sm" sticky="top">

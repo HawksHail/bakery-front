@@ -28,7 +28,7 @@ function DisplayCategory(props) {
 
 DisplayCategory.propTypes = {
 	history: PropTypes.object,
-	category: PropTypes.objectOf(Category),
+	category: PropTypes.shape(Category),
 };
 
 export default withRouter(DisplayCategory);

@@ -202,3 +202,20 @@ test("Clear cart button appears and fetches API", async () => {
 	// await waitForElementToBeRemoved(cards[0]);
 	// expect(cards[0]).not.toBeInTheDocument();
 });
+
+test("Total cost is calculated and appears", async () => {
+	render(
+		<AppContext.Provider
+			value={{
+				cart: fakeCart,
+				setCart: jest.fn(),
+				customer: { customerId: 99 },
+			}}
+		>
+			<DisplayCart />
+		</AppContext.Provider>
+	);
+
+	expect(screen.getByText(/Total:/i)).toBeInTheDocument();
+	expect(screen.getByText(/\$78/i)).toBeInTheDocument();
+});
