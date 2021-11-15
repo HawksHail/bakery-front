@@ -2,13 +2,14 @@ import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useAuth0 } from "@auth0/auth0-react";
+import nock from "nock";
 
 import App from "../components/App";
 import ProductsContextProvider from "../contexts/ProductsContextProvider";
+import AppContext from "../contexts";
 import { url } from "../api/url";
 
 jest.mock("@auth0/auth0-react");
-let fetchSpy;
 
 const fakeUser = {
 	customerId: 9,
@@ -16,12 +17,6 @@ const fakeUser = {
 };
 
 beforeEach(() => {
-	fetchSpy = jest.spyOn(global, "fetch").mockImplementation(() =>
-		Promise.resolve({
-			json: () => Promise.resolve(fakeUser),
-		})
-	);
-
 	useAuth0.mockReturnValue({
 		isAuthenticated: true,
 		user: { sub: "auth0|ID" },
@@ -29,6 +24,14 @@ beforeEach(() => {
 		loginWithRedirect: jest.fn(),
 		getAccessTokenSilently: jest.fn().mockReturnValue("token"),
 	});
+});
+
+afterEach(function () {
+	if (!nock.isDone()) {
+		console.log(`nock.pendingMocks()`, nock.pendingMocks());
+		nock.cleanAll();
+		throw new Error("Not all nock interceptors were used!");
+	}
 });
 
 test("Has Router with Route tags", () => {
@@ -54,56 +57,54 @@ test("Has Router with Route tags", () => {
 });
 
 test("fetches user using auth0 sub id", async () => {
+	const scope = nock(url)
+		.defaultReplyHeaders({
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Headers": "Authorization",
+		})
+		.options("/customer/sub")
+		.optionally()
+		.reply(200)
+		.post("/customer/sub")
+		.reply(200, fakeUser);
+
+	const setCustomer = jest.fn();
 	render(
-		<ProductsContextProvider>
+		<AppContext.Provider value={{ setCustomer }}>
 			<App />
-		</ProductsContextProvider>
+		</AppContext.Provider>
 	);
 
 	await waitFor(() => {
-		expect(fetchSpy).toBeCalledWith(`${url}/customer/sub`, {
-			method: "POST",
-			headers: {
-				Authorization: `Bearer token`,
-				"Content-Type": "text/plain",
-			},
-			body: "auth0|ID",
-		});
+		expect(setCustomer).toBeCalledTimes(1);
 	});
 });
 
 test("fetches user using auth0 sub id returns 404 and tries to create new customer", async () => {
-	fetchSpy = jest.spyOn(global, "fetch").mockImplementation(() =>
-		Promise.resolve({
-			json: () => Promise.reject(new Error(404)),
+	const scope = nock(url)
+		.defaultReplyHeaders({
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Headers": "Authorization",
 		})
-	);
+		.options("/customer/sub")
+		.optionally()
+		.reply(200)
+		.post("/customer/sub")
+		.reply(404)
+		.options("/customer")
+		.optionally()
+		.reply(200)
+		.post("/customer")
+		.reply(200, fakeUser);
 
+	const setCustomer = jest.fn();
 	render(
-		<ProductsContextProvider>
+		<AppContext.Provider value={{ setCustomer }}>
 			<App />
-		</ProductsContextProvider>
+		</AppContext.Provider>
 	);
 
 	await waitFor(() => {
-		expect(fetchSpy).toBeCalledWith(`${url}/customer/sub`, {
-			method: "POST",
-			headers: {
-				Authorization: `Bearer token`,
-				"Content-Type": "text/plain",
-			},
-			body: "auth0|ID",
-		});
-	});
-
-	await waitFor(() => {
-		expect(fetchSpy).toBeCalledWith(`${url}/customer`, {
-			method: "POST",
-			headers: {
-				Authorization: `Bearer token`,
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ sub: "auth0|ID" }),
-		});
+		expect(setCustomer).toBeCalledTimes(1);
 	});
 });

@@ -12,7 +12,7 @@ import Loading from "./Loading";
 
 function DisplayCategoryItems({ history }) {
 	const { id } = useParams();
-	const [category, setCategory] = useState({});
+	const [category, setCategory] = useState(null);
 	const { setCart, customer } = useContext(AppContext);
 	const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 	const [showAlert, setShowAlert] = useState(false);
@@ -38,16 +38,16 @@ function DisplayCategoryItems({ history }) {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			await addToCart(customer.customerId, prodId, accessToken).then(
-				setCart
-			);
+			await addToCart(customer.customerId, prodId, accessToken)
+				.then(setCart)
+				.catch(e => console.log("Error posting cart", e));
 			setShowAlert(true);
 		} catch (error) {
-			console.log(error);
+			console.log("Error adding to cart", error);
 		}
 	};
 
-	if (!category.productList) {
+	if (!category?.productList) {
 		return <div><Loading/></div>;
 	}
 
