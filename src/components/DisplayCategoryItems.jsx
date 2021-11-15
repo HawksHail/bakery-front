@@ -37,12 +37,12 @@ function DisplayCategoryItems({ history }) {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			await addToCart(customer.customerId, prodId, accessToken).then(
-				setCart
-			);
+			await addToCart(customer.customerId, prodId, accessToken)
+				.then(setCart)
+				.catch(e => console.log("Error posting cart", e));
 			setShowAlert(true);
 		} catch (error) {
-			console.log(error);
+			console.log("Error adding to cart", error);
 		}
 	};
 
