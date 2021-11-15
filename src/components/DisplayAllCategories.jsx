@@ -1,8 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import { Table } from "react-bootstrap";
+
 import AppContext from "../contexts";
 import { getAllCategories } from "../api/categoryAPI";
 import DisplayCategory from "./DisplayCategory";
+import Loading from "./Loading";
 
 function DisplayAllCategories() {
 	const { categories, setCategories } = useContext(AppContext);
@@ -29,7 +31,9 @@ function DisplayAllCategories() {
 					))
 				) : (
 					<tr>
-						<td colSpan="2">Loading</td>
+						<td colSpan="2">
+							<Loading />
+						</td>
 					</tr>
 				)}
 			</tbody>

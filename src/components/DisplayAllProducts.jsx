@@ -7,6 +7,7 @@ import { Row, Alert } from "react-bootstrap";
 import AppContext from "../contexts";
 import { getAllProducts } from "../api/productAPI";
 import { addToCart } from "../api/cartAPI";
+import Loading from "./Loading";
 import DisplayProduct from "./DisplayProduct";
 
 function DisplayAllProducts({ history }) {
@@ -35,7 +36,9 @@ function DisplayAllProducts({ history }) {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			await addToCart(customer.customerId, prodId, accessToken).then(setCart);
+			await addToCart(customer.customerId, prodId, accessToken).then(
+				setCart
+			);
 			setShowAlert(true);
 		} catch (error) {
 			console.log(error);
@@ -70,7 +73,9 @@ function DisplayAllProducts({ history }) {
 					/>
 				))
 			) : (
-				<h3 colSpan="4">Loading</h3>
+				<h3 colSpan="4">
+					<Loading />
+				</h3>
 			)}
 		</Row>
 	);

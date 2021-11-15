@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { withRouter } from "react-router";
-import { Spinner } from "react-bootstrap";
 import PropTypes from "prop-types";
+
+import Loading from "./Loading";
 
 function Login(props) {
 	const { isAuthenticated, isLoading } = useAuth0();
@@ -17,17 +18,7 @@ function Login(props) {
 		}
 	}, [isAuthenticated, isLoading]);
 
-	return (
-		<h2>
-			{isLoading ? (
-				<Spinner animation="border" role="status">
-					<span className="visually-hidden">Loading...</span>
-				</Spinner>
-			) : (
-				"You must log in to do that!"
-			)}
-		</h2>
-	);
+	return <h2>{isLoading ? <Loading /> : "You must log in to do that!"}</h2>;
 }
 
 Login.propTypes = {

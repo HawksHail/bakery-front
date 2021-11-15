@@ -59,7 +59,7 @@ test("API is called and all products in category are rendered", async () => {
 
 	expect(fetchSpy).toBeCalledWith(`${url}/category/1`);
 
-	waitForElementToBeRemoved(screen.getByText("Loading"));
+	waitForElementToBeRemoved(screen.getByText(/loading$/i));
 
 	const cards = await screen.findAllByText(/product[0-9]/);
 	expect(cards.length).toBe(3);
@@ -74,7 +74,7 @@ test("API call not loaded yet", () => {
 		</MemoryRouter>
 	);
 
-	expect(screen.getByText(/Loading/)).toBeInTheDocument();
+	expect(screen.getByText(/Loading$/i)).toBeInTheDocument();
 });
 
 test("Button POSTS to API", async () => {

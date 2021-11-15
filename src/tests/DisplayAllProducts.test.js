@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen,waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { BrowserRouter as Router } from "react-router-dom";
 
@@ -53,7 +53,7 @@ test("list not loaded yet", () => {
 		</AppContext.Provider>
 	);
 
-	expect(screen.getByText(/Loading/)).toBeInTheDocument();
+	expect(screen.getByText(/Loading$/i)).toBeInTheDocument();
 });
 
 test("Button POSTS to API", () => {
