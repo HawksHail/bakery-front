@@ -108,6 +108,14 @@ beforeEach(() => {
 });
 
 test("API call not loaded yet", () => {
+	nock(url)
+		.defaultReplyHeaders({
+			"Access-Control-Allow-Origin": "*",
+		})
+		.get("/category/1")
+		.optionally()
+		.reply(200, fakeCategory);
+
 	render(
 		<MemoryRouter initialEntries={["/category-items/1"]}>
 			<Route path="/category-items/:id">
