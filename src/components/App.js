@@ -37,15 +37,12 @@ function App() {
 					if (error.message == 404) {
 						customer = await createCustomer(user.sub, accessToken);
 					} else {
-						console.log(
-							"Error customer could not be created",
-							error
-						);
+						throw error;
 					}
 				}
 				setCustomer(customer);
 			} catch (error) {
-				console.log(error);
+				console.log("Error getting customer", error);
 			}
 		}
 	}, [user]);

@@ -15,26 +15,6 @@ const user = {
 	sub: "google-oauth2|12345678901234",
 };
 
-const fakeCustomer = {
-	customerId: 99,
-	sub: "auth0|id",
-	companyName: "test company",
-	contactName: "test contact",
-	street: "test street",
-	city: "test town",
-	state: "test state",
-	cart: null,
-};
-
-let fetchSpy;
-beforeEach(() => {
-	fetchSpy = jest.spyOn(global, "fetch").mockImplementation(() =>
-		Promise.resolve({
-			json: () => Promise.resolve(fakeCustomer),
-		})
-	);
-});
-
 describe("Logged in tests", () => {
 	beforeEach(() => {
 		useAuth0.mockReturnValue({

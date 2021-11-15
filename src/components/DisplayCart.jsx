@@ -5,6 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { getCart, removeFromCart, clearCart } from "../api/cartAPI";
 import AppContext from "../contexts";
 import DisplayProduct from "./DisplayProduct";
+import Loading from "./Loading";
 
 function DisplayCart() {
 	const { cart, setCart, customer } = useContext(AppContext);
@@ -70,7 +71,7 @@ function DisplayCart() {
 		return (
 			<div className="p-3">
 				<h1>Cart</h1>
-				<h4>Loading</h4>
+				<h4><Loading/></h4>
 			</div>
 		);
 	}
