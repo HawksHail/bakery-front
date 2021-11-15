@@ -116,7 +116,7 @@ test("API call not loaded yet", () => {
 		</MemoryRouter>
 	);
 
-	expect(screen.getByText(/Loading/)).toBeInTheDocument();
+	expect(screen.getByText(/Loading$/i)).toBeInTheDocument();
 });
 
 test("API is called and all products in category are rendered", async () => {
@@ -135,7 +135,7 @@ test("API is called and all products in category are rendered", async () => {
 		</MemoryRouter>
 	);
 
-	await waitForElementToBeRemoved(screen.getByText("Loading"));
+	await waitForElementToBeRemoved(screen.getByText(/Loading$/i));
 
 	const cards = await screen.findAllByText(/product[0-9]/);
 	expect(cards).toHaveLength(3);

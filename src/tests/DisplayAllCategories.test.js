@@ -30,7 +30,7 @@ test("list not loaded yet", () => {
 		</AppContext.Provider>
 	);
 
-	expect(screen.getByText(/Loading/)).toBeInTheDocument();
+	expect(screen.getByText(/Loading$/i)).toBeInTheDocument();
 });
 
 test("API is called and all products are rendered", async () => {

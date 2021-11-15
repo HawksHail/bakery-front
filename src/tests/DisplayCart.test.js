@@ -85,7 +85,7 @@ test("Cart not loaded from API yet", () => {
 
 	expect(screen.getByText(/Cart/)).toBeInTheDocument();
 
-	expect(screen.getByText(/Loading/)).toBeInTheDocument();
+	expect(screen.getByText(/Loading$/i)).toBeInTheDocument();
 });
 
 test("Empty cart", () => {

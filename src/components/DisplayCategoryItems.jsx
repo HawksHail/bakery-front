@@ -8,6 +8,7 @@ import AppContext from "../contexts";
 import { getCategory } from "../api/categoryAPI";
 import { addToCart } from "../api/cartAPI";
 import DisplayProduct from "./DisplayProduct";
+import Loading from "./Loading";
 
 function DisplayCategoryItems({ history }) {
 	const { id } = useParams();
@@ -47,7 +48,7 @@ function DisplayCategoryItems({ history }) {
 	};
 
 	if (!category?.productList) {
-		return <div>Loading</div>;
+		return <div><Loading/></div>;
 	}
 
 	return (

@@ -10,7 +10,7 @@ function PrivateRoute({ children, ...rest }) {
 		<Route
 			{...rest}
 			render={({ location }) => {
-				return isAuthenticated === true ? (
+				return isAuthenticated ? (
 					children
 				) : (
 					<Redirect
