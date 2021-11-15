@@ -25,7 +25,7 @@ function DisplayAllProducts({ history }) {
 			interval = setInterval(() => {
 				setShowAlert(false);
 			}, 4500);
-		} else if (!showAlert) {
+		} else {
 			clearInterval(interval);
 		}
 		return () => clearInterval(interval);

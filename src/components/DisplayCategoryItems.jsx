@@ -27,7 +27,7 @@ function DisplayCategoryItems({ history }) {
 			interval = setInterval(() => {
 				setShowAlert(false);
 			}, 4500);
-		} else if (!showAlert) {
+		} else {
 			clearInterval(interval);
 		}
 		return () => clearInterval(interval);
@@ -48,7 +48,11 @@ function DisplayCategoryItems({ history }) {
 	};
 
 	if (!category.productList) {
-		return <div><Loading/></div>;
+		return (
+			<div>
+				<Loading />
+			</div>
+		);
 	}
 
 	return (
