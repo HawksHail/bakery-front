@@ -55,26 +55,28 @@ function App() {
 				className="pt-1 d-flex flex-column justify-content-between"
 				style={{ minHeight: "100vh" }}
 			>
-				<Switch>
-					<Route exact path="/">
-						<Home />
-					</Route>
-					<Route path="/login">
-						<Login />
-					</Route>
-					<Route path="/category">
-						<DisplayAllCategories />
-					</Route>
-					<Route path="/category-items/:id">
-						<DisplayCategoryItems />
-					</Route>
-					<Route path="/products">
-						<DisplayAllProducts />
-					</Route>
-					<PrivateRoute path="/cart">
-						<DisplayCart />
-					</PrivateRoute>
-				</Switch>
+				<main>
+					<Switch>
+						<Route exact path="/">
+							<Home />
+						</Route>
+						<Route path="/login">
+							<Login />
+						</Route>
+						<Route path="/category">
+							<DisplayAllCategories />
+						</Route>
+						<Route path="/category-items/:id">
+							<DisplayCategoryItems />
+						</Route>
+						<Route path="/products">
+							<DisplayAllProducts />
+						</Route>
+						<PrivateRoute path="/cart">
+							<DisplayCart />
+						</PrivateRoute>
+					</Switch>
+				</main>
 			</Container>
 			<Footer />
 		</Router>

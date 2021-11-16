@@ -34,7 +34,7 @@ function DisplayCart() {
 			interval = setInterval(() => {
 				setShowAlert(false);
 			}, 4500);
-		} else if (!showAlert) {
+		} else {
 			clearInterval(interval);
 		}
 		return () => clearInterval(interval);
@@ -71,7 +71,9 @@ function DisplayCart() {
 		return (
 			<div className="p-3">
 				<h1>Cart</h1>
-				<h4><Loading/></h4>
+				<h4>
+					<Loading />
+				</h4>
 			</div>
 		);
 	}

@@ -22,6 +22,15 @@ afterEach(function () {
 });
 
 test("list not loaded yet", () => {
+	const scope = nock(url)
+		.defaultReplyHeaders({
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Headers": "Authorization",
+		})
+		.get("/category")
+		.optionally()
+		.reply(200, categories);
+
 	render(
 		<AppContext.Provider value={{ categories: [] }}>
 			<Router>
