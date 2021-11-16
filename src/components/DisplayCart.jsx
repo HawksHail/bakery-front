@@ -60,6 +60,7 @@ function DisplayCart() {
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
 			await clearCart(customer.customerId, accessToken);
+			window.scrollTo(0, 0);
 			setCart([]);
 			setShowAlert(true);
 		} catch (error) {
