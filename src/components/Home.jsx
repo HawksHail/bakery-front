@@ -13,7 +13,7 @@ function Home() {
 	}, []);
 
 	return (
-		<main>
+		<>
 			<Container>
 				<Row className="align-items-lg-center mb-4 mt-2">
 					<Col className="mx-auto col-9 col-md-4 col-lg-5 order-md-2">
@@ -39,7 +39,7 @@ function Home() {
 					</Col>
 				</Row>
 			</Container>
-		</main>
+		</>
 	);
 }
 
