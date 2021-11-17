@@ -17,7 +17,7 @@ function DisplayNavbar() {
 	const { user, isAuthenticated } = useAuth0();
 
 	return (
-		<Navbar bg="dark" variant="dark" expand="sm" sticky="top">
+		<Navbar bg="dark" variant="dark" expand="md" sticky="top">
 			<Container fluid>
 				<Navbar.Brand as={Link} to="/">
 					<img
@@ -50,16 +50,18 @@ function DisplayNavbar() {
 						</Nav.Link>
 					</Nav>
 					<Nav>
-						<AuthenticationButton />
-						{isAuthenticated && (
-							<img
-								src={user.picture}
-								alt={user.name}
-								className="rounded-circle mx-1 d-none d-sm-inline"
-								height="40px"
-								width="40px"
-							/>
-						)}
+						<div className="hstack gap-2">
+							<AuthenticationButton />
+							{isAuthenticated && (
+								<img
+									src={user.picture}
+									alt={user.name}
+									className="rounded-circle"
+									height="40px"
+									width="40px"
+								/>
+							)}
+						</div>
 					</Nav>
 				</Navbar.Collapse>
 			</Container>
