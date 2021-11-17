@@ -17,9 +17,15 @@ function DisplayNavbar() {
 	const { user, isAuthenticated } = useAuth0();
 
 	return (
-		<Navbar bg="dark" variant="dark" expand="md" sticky="top">
+		<Navbar
+			bg="dark"
+			variant="dark"
+			expand="md"
+			sticky="top"
+			collapseOnSelect
+		>
 			<Container fluid>
-				<Navbar.Brand as={Link} to="/">
+				<Navbar.Brand as={Link} eventKey="0" to="/">
 					<img
 						className="brand rounded-circle"
 						src={logo}
@@ -32,19 +38,19 @@ function DisplayNavbar() {
 					className="justify-content-between"
 				>
 					<Nav className="me-auto mb-2 mb-lg-0">
-						<Nav.Link as={Link} to="/">
+						<Nav.Link as={Link} eventKey="1" to="/">
 							<FontAwesomeIcon icon={faHome} />
 							&nbsp;Home
 						</Nav.Link>
-						<Nav.Link as={Link} to="/category">
+						<Nav.Link as={Link} eventKey="2" to="/category">
 							<FontAwesomeIcon icon={faBookOpen} />
 							&nbsp;Category
 						</Nav.Link>
-						<Nav.Link as={Link} to="/products">
+						<Nav.Link as={Link} eventKey="3" to="/products">
 							<FontAwesomeIcon icon={faCookie} />
 							&nbsp;Products
 						</Nav.Link>
-						<Nav.Link as={Link} to="/cart">
+						<Nav.Link as={Link} eventKey="4" to="/cart">
 							<FontAwesomeIcon icon={faShoppingCart} />
 							&nbsp;Cart
 						</Nav.Link>
