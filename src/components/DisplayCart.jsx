@@ -70,17 +70,17 @@ function DisplayCart() {
 
 	if (!cart) {
 		return (
-			<div className="p-3">
+			<>
 				<h1>Cart</h1>
 				<h4>
 					<Loading />
 				</h4>
-			</div>
+			</>
 		);
 	}
 
 	return (
-		<div className="p-3">
+		<>
 			<h1>Cart</h1>
 			<Alert
 				className="fixed-bottom m-3 w-25"
@@ -129,7 +129,7 @@ function DisplayCart() {
 					</div>
 				</div>
 			)}
-		</div>
+		</>
 	);
 }
 

@@ -23,6 +23,7 @@ function DisplayNavbar() {
 			expand="md"
 			sticky="top"
 			collapseOnSelect
+			className="mb-3"
 		>
 			<Container fluid>
 				<Navbar.Brand as={Link} eventKey="0" to="/">

@@ -50,12 +50,8 @@ function App() {
 	return (
 		<Router>
 			<Navbar />
-			<Container
-				fluid
-				className="pt-1 d-flex flex-column justify-content-between"
-				style={{ minHeight: "100vh" }}
-			>
-				<main>
+			<Container fluid style={{ minHeight: "100vh" }}>
+				<main className="mx-3">
 					<Switch>
 						<Route exact path="/">
 							<Home />
