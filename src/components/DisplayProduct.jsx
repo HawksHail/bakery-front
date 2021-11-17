@@ -38,7 +38,7 @@ function DisplayProduct(props) {
 							props.product.category.categoryName}
 					</Card.Subtitle>
 					<Card.Text>
-						Sold by: {props.product.supplier.companyName}
+						Made by: {props.product.supplier.companyName}
 					</Card.Text>
 					<Card.Text className="mb-0">
 						${props.product.unitPrice}
