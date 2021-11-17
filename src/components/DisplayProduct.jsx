@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Button, Card, Badge } from "react-bootstrap";
+import { Col, Button, Card, Badge, Image } from "react-bootstrap";
 import PropTypes from "prop-types";
 
 import Product from "../models/product";
@@ -10,9 +10,9 @@ function DisplayProduct(props) {
 	};
 
 	return (
-		<Col xs={6} sm={4} md={3} lg={2} className="p-1">
-			<Card className="m-2 h-100">
-				<Card.Body className="d-flex align-items-start flex-column">
+		<Col xs={12} sm={4} md={3} xl={2} className="p-1">
+			<Card className="productCard h-100">
+				<Card.Body className="d-flex flex-column align-items-center text-center">
 					<a
 						href={
 							props.product.imgCredit
@@ -22,8 +22,10 @@ function DisplayProduct(props) {
 						target="_blank"
 						rel="noreferrer"
 					>
-						<img
-							className="card-img-top img-fluid rounded-3 mb-1"
+						<Image
+							fluid
+							rounded
+							className="card-img-top mb-1"
 							src={
 								props.product.imgURL
 									? props.product.imgURL
@@ -38,13 +40,13 @@ function DisplayProduct(props) {
 							props.product.category.categoryName}
 					</Card.Subtitle>
 					<Card.Text>
-						Made by: {props.product.supplier.companyName}
+						By: {props.product.supplier.companyName}
 					</Card.Text>
 					<Card.Text className="mb-0">
 						${props.product.unitPrice}
 					</Card.Text>
 					<Button
-						className="w-100 mt-auto d-flex justify-content-around"
+						className="w-75 mt-auto mx-4 d-flex justify-content-around"
 						onClick={buttonClick}
 					>
 						{props.buttonText}
