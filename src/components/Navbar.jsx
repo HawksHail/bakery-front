@@ -26,7 +26,7 @@ function DisplayNavbar() {
 			className="mb-3"
 		>
 			<Container fluid>
-				<Navbar.Brand as={Link} eventKey="0" to="/">
+				<Navbar.Brand as={Link} to="/">
 					<img
 						className="brand rounded-circle"
 						src={logo}
