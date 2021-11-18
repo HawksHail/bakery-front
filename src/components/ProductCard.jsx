@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import Product from "../models/product";
 
-function DisplayProduct(props) {
+function ProductCard(props) {
 	const buttonClick = () => {
 		props.buttonClick(props.product.id);
 	};
@@ -62,7 +62,7 @@ function DisplayProduct(props) {
 	);
 }
 
-DisplayProduct.propTypes = {
+ProductCard.propTypes = {
 	product: PropTypes.shape(Product),
 	categoryName: PropTypes.string,
 	buttonClick: PropTypes.func,
@@ -70,4 +70,4 @@ DisplayProduct.propTypes = {
 	quantity: PropTypes.number,
 };
 
-export default DisplayProduct;
+export default ProductCard;

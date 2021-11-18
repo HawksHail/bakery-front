@@ -7,7 +7,7 @@ import { Row, Alert } from "react-bootstrap";
 import AppContext from "../contexts";
 import { getCategory } from "../api/categoryAPI";
 import { addToCart } from "../api/cartAPI";
-import DisplayProduct from "./DisplayProduct";
+import ProductCard from "./ProductCard";
 import Loading from "./Loading";
 
 function DisplayCategoryItems({ history }) {
@@ -68,7 +68,7 @@ function DisplayCategoryItems({ history }) {
 				<Alert.Heading>Item added!</Alert.Heading>
 			</Alert>
 			{category.productList.map(product => (
-				<DisplayProduct
+				<ProductCard
 					product={product}
 					key={product.id}
 					categoryName={category.categoryName}

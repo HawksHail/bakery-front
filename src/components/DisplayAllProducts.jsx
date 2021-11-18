@@ -8,7 +8,7 @@ import AppContext from "../contexts";
 import { getAllProducts } from "../api/productAPI";
 import { addToCart } from "../api/cartAPI";
 import Loading from "./Loading";
-import DisplayProduct from "./DisplayProduct";
+import ProductCard from "./ProductCard";
 
 function DisplayAllProducts({ history }) {
 	const { products, setProducts, setCart, customer } = useContext(AppContext);
@@ -59,7 +59,7 @@ function DisplayAllProducts({ history }) {
 			</Alert>
 			{products.length > 0 ? (
 				products.map(product => (
-					<DisplayProduct
+					<ProductCard
 						product={product}
 						key={product.id}
 						buttonText="Add to Cart"

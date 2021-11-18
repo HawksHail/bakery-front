@@ -4,7 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import { getCart, removeFromCart, clearCart } from "../api/cartAPI";
 import AppContext from "../contexts";
-import DisplayProduct from "./DisplayProduct";
+import ProductCard from "./ProductCard";
 import Loading from "./Loading";
 
 function DisplayCart() {
@@ -98,7 +98,7 @@ function DisplayCart() {
 				<div>
 					<Row>
 						{cart.map(item => (
-							<DisplayProduct
+							<ProductCard
 								product={item.product}
 								key={item.product.id}
 								buttonText="Remove"
