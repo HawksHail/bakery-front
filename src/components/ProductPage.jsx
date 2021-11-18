@@ -1,8 +1,16 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars */ //TODO remove
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useParams, withRouter } from "react-router";
-import { Container, Breadcrumb, Row, Col, Image } from "react-bootstrap";
+import {
+	Breadcrumb,
+	Row,
+	Col,
+	Image,
+	Button,
+	Form,
+	InputGroup,
+} from "react-bootstrap";
 
 import Product from "../models/product";
 import Loading from "./Loading";
@@ -11,14 +19,16 @@ import { getProduct } from "../api/productAPI";
 function ProductPage(props) {
 	const { id } = useParams();
 	const [product, setProduct] = useState(null);
-
-	console.log(`id`, id);
+	const [quantity, setQuantity] = useState(1);
 
 	useEffect(() => {
 		getProduct(id).then(setProduct).catch(console.log);
 	}, [id]);
 
-	console.log(`product`, product);
+	const addToCart = event => {
+		event.preventDefault();
+		alert(`button clicked ${quantity}`);
+	};
 
 	if (!product) {
 		return (
@@ -29,20 +39,21 @@ function ProductPage(props) {
 	}
 
 	return (
-		<Container fluid>
+		<>
 			<Row>
 				<Breadcrumb>
-					<Breadcrumb.Item href="/category">
-						Categories
-					</Breadcrumb.Item>
+					<Breadcrumb.Item href="/category">Category</Breadcrumb.Item>
 					<Breadcrumb.Item
 						href={`/category-items/${product.category.id}`}
 					>
 						{product.category.categoryName}
 					</Breadcrumb.Item>
+					<Breadcrumb.Item active>
+						{product.productName}
+					</Breadcrumb.Item>
 				</Breadcrumb>
 			</Row>
-			<Row>
+			<Row xs={1} sm="auto">
 				<Col>
 					<a
 						href={product.imgCredit ? product.imgCredit : null}
@@ -52,7 +63,7 @@ function ProductPage(props) {
 						<Image
 							fluid
 							rounded
-							className="card-img-top mb-1"
+							className="mb-1"
 							src={
 								product.imgURL
 									? product.imgURL
@@ -72,9 +83,52 @@ function ProductPage(props) {
 					<Row>
 						<p className="h4">${product.unitPrice}</p>
 					</Row>
+					<Row>
+						<Form onSubmit={addToCart}>
+							<div className="hstack gap-3">
+								<Button type="submit">
+									Add&nbsp;to&nbsp;cart
+								</Button>
+								<Form.Group>
+									<InputGroup className="w-50">
+										<Button
+											onClick={() => {
+												quantity > 1
+													? setQuantity(
+															Number(quantity) - 1
+													  )
+													: null;
+											}}
+										>
+											-
+										</Button>
+										<Form.Control
+											aria-label="quantity"
+											className="text-center"
+											type="number"
+											value={quantity}
+											min={1}
+											onChange={e => {
+												setQuantity(e.target.value);
+											}}
+										/>
+										<Button
+											onClick={() => {
+												setQuantity(
+													Number(quantity) + 1
+												);
+											}}
+										>
+											+
+										</Button>
+									</InputGroup>
+								</Form.Group>
+							</div>
+						</Form>
+					</Row>
 				</Col>
 			</Row>
-		</Container>
+		</>
 	);
 }
 

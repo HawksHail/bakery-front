@@ -17,6 +17,7 @@ import Category from "../models/category";
 import Product from "../models/product";
 import ProductPage from "../components/ProductPage";
 import { url } from "../api/url";
+import { scryRenderedDOMComponentsWithClass } from "react-dom/test-utils";
 
 jest.mock("@auth0/auth0-react");
 
@@ -129,14 +130,86 @@ test("API is called and product is rendered", async () => {
 
 	await waitForElementToBeRemoved(screen.getByText(/Loading$/i));
 
+	expect(screen.getByRole("link", { name: "Category" })).toBeInTheDocument();
 	expect(
-		await screen.findByRole("img", { name: /product[0-9]+/ })
+		screen.getByRole("link", { name: fakeProduct.category.categoryName })
 	).toBeInTheDocument();
 
-	expect(await screen.findByText(/product[0-9]+/)).toBeInTheDocument();
-	expect(await screen.findByText(/category[0-9]+/)).toBeInTheDocument();
-	expect(await screen.findByText(/supplier[0-9]+/)).toBeInTheDocument();
-	expect(await screen.findByText(/\$[0-9]+/)).toBeInTheDocument();
+	expect(
+		screen.getByRole("img", { name: /product[0-9]+/ })
+	).toBeInTheDocument();
+	expect(
+		screen.getByRole("heading", { name: /product[0-9]+/ })
+	).toBeInTheDocument();
+	expect(screen.getByText(/category[0-9]+/)).toBeInTheDocument();
+	expect(screen.getByText(/supplier[0-9]+/)).toBeInTheDocument();
+	expect(screen.getByText(/\$[0-9]+/)).toBeInTheDocument();
+	expect(
+		screen.getByRole("button", { name: /Add\sto\scart/ })
+	).toBeInTheDocument();
+});
+
+test("Quantity +/- button increments/decrements quantity", async () => {
+	nock(url)
+		.defaultReplyHeaders({
+			"Access-Control-Allow-Origin": "*",
+		})
+		.get("/product/1")
+		.reply(200, fakeProduct);
+
+	render(
+		<MemoryRouter initialEntries={["/product/1"]}>
+			<Route path="/product/:id">
+				<ProductPage />
+			</Route>
+		</MemoryRouter>
+	);
+
+	await waitForElementToBeRemoved(screen.getByText(/Loading$/i));
+
+	const quantity = screen.getByRole("spinbutton", { name: "quantity" });
+	expect(quantity).toHaveValue(1);
+
+	const plus = screen.getByRole("button", { name: "+" });
+	expect(plus).toBeInTheDocument();
+
+	const minus = screen.getByRole("button", { name: "-" });
+	expect(minus).toBeInTheDocument();
+
+	userEvent.click(plus);
+	expect(quantity).toHaveValue(2);
+
+	userEvent.click(minus);
+	expect(quantity).toHaveValue(1);
+
+	userEvent.click(minus);
+	expect(quantity).toHaveValue(1);
+});
+
+test("Typing quantity box updates quantity", async () => {
+	nock(url)
+		.defaultReplyHeaders({
+			"Access-Control-Allow-Origin": "*",
+		})
+		.get("/product/1")
+		.reply(200, fakeProduct);
+
+	render(
+		<MemoryRouter initialEntries={["/product/1"]}>
+			<Route path="/product/:id">
+				<ProductPage />
+			</Route>
+		</MemoryRouter>
+	);
+
+	await waitForElementToBeRemoved(screen.getByText(/Loading$/i));
+
+	const quantity = screen.getByRole("spinbutton", { name: "quantity" });
+	expect(quantity).toHaveValue(1);
+
+	userEvent.clear(quantity);
+	userEvent.type(quantity, "5");
+	expect(quantity).toHaveValue(5);
 });
 
 // test("Button POSTS to API and sets cart", async () => {
