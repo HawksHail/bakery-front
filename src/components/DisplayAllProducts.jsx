@@ -47,38 +47,41 @@ function DisplayAllProducts({ history }) {
 	};
 
 	return (
-		<ProductCardRow>
-			<Alert
-				className="fixed-bottom m-3 w-25"
-				show={showAlert}
-				variant="info"
-				transition
-				dismissible
-				onClose={() => setShowAlert(false)}
-			>
-				<Alert.Heading>Item added!</Alert.Heading>
-			</Alert>
-			{products.length > 0 ? (
-				products.map(product => (
-					<ProductCard
-						product={product}
-						key={product.id}
-						buttonText="Add to Cart"
-						buttonClick={
-							isAuthenticated
-								? addToCartButton
-								: () => {
-										history.push("/login");
-								  }
-						}
-					/>
-				))
-			) : (
-				<h3 colSpan="4">
-					<Loading />
-				</h3>
-			)}
-		</ProductCardRow>
+		<>
+			<h1>All Products</h1>
+			<ProductCardRow>
+				<Alert
+					className="fixed-bottom m-3 w-25"
+					show={showAlert}
+					variant="info"
+					transition
+					dismissible
+					onClose={() => setShowAlert(false)}
+				>
+					<Alert.Heading>Item added!</Alert.Heading>
+				</Alert>
+				{products.length > 0 ? (
+					products.map(product => (
+						<ProductCard
+							product={product}
+							key={product.id}
+							buttonText="Add to Cart"
+							buttonClick={
+								isAuthenticated
+									? addToCartButton
+									: () => {
+											history.push("/login");
+									  }
+							}
+						/>
+					))
+				) : (
+					<h3 colSpan="4">
+						<Loading />
+					</h3>
+				)}
+			</ProductCardRow>
+		</>
 	);
 }
 

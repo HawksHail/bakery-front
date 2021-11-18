@@ -57,33 +57,36 @@ function DisplayCategoryItems({ history }) {
 	}
 
 	return (
-		<ProductCardRow>
-			<Alert
-				className="fixed-bottom m-3 w-25"
-				show={showAlert}
-				variant="info"
-				transition
-				dismissible
-				onClose={() => setShowAlert(false)}
-			>
-				<Alert.Heading>Item added!</Alert.Heading>
-			</Alert>
-			{category.productList.map(product => (
-				<ProductCard
-					product={product}
-					key={product.id}
-					categoryName={category.categoryName}
-					buttonText="Add to Cart"
-					buttonClick={
-						isAuthenticated
-							? addToCartButton
-							: () => {
-									history.push("/login");
-							  }
-					}
-				/>
-			))}
-		</ProductCardRow>
+		<>
+			<h1>{category.categoryName}</h1>
+			<ProductCardRow>
+				<Alert
+					className="fixed-bottom m-3 w-25"
+					show={showAlert}
+					variant="info"
+					transition
+					dismissible
+					onClose={() => setShowAlert(false)}
+				>
+					<Alert.Heading>Item added!</Alert.Heading>
+				</Alert>
+				{category.productList.map(product => (
+					<ProductCard
+						product={product}
+						key={product.id}
+						categoryName={category.categoryName}
+						buttonText="Add to Cart"
+						buttonClick={
+							isAuthenticated
+								? addToCartButton
+								: () => {
+										history.push("/login");
+								  }
+						}
+					/>
+				))}
+			</ProductCardRow>
+		</>
 	);
 }
 

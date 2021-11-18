@@ -29,6 +29,20 @@ beforeEach(() => {
 	);
 });
 
+test("Title is rendered", () => {
+	render(
+		<AppContext.Provider value={fakeProducts}>
+			<Router>
+				<DisplayAllProducts />
+			</Router>
+		</AppContext.Provider>
+	);
+
+	expect(
+		screen.getByRole("heading", { name: /All products/i })
+	).toBeInTheDocument();
+});
+
 test("all products are rendered", () => {
 	render(
 		<AppContext.Provider value={fakeProducts}>

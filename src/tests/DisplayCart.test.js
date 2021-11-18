@@ -83,7 +83,7 @@ test("Cart not loaded from API yet", () => {
 		</AppContext.Provider>
 	);
 
-	expect(screen.getByText(/Cart/)).toBeInTheDocument();
+	expect(screen.getByRole("heading", { name: /Cart/ })).toBeInTheDocument();
 
 	expect(screen.getByText(/Loading$/i)).toBeInTheDocument();
 });
