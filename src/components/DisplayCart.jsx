@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Row, Alert, Button } from "react-bootstrap";
+import { Alert, Button } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import { getCart, removeFromCart, clearCart } from "../api/cartAPI";
 import AppContext from "../contexts";
 import ProductCard from "./ProductCard";
+import ProductCardRow from "./ProductCardRow";
 import Loading from "./Loading";
 
 function DisplayCart() {
@@ -96,7 +97,7 @@ function DisplayCart() {
 				<h4>Your cart is empty</h4>
 			) : (
 				<div>
-					<Row xs={1} sm={2} md={3} xl={4} xxl={5} className="g-2">
+					<ProductCardRow>
 						{cart.map(item => (
 							<ProductCard
 								product={item.product}
@@ -106,7 +107,7 @@ function DisplayCart() {
 								quantity={item.quantity}
 							/>
 						))}
-					</Row>
+					</ProductCardRow>
 					<div className="vstack gap-1">
 						<div>
 							<Button
