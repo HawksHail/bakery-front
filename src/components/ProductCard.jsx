@@ -34,7 +34,11 @@ function ProductCard(props) {
 							alt={props.product.productName}
 						/>
 					</a>
-					<Card.Title>{props.product.productName}</Card.Title>
+					<Card.Title>
+						<a href={`/product/${props.product.id}`}>
+							{props.product.productName}
+						</a>
+					</Card.Title>
 					<Card.Subtitle>
 						{props.categoryName ||
 							props.product.category.categoryName}

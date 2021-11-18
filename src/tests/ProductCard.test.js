@@ -16,6 +16,10 @@ test("Card containing all info about product", () => {
 
 	expect(screen.getByText(/.*test product.*/i)).toBeInTheDocument();
 
+	expect(
+		screen.getByRole("link", { name: /.*test product.*/i })
+	).toBeInTheDocument();
+
 	expect(screen.getByText(/.*test category.*/i)).toBeInTheDocument();
 
 	expect(screen.getByText(/.*test company.*/i)).toBeInTheDocument();

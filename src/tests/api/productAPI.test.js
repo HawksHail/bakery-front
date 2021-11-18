@@ -1,4 +1,8 @@
-import { getAllProducts } from "../../api/productAPI";
+import {
+	getAllProducts,
+	getFeaturedProducts,
+	getProduct,
+} from "../../api/productAPI";
 import { url } from "../../api/url";
 
 let fetchSpy;
@@ -14,4 +18,16 @@ test("getAllProducts fetches properly", () => {
 	getAllProducts();
 
 	expect(fetchSpy).toBeCalledWith(`${url}/product`);
+});
+
+test("getFeaturedProducts fetches properly", () => {
+	getFeaturedProducts();
+
+	expect(fetchSpy).toBeCalledWith(`${url}/product/featured`);
+});
+
+test("getProduct fetches properly", () => {
+	getProduct(1);
+
+	expect(fetchSpy).toBeCalledWith(`${url}/product/1`);
 });
