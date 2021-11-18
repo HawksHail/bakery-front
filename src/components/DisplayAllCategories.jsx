@@ -14,30 +14,33 @@ function DisplayAllCategories() {
 	}, []);
 
 	return (
-		<Table striped hover bordered>
-			<thead>
-				<tr>
-					<th>Category Name</th>
-					<th>Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				{categories.length > 0 ? (
-					categories.map(category => (
-						<DisplayCategory
-							category={category}
-							key={category.id}
-						/>
-					))
-				) : (
+		<>
+			<h1>Categories</h1>
+			<Table striped hover bordered>
+				<thead>
 					<tr>
-						<td colSpan="2">
-							<Loading />
-						</td>
+						<th>Category Name</th>
+						<th>Description</th>
 					</tr>
-				)}
-			</tbody>
-		</Table>
+				</thead>
+				<tbody>
+					{categories.length > 0 ? (
+						categories.map(category => (
+							<DisplayCategory
+								category={category}
+								key={category.id}
+							/>
+						))
+					) : (
+						<tr>
+							<td colSpan="2">
+								<Loading />
+							</td>
+						</tr>
+					)}
+				</tbody>
+			</Table>
+		</>
 	);
 }
 
