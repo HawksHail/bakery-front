@@ -10,7 +10,7 @@ function ProductCard(props) {
 	};
 
 	return (
-		<Col xs={12} sm={4} md={3} xl={2} className="p-1">
+		<Col>
 			<Card className="productCard h-100">
 				<Card.Body className="d-flex flex-column align-items-center text-center">
 					<a

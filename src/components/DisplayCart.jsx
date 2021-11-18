@@ -96,7 +96,7 @@ function DisplayCart() {
 				<h4>Your cart is empty</h4>
 			) : (
 				<div>
-					<Row>
+					<Row xs={1} sm={2} md={3} xl={4} xxl={5} className="g-2">
 						{cart.map(item => (
 							<ProductCard
 								product={item.product}

@@ -46,7 +46,7 @@ function DisplayAllProducts({ history }) {
 	};
 
 	return (
-		<Row>
+		<Row xs={1} sm={2} md={3} xl={4} xxl={5} className="g-2">
 			<Alert
 				className="fixed-bottom m-3 w-25"
 				show={showAlert}
