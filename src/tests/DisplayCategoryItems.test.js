@@ -146,10 +146,12 @@ test("API is called and all products in category are rendered", async () => {
 	await waitForElementToBeRemoved(screen.getByText(/Loading$/i));
 
 	expect(
-		await screen.findByRole("heading", { name: /category name/i })
+		screen.getByRole("heading", { name: fakeCategory.categoryName })
 	).toBeInTheDocument();
 
-	const cards = await screen.findAllByText(/product[0-9]/);
+	expect(screen.getByRole("link", { name: "Category" })).toBeInTheDocument();
+
+	const cards = screen.getAllByText(/product[0-9]/);
 	expect(cards).toHaveLength(3);
 });
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useParams, withRouter } from "react-router";
 import PropTypes from "prop-types";
-import { Alert } from "react-bootstrap";
+import { Alert, Breadcrumb } from "react-bootstrap";
 
 import AppContext from "../contexts";
 import { getCategory } from "../api/categoryAPI";
@@ -59,6 +59,12 @@ function DisplayCategoryItems({ history }) {
 	return (
 		<>
 			<h1>{category.categoryName}</h1>
+			<Breadcrumb>
+				<Breadcrumb.Item href="/category">Category</Breadcrumb.Item>
+				<Breadcrumb.Item active>
+					{category.categoryName}
+				</Breadcrumb.Item>
+			</Breadcrumb>
 			<ProductCardRow>
 				<Alert
 					className="fixed-bottom m-3 w-25"
