@@ -211,7 +211,7 @@ test("Typing quantity box updates quantity", async () => {
 	expect(quantity).toHaveValue(5);
 });
 
-test("Add to cart Button posts to API", async () => {
+test("Add to cart Button posts to API and alert appears", async () => {
 	nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
@@ -249,4 +249,10 @@ test("Add to cart Button posts to API", async () => {
 	await waitFor(() => {
 		expect(setCart).toBeCalledTimes(1);
 	});
+
+	const alert = await screen.findByText(/Item added!/i);
+	expect(alert).toBeInTheDocument();
+
+	userEvent.click(screen.getByRole("button", { name: /Close alert/i }));
+	await waitForElementToBeRemoved(alert);
 });
