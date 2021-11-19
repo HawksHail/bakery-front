@@ -51,32 +51,30 @@ function App() {
 	return (
 		<Router>
 			<Navbar />
-			<Container fluid>
-				<main>
-					<Switch>
-						<Route exact path="/">
-							<Home />
-						</Route>
-						<Route path="/login">
-							<Login />
-						</Route>
-						<Route path="/category">
-							<DisplayAllCategories />
-						</Route>
-						<Route path="/category-items/:id">
-							<DisplayCategoryItems />
-						</Route>
-						<Route path="/products">
-							<DisplayAllProducts />
-						</Route>
-						<Route path="/product/:id">
-							<ProductPage />
-						</Route>
-						<PrivateRoute path="/cart">
-							<DisplayCart />
-						</PrivateRoute>
-					</Switch>
-				</main>
+			<Container as="main" fluid className="mb-3">
+				<Switch>
+					<Route exact path="/">
+						<Home />
+					</Route>
+					<Route path="/login">
+						<Login />
+					</Route>
+					<Route path="/category">
+						<DisplayAllCategories />
+					</Route>
+					<Route path="/category-items/:id">
+						<DisplayCategoryItems />
+					</Route>
+					<Route path="/products">
+						<DisplayAllProducts />
+					</Route>
+					<Route path="/product/:id">
+						<ProductPage />
+					</Route>
+					<PrivateRoute path="/cart">
+						<DisplayCart />
+					</PrivateRoute>
+				</Switch>
 			</Container>
 			<Footer />
 		</Router>
