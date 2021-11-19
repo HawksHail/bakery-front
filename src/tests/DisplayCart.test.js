@@ -118,7 +118,7 @@ test("contents of cart are loaded from API and displayed", () => {
 	expect(cards.length).toBe(2);
 });
 
-test("Button POSTS to API", async () => {
+test("Button POSTS to API and alert appears", async () => {
 	render(
 		<AppContext.Provider
 			value={{
@@ -163,7 +163,7 @@ test("Button POSTS to API", async () => {
 	});
 
 	userEvent.click(screen.getByRole("button", { name: /Close alert/i }));
-	waitForElementToBeRemoved(alert);
+	await waitForElementToBeRemoved(alert);
 });
 
 test("Clear cart button appears and fetches API", async () => {
