@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */ //TODO remove
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import PropTypes from "prop-types";
 import { useParams, withRouter } from "react-router";
+import { useAuth0 } from "@auth0/auth0-react";
 import {
 	Breadcrumb,
 	Row,
@@ -12,22 +13,39 @@ import {
 	InputGroup,
 } from "react-bootstrap";
 
+import AppContext from "../contexts";
 import Product from "../models/product";
 import Loading from "./Loading";
 import { getProduct } from "../api/productAPI";
+import { addToCart } from "../api/cartAPI";
 
 function ProductPage(props) {
 	const { id } = useParams();
 	const [product, setProduct] = useState(null);
 	const [quantity, setQuantity] = useState(1);
+	const { setCart, customer } = useContext(AppContext);
+	const { getAccessTokenSilently } = useAuth0();
 
 	useEffect(() => {
 		getProduct(id).then(setProduct).catch(console.log);
 	}, [id]);
 
-	const addToCart = event => {
+	const handleAddToCart = async event => {
 		event.preventDefault();
-		alert(`button clicked ${quantity}`);
+		try {
+			const accessToken = await getAccessTokenSilently({
+				audience: "https://zion.ee-cognizantacademy.com",
+			});
+			await addToCart(
+				customer.customerId,
+				product.id,
+				accessToken,
+				quantity
+			).then(setCart);
+			// setShowAlert(true);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	if (!product) {
@@ -84,7 +102,7 @@ function ProductPage(props) {
 						<p className="h4">${product.unitPrice}</p>
 					</Row>
 					<Row>
-						<Form onSubmit={addToCart}>
+						<Form onSubmit={handleAddToCart}>
 							<div className="hstack gap-3">
 								<Button type="submit">
 									Add&nbsp;to&nbsp;cart

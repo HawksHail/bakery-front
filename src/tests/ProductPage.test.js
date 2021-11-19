@@ -17,7 +17,6 @@ import Category from "../models/category";
 import Product from "../models/product";
 import ProductPage from "../components/ProductPage";
 import { url } from "../api/url";
-import { scryRenderedDOMComponentsWithClass } from "react-dom/test-utils";
 
 jest.mock("@auth0/auth0-react");
 
@@ -212,52 +211,42 @@ test("Typing quantity box updates quantity", async () => {
 	expect(quantity).toHaveValue(5);
 });
 
-// test("Button POSTS to API and sets cart", async () => {
-// 	const scope = nock(url)
-// 		.defaultReplyHeaders({
-// 			"Access-Control-Allow-Origin": "*",
-// 			"Access-Control-Allow-Headers": "Authorization",
-// 		})
-// 		.get("/category/1")
-// 		.reply(200, fakeCategory)
-// 		.options(/\/cart\/9\/5/)
-// 		.optionally()
-// 		.reply(200, "cart")
-// 		.post(/\/cart\/9\/5/)
-// 		.reply(200, fakeCart);
+test("Add to cart Button posts to API", async () => {
+	nock(url)
+		.defaultReplyHeaders({
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Headers": "Authorization",
+		})
+		.get("/product/1")
+		.reply(200, fakeProduct)
+		.options(/cart\/[0-9]+\/[0-9]+/)
+		.optionally()
+		.reply(200)
+		.post(/cart\/[0-9]+\/[0-9]+/)
+		.query({ q: /[0-9]+/ })
+		.once()
+		.reply(200, [{ product: fakeProduct, quantity: 1 }]);
 
-// 	const setCart = jest.fn();
+	const setCart = jest.fn();
 
-// 	render(
-// 		<AppContext.Provider
-// 			value={{
-// 				customer: {
-// 					customerId: 9,
-// 					sub: "auth0|617c1ea289fdd10070ece377",
-// 					companyName: "Test Company",
-// 					contactName: "Test contact",
-// 				},
-// 				setCart,
-// 			}}
-// 		>
-// 			<MemoryRouter initialEntries={["/category-items/1"]}>
-// 				<Route path="/category-items/:id">
-// 					<DisplayCategoryItems />
-// 				</Route>
-// 			</MemoryRouter>
-// 		</AppContext.Provider>
-// 	);
+	render(
+		<AppContext.Provider value={{ setCart, customer: { customerId: 99 } }}>
+			<MemoryRouter initialEntries={["/product/1"]}>
+				<Route path="/product/:id">
+					<ProductPage />
+				</Route>
+			</MemoryRouter>
+		</AppContext.Provider>
+	);
 
-// 	await waitForElementToBeRemoved(screen.getByText("Loading"));
+	await waitForElementToBeRemoved(screen.getByText(/Loading$/i));
 
-// 	const buttons = await screen.findAllByRole("button", {
-// 		name: "Add to Cart",
-// 	});
-// 	expect(buttons).toHaveLength(3);
+	const cartButton = screen.getByRole("button", { name: /Add\sto\sCart/i });
+	expect(cartButton).toBeInTheDocument();
 
-// 	userEvent.click(buttons[0]);
+	userEvent.click(cartButton);
 
-// 	await waitFor(() => {
-// 		expect(setCart).toBeCalledTimes(1);
-// 	});
-// });
+	await waitFor(() => {
+		expect(setCart).toBeCalledTimes(1);
+	});
+});
