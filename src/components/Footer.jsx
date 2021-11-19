@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router";
 import { Container, Col, Nav } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,12 +11,17 @@ import {
 import logo from "../logo.svg";
 
 function Footer() {
+	const history = useHistory();
+
 	return (
 		<Container>
 			<footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
 				<Col className="col-md-4 d-flex align-items-center">
 					<a
-						href="/"
+						onClick={() => {
+							history.push("/");
+						}}
+						style={{ cursor: "pointer" }}
 						className="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1"
 					>
 						<img src={logo} className="bi" width="30" height="30" />
