@@ -95,8 +95,8 @@ function ProductPage() {
 					</Breadcrumb.Item>
 				</Breadcrumb>
 			</Row>
-			<Row xs={1} sm="auto">
-				<Col>
+			<Row xs={1} sm={2}>
+				<Col lg={4}>
 					<a
 						href={product.imgCredit ? product.imgCredit : null}
 						target="_blank"
@@ -115,7 +115,7 @@ function ProductPage() {
 						/>
 					</a>
 				</Col>
-				<Col>
+				<Col md={7}>
 					<Row>
 						<h1>{product.productName}</h1>
 					</Row>
@@ -126,46 +126,47 @@ function ProductPage() {
 						<p className="h4">${product.unitPrice}</p>
 					</Row>
 					<Row>
-						<Form onSubmit={handleAddToCart}>
-							<div className="hstack gap-3">
-								<Button type="submit">
-									Add&nbsp;to&nbsp;cart
-								</Button>
-								<Form.Group>
-									<InputGroup className="w-50">
-										<Button
-											onClick={() => {
-												quantity > 1
-													? setQuantity(
-															Number(quantity) - 1
-													  )
-													: null;
-											}}
-										>
-											-
-										</Button>
-										<Form.Control
-											aria-label="quantity"
-											className="text-center"
-											type="number"
-											value={quantity}
-											min={1}
-											onChange={e => {
-												setQuantity(e.target.value);
-											}}
-										/>
-										<Button
-											onClick={() => {
-												setQuantity(
-													Number(quantity) + 1
-												);
-											}}
-										>
-											+
-										</Button>
-									</InputGroup>
-								</Form.Group>
-							</div>
+						<Form
+							onSubmit={handleAddToCart}
+							className="vstack gap-2"
+						>
+							<Button type="submit" style={{ width: "12rem" }}>
+								Add&nbsp;to&nbsp;cart
+							</Button>
+							<Form.Group style={{ width: "12rem" }}>
+								<InputGroup>
+									<Button
+										style={{ width: "3rem" }}
+										onClick={() => {
+											quantity > 1
+												? setQuantity(
+														Number(quantity) - 1
+												  )
+												: null;
+										}}
+									>
+										-
+									</Button>
+									<Form.Control
+										aria-label="quantity"
+										className="text-center"
+										type="number"
+										value={quantity}
+										min={1}
+										onChange={e => {
+											setQuantity(e.target.value);
+										}}
+									/>
+									<Button
+										style={{ width: "3rem" }}
+										onClick={() => {
+											setQuantity(Number(quantity) + 1);
+										}}
+									>
+										+
+									</Button>
+								</InputGroup>
+							</Form.Group>
 						</Form>
 					</Row>
 				</Col>
