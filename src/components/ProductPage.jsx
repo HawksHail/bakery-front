@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */ //TODO remove
 import React, { useEffect, useState, useContext } from "react";
 import PropTypes from "prop-types";
 import { useParams, withRouter } from "react-router";
@@ -19,7 +18,7 @@ import Loading from "./Loading";
 import { getProduct } from "../api/productAPI";
 import { addToCart } from "../api/cartAPI";
 
-function ProductPage(props) {
+function ProductPage() {
 	const { id } = useParams();
 	const [product, setProduct] = useState(null);
 	const [quantity, setQuantity] = useState(1);
@@ -155,4 +154,3 @@ ProductPage.propTypes = {
 };
 
 export default withRouter(ProductPage);
-/* eslint-enable no-unused-vars */
