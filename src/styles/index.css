@@ -39,3 +39,18 @@ code {
 	object-fit: cover;
 	aspect-ratio: 4 / 3;
 }
+
+#root {
+	display: flex;
+	flex-direction: column;
+}
+
+html,
+body,
+#root {
+	height: 100vh;
+}
+
+main {
+	padding-top: 90px;
+}

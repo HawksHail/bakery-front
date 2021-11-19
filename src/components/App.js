@@ -51,8 +51,8 @@ function App() {
 	return (
 		<Router>
 			<Navbar />
-			<Container fluid style={{ minHeight: "100vh" }}>
-				<main className="mx-3">
+			<Container fluid>
+				<main>
 					<Switch>
 						<Route exact path="/">
 							<Home />

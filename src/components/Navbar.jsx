@@ -21,9 +21,8 @@ function DisplayNavbar() {
 			bg="dark"
 			variant="dark"
 			expand="md"
-			sticky="top"
+			fixed="top"
 			collapseOnSelect
-			className="mb-3"
 		>
 			<Container fluid>
 				<Navbar.Brand as={Link} to="/">
