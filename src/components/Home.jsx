@@ -33,7 +33,7 @@ function Home() {
 			</Container>
 			<Container className="mb-5">
 				<Row>
-					<Col className="mx-auto col-9 col-md-10 col-lg-8">
+					<Col className="mx-auto col-12 col-md-10 col-lg-8">
 						<h2>Featured Products</h2>
 						<DisplayCarousel arr={featured} />
 					</Col>
