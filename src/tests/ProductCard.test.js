@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import DisplayProduct from "../components/DisplayProduct";
+import ProductCard from "../components/ProductCard";
 import Supplier from "../models/supplier";
 import Category from "../models/category";
 import Product from "../models/product";
@@ -12,7 +12,7 @@ let category = new Category(3, "test category", "description", []);
 let product = new Product(1, "test product", supplier, category, 5);
 
 test("Card containing all info about product", () => {
-	render(<DisplayProduct product={product} />);
+	render(<ProductCard product={product} />);
 
 	expect(screen.getByText(/.*test product.*/i)).toBeInTheDocument();
 
@@ -26,7 +26,7 @@ test("Card containing all info about product", () => {
 test("Button displayed and triggers action", () => {
 	const funcMock = jest.fn();
 	render(
-		<DisplayProduct
+		<ProductCard
 			product={product}
 			buttonText="Add to Cart"
 			buttonClick={funcMock}
@@ -43,7 +43,7 @@ test("Button displayed and triggers action", () => {
 
 test("quantity is displayed on button when provided", () => {
 	render(
-		<DisplayProduct
+		<ProductCard
 			product={product}
 			buttonText="Remove"
 			buttonClick={() => {}}

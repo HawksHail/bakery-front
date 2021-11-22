@@ -9,8 +9,8 @@ export const getCart = async (custId, accessToken) => {
 	return await res.json();
 };
 
-export const addToCart = async (custId, prodId, accessToken) => {
-	const res = await fetch(`${url}/cart/${custId}/${prodId}`, {
+export const addToCart = async (custId, prodId, accessToken, quantity = 1) => {
+	const res = await fetch(`${url}/cart/${custId}/${prodId}?q=${quantity}`, {
 		method: "POST",
 		headers: {
 			Authorization: `Bearer ${accessToken}`,

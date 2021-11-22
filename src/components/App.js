@@ -14,6 +14,7 @@ import PrivateRoute from "./PrivateRoute";
 import Footer from "./Footer";
 import AppContext from "../contexts";
 import { getCustomerIdFromSub, createCustomer } from "../api/customerAPI";
+import ProductPage from "./ProductPage";
 
 function App() {
 	const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -50,33 +51,30 @@ function App() {
 	return (
 		<Router>
 			<Navbar />
-			<Container
-				fluid
-				className="pt-1 d-flex flex-column justify-content-between"
-				style={{ minHeight: "100vh" }}
-			>
-				<main>
-					<Switch>
-						<Route exact path="/">
-							<Home />
-						</Route>
-						<Route path="/login">
-							<Login />
-						</Route>
-						<Route path="/category">
-							<DisplayAllCategories />
-						</Route>
-						<Route path="/category-items/:id">
-							<DisplayCategoryItems />
-						</Route>
-						<Route path="/products">
-							<DisplayAllProducts />
-						</Route>
-						<PrivateRoute path="/cart">
-							<DisplayCart />
-						</PrivateRoute>
-					</Switch>
-				</main>
+			<Container as="main" fluid className="mb-3">
+				<Switch>
+					<Route exact path="/">
+						<Home />
+					</Route>
+					<Route path="/login">
+						<Login />
+					</Route>
+					<Route path="/category">
+						<DisplayAllCategories />
+					</Route>
+					<Route path="/category-items/:id">
+						<DisplayCategoryItems />
+					</Route>
+					<Route path="/products">
+						<DisplayAllProducts />
+					</Route>
+					<Route path="/product/:id">
+						<ProductPage />
+					</Route>
+					<PrivateRoute path="/cart">
+						<DisplayCart />
+					</PrivateRoute>
+				</Switch>
 			</Container>
 			<Footer />
 		</Router>

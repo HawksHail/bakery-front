@@ -1,18 +1,20 @@
 import React from "react";
-import { Col, Button, Card, Badge } from "react-bootstrap";
+import { Col, Button, Card, Badge, Image } from "react-bootstrap";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router";
 
 import Product from "../models/product";
 
-function DisplayProduct(props) {
+function ProductCard(props) {
+	const history = useHistory();
 	const buttonClick = () => {
 		props.buttonClick(props.product.id);
 	};
 
 	return (
-		<Col xs={6} sm={4} md={3} lg={2} className="p-1">
-			<Card className="m-2 h-100">
-				<Card.Body className="d-flex align-items-start flex-column">
+		<Col>
+			<Card className="productCard h-100">
+				<Card.Body className="d-flex flex-column align-items-center text-center">
 					<a
 						href={
 							props.product.imgCredit
@@ -22,8 +24,10 @@ function DisplayProduct(props) {
 						target="_blank"
 						rel="noreferrer"
 					>
-						<img
-							className="card-img-top img-fluid rounded-3 mb-1"
+						<Image
+							fluid
+							rounded
+							className="card-img-top mb-1"
 							src={
 								props.product.imgURL
 									? props.product.imgURL
@@ -32,19 +36,29 @@ function DisplayProduct(props) {
 							alt={props.product.productName}
 						/>
 					</a>
-					<Card.Title>{props.product.productName}</Card.Title>
+					<Card.Title>
+						<a
+							className="link-primary"
+							style={{ cursor: "pointer" }}
+							onClick={() =>
+								history.push(`/product/${props.product.id}`)
+							}
+						>
+							{props.product.productName}
+						</a>
+					</Card.Title>
 					<Card.Subtitle>
 						{props.categoryName ||
 							props.product.category.categoryName}
 					</Card.Subtitle>
 					<Card.Text>
-						Made by: {props.product.supplier.companyName}
+						By: {props.product.supplier.companyName}
 					</Card.Text>
 					<Card.Text className="mb-0">
 						${props.product.unitPrice}
 					</Card.Text>
 					<Button
-						className="w-100 mt-auto d-flex justify-content-around"
+						className="w-75 mt-auto mx-4 d-flex justify-content-around"
 						onClick={buttonClick}
 					>
 						{props.buttonText}
@@ -60,7 +74,7 @@ function DisplayProduct(props) {
 	);
 }
 
-DisplayProduct.propTypes = {
+ProductCard.propTypes = {
 	product: PropTypes.shape(Product),
 	categoryName: PropTypes.string,
 	buttonClick: PropTypes.func,
@@ -68,4 +82,4 @@ DisplayProduct.propTypes = {
 	quantity: PropTypes.number,
 };
 
-export default DisplayProduct;
+export default ProductCard;

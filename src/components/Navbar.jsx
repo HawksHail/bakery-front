@@ -21,11 +21,11 @@ function DisplayNavbar() {
 			bg="dark"
 			variant="dark"
 			expand="md"
-			sticky="top"
+			fixed="top"
 			collapseOnSelect
 		>
 			<Container fluid>
-				<Navbar.Brand as={Link} eventKey="0" to="/">
+				<Navbar.Brand as={Link} to="/">
 					<img
 						className="brand rounded-circle"
 						src={logo}

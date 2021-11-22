@@ -23,7 +23,16 @@ test("getCart fetches properly", () => {
 test("addToCart fetches properly", () => {
 	addToCart(1234, 567, "token");
 
-	expect(fetchSpy).toBeCalledWith(`${url}/cart/1234/567`, {
+	expect(fetchSpy).toBeCalledWith(`${url}/cart/1234/567?q=1`, {
+		method: "POST",
+		headers: {
+			Authorization: `Bearer token`,
+		},
+	});
+
+	addToCart(1234, 567, "token", 4);
+
+	expect(fetchSpy).toBeCalledWith(`${url}/cart/1234/567?q=4`, {
 		method: "POST",
 		headers: {
 			Authorization: `Bearer token`,

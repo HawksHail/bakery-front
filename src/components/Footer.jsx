@@ -1,5 +1,6 @@
 import React from "react";
-import { Container, Col, Nav } from "react-bootstrap";
+import { useHistory } from "react-router";
+import { Row, Col, Nav } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faTwitter,
@@ -10,13 +11,18 @@ import {
 import logo from "../logo.svg";
 
 function Footer() {
+	const history = useHistory();
+
 	return (
-		<Container>
-			<footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-				<Col className="col-md-4 d-flex align-items-center">
+		<footer className="mt-auto py-3 px-3 px-sm-5 border-top">
+			<Row className="d-flex align-items-center text-center row-cols-3">
+				<Col xs={7} sm={6} md={5} className="d-flex align-items-center">
 					<a
-						href="/"
-						className="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1"
+						onClick={() => {
+							history.push("/");
+						}}
+						style={{ cursor: "pointer" }}
+						className="me-2"
 					>
 						<img src={logo} className="bi" width="30" height="30" />
 					</a>
@@ -24,31 +30,42 @@ function Footer() {
 						© 2021 Blissful Bakery, Inc
 					</span>
 				</Col>
-				<span className="text-muted ">
+				<Col xs={3} sm={3} md={4} className="text-muted text-center">
 					By <span className="font-monospace">Zion Mantey</span>
-				</span>
-				<Nav
-					as="ul"
-					className="nav col-md-4 justify-content-end list-unstyled d-flex"
-				>
-					<li className="ms-3" data-testid="social">
-						<a className="text-muted" href="#">
-							<FontAwesomeIcon icon={faTwitter} />
-						</a>
-					</li>
-					<li className="ms-3" data-testid="social">
-						<a className="text-muted" href="#">
-							<FontAwesomeIcon icon={faInstagram} />
-						</a>
-					</li>
-					<li className="ms-3" data-testid="social">
-						<a className="text-muted" href="#">
-							<FontAwesomeIcon icon={faFacebook} />
-						</a>
-					</li>
-				</Nav>
-			</footer>
-		</Container>
+				</Col>
+				<Col xs={2} sm={3} md={3}>
+					<Nav
+						as="ul"
+						className="nav justify-content-end list-unstyled flex-column flex-sm-row"
+					>
+						<li className="ms-0 ms-sm-3" data-testid="social">
+							<a
+								className="text-muted"
+								href="https://www.twitter.com"
+							>
+								<FontAwesomeIcon icon={faTwitter} size="lg" />
+							</a>
+						</li>
+						<li className="ms-0 ms-sm-3" data-testid="social">
+							<a
+								className="text-muted"
+								href="https://www.instagram.com"
+							>
+								<FontAwesomeIcon icon={faInstagram} size="lg" />
+							</a>
+						</li>
+						<li className="ms-0 ms-sm-3" data-testid="social">
+							<a
+								className="text-muted"
+								href="https://www.facebook.com"
+							>
+								<FontAwesomeIcon icon={faFacebook} size="lg" />
+							</a>
+						</li>
+					</Nav>
+				</Col>
+			</Row>
+		</footer>
 	);
 }
 

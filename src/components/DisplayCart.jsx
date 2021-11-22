@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Row, Alert, Button } from "react-bootstrap";
+import { Alert, Button } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import { getCart, removeFromCart, clearCart } from "../api/cartAPI";
 import AppContext from "../contexts";
-import DisplayProduct from "./DisplayProduct";
+import ProductCard from "./ProductCard";
+import ProductCardRow from "./ProductCardRow";
 import Loading from "./Loading";
 
 function DisplayCart() {
@@ -70,17 +71,17 @@ function DisplayCart() {
 
 	if (!cart) {
 		return (
-			<div className="p-3">
+			<>
 				<h1>Cart</h1>
 				<h4>
 					<Loading />
 				</h4>
-			</div>
+			</>
 		);
 	}
 
 	return (
-		<div className="p-3">
+		<>
 			<h1>Cart</h1>
 			<Alert
 				className="fixed-bottom m-3 w-25"
@@ -96,9 +97,9 @@ function DisplayCart() {
 				<h4>Your cart is empty</h4>
 			) : (
 				<div>
-					<Row>
+					<ProductCardRow>
 						{cart.map(item => (
-							<DisplayProduct
+							<ProductCard
 								product={item.product}
 								key={item.product.id}
 								buttonText="Remove"
@@ -106,7 +107,7 @@ function DisplayCart() {
 								quantity={item.quantity}
 							/>
 						))}
-					</Row>
+					</ProductCardRow>
 					<div className="vstack gap-1">
 						<div>
 							<Button
@@ -129,7 +130,7 @@ function DisplayCart() {
 					</div>
 				</div>
 			)}
-		</div>
+		</>
 	);
 }
 
