@@ -54,6 +54,10 @@ test("Has Router with Route tags", () => {
 	const cart = screen.getByText(/cart/i);
 	userEvent.click(cart);
 	expect(document.location.toString()).toContain("/cart");
+
+	const profile = screen.getByRole("link", { name: /profile/i });
+	userEvent.click(profile);
+	expect(document.location.toString()).toContain("/profile");
 });
 
 test("fetches user using auth0 sub id", async () => {

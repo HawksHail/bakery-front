@@ -15,6 +15,7 @@ import Footer from "./Footer";
 import AppContext from "../contexts";
 import { getCustomerIdFromSub, createCustomer } from "../api/customerAPI";
 import ProductPage from "./ProductPage";
+import Profile from "./Profile";
 
 function App() {
 	const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -73,6 +74,9 @@ function App() {
 					</Route>
 					<PrivateRoute path="/cart">
 						<DisplayCart />
+					</PrivateRoute>
+					<PrivateRoute path="/profile">
+						<Profile />
 					</PrivateRoute>
 				</Switch>
 			</Container>

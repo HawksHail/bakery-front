@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Container, Navbar, Nav } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -12,9 +12,11 @@ import {
 
 import logo from "../logo.svg";
 import AuthenticationButton from "./AuthenticationButton";
+import AppContext from "../contexts";
 
 function DisplayNavbar() {
 	const { user, isAuthenticated } = useAuth0();
+	const { customer } = useContext(AppContext);
 
 	return (
 		<Navbar
@@ -33,41 +35,58 @@ function DisplayNavbar() {
 					/>
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
-				<Navbar.Collapse
-					id="basic-navbar-nav"
-					className="justify-content-between"
-				>
-					<Nav className="me-auto mb-2 mb-lg-0">
-						<Nav.Link as={Link} eventKey="1" to="/">
-							<FontAwesomeIcon icon={faHome} />
-							&nbsp;Home
-						</Nav.Link>
-						<Nav.Link as={Link} eventKey="2" to="/category">
-							<FontAwesomeIcon icon={faBookOpen} />
-							&nbsp;Category
-						</Nav.Link>
-						<Nav.Link as={Link} eventKey="3" to="/product">
-							<FontAwesomeIcon icon={faCookie} />
-							&nbsp;Products
-						</Nav.Link>
-						<Nav.Link as={Link} eventKey="4" to="/cart">
-							<FontAwesomeIcon icon={faShoppingCart} />
-							&nbsp;Cart
-						</Nav.Link>
-					</Nav>
-					<Nav>
-						<div className="hstack gap-2">
+				<Navbar.Collapse id="basic-navbar-nav">
+					<Nav className="flex-fill mb-2 mb-lg-0 align-items-center">
+						<Nav.Item>
+							<Nav.Link as={Link} eventKey="1" to="/">
+								<FontAwesomeIcon icon={faHome} />
+								&nbsp;Home
+							</Nav.Link>
+						</Nav.Item>
+						<Nav.Item>
+							<Nav.Link as={Link} eventKey="2" to="/category">
+								<FontAwesomeIcon icon={faBookOpen} />
+								&nbsp;Category
+							</Nav.Link>
+						</Nav.Item>
+						<Nav.Item>
+							<Nav.Link as={Link} eventKey="3" to="/product">
+								<FontAwesomeIcon icon={faCookie} />
+								&nbsp;Products
+							</Nav.Link>
+						</Nav.Item>
+						<Nav.Item className="me-0 me-md-auto">
+							<Nav.Link as={Link} eventKey="4" to="/cart">
+								<FontAwesomeIcon icon={faShoppingCart} />
+								&nbsp;Cart
+							</Nav.Link>
+						</Nav.Item>
+						{isAuthenticated && (
+							<Nav.Item>
+								<Nav.Link
+									as={Link}
+									eventKey="5"
+									to="/profile"
+									aria-label="Profile"
+								>
+									{customer ? (
+										<span className="me-2">
+											{customer.contactName}
+										</span>
+									) : null}
+									<img
+										src={user.picture}
+										alt={user.name}
+										className="rounded-circle"
+										height="40px"
+										width="40px"
+									/>
+								</Nav.Link>
+							</Nav.Item>
+						)}
+						<Nav.Item>
 							<AuthenticationButton />
-							{isAuthenticated && (
-								<img
-									src={user.picture}
-									alt={user.name}
-									className="rounded-circle"
-									height="40px"
-									width="40px"
-								/>
-							)}
-						</div>
+						</Nav.Item>
 					</Nav>
 				</Navbar.Collapse>
 			</Container>
