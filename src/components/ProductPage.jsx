@@ -96,7 +96,7 @@ function ProductPage() {
 				</Breadcrumb>
 			</Row>
 			<Row xs={1} sm={2}>
-				<Col lg={4}>
+				<Col md={5} lg={4}>
 					<a
 						href={product.imgCredit ? product.imgCredit : null}
 						target="_blank"
@@ -115,7 +115,7 @@ function ProductPage() {
 						/>
 					</a>
 				</Col>
-				<Col md={7}>
+				<Col md={7} lg={8}>
 					<Row>
 						<h1>{product.productName}</h1>
 					</Row>
