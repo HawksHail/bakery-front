@@ -84,7 +84,7 @@ function DisplayCart() {
 		<>
 			<h1>Cart</h1>
 			<Alert
-				className="fixed-bottom m-3 w-25"
+				className="fixed-bottom"
 				show={showAlert}
 				variant="danger"
 				transition
