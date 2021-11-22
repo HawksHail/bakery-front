@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 import { Row, Col, Nav } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,21 +11,13 @@ import {
 import logo from "../logo.svg";
 
 function Footer() {
-	const history = useHistory();
-
 	return (
 		<footer className="mt-auto py-3 px-3 px-sm-5 border-top">
 			<Row className="d-flex align-items-center text-center row-cols-3">
 				<Col xs={7} sm={6} md={5} className="d-flex align-items-center">
-					<a
-						onClick={() => {
-							history.push("/");
-						}}
-						style={{ cursor: "pointer" }}
-						className="me-2"
-					>
+					<Link to="/" className="me-2" aria-label="Home">
 						<img src={logo} className="bi" width="30" height="30" />
-					</a>
+					</Link>
 					<span className="text-muted">
 						© 2021 Blissful Bakery, Inc
 					</span>
@@ -40,6 +32,7 @@ function Footer() {
 					>
 						<li className="ms-0 ms-sm-3" data-testid="social">
 							<a
+								aria-label="Twitter"
 								className="text-muted"
 								href="https://www.twitter.com"
 							>
@@ -48,6 +41,7 @@ function Footer() {
 						</li>
 						<li className="ms-0 ms-sm-3" data-testid="social">
 							<a
+								aria-label="Instagram"
 								className="text-muted"
 								href="https://www.instagram.com"
 							>
@@ -56,6 +50,7 @@ function Footer() {
 						</li>
 						<li className="ms-0 ms-sm-3" data-testid="social">
 							<a
+								aria-label="Facebook"
 								className="text-muted"
 								href="https://www.facebook.com"
 							>

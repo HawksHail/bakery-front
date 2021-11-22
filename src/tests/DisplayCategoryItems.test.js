@@ -149,7 +149,10 @@ test("API is called and all products in category are rendered", async () => {
 		screen.getByRole("heading", { name: fakeCategory.categoryName })
 	).toBeInTheDocument();
 
-	expect(screen.getByRole("link", { name: "Category" })).toBeInTheDocument();
+	expect(screen.getByRole("link", { name: "Category" })).toHaveAttribute(
+		"href",
+		"/category"
+	);
 
 	const cards = screen.getAllByText(/product[0-9]/);
 	expect(cards).toHaveLength(3);

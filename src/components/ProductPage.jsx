@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
-import PropTypes from "prop-types";
 import { useParams, withRouter } from "react-router";
+import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
 	Breadcrumb,
@@ -14,7 +14,6 @@ import {
 } from "react-bootstrap";
 
 import AppContext from "../contexts";
-import Product from "../models/product";
 import Loading from "./Loading";
 import { getProduct } from "../api/productAPI";
 import { addToCart } from "../api/cartAPI";
@@ -84,8 +83,16 @@ function ProductPage() {
 			</Alert>
 			<Row>
 				<Breadcrumb>
-					<Breadcrumb.Item href="/category">Category</Breadcrumb.Item>
-					<Breadcrumb.Item href={`/category/${product.category.id}`}>
+					<Breadcrumb.Item
+						linkAs={Link}
+						linkProps={{ to: "/category" }}
+					>
+						Category
+					</Breadcrumb.Item>
+					<Breadcrumb.Item
+						linkAs={Link}
+						linkProps={{ to: `/category/${product.category.id}` }}
+					>
 						{product.category.categoryName}
 					</Breadcrumb.Item>
 					<Breadcrumb.Item active>
@@ -172,9 +179,5 @@ function ProductPage() {
 		</>
 	);
 }
-
-ProductPage.propTypes = {
-	product: PropTypes.shape(Product),
-};
 
 export default withRouter(ProductPage);

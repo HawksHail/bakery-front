@@ -1,6 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { BrowserRouter as Router } from "react-router-dom";
 
 import ProductCard from "../components/ProductCard";
 import Supplier from "../models/supplier";
@@ -12,7 +13,11 @@ let category = new Category(3, "test category", "description", []);
 let product = new Product(1, "test product", supplier, category, 5);
 
 test("Card containing all info about product", () => {
-	render(<ProductCard product={product} />);
+	render(
+		<Router>
+			<ProductCard product={product} />
+		</Router>
+	);
 
 	expect(screen.getByText(/.*test product.*/i)).toBeInTheDocument();
 
@@ -23,14 +28,28 @@ test("Card containing all info about product", () => {
 	expect(screen.getByText(/.*\$.*5.*/)).toBeInTheDocument();
 });
 
+test("Card has link to product", () => {
+	render(
+		<Router>
+			<ProductCard product={product} />
+		</Router>
+	);
+
+	expect(
+		screen.getByRole("link", { name: /.*test product.*/i })
+	).toHaveAttribute("href", "/product/1");
+});
+
 test("Button displayed and triggers action", () => {
 	const funcMock = jest.fn();
 	render(
-		<ProductCard
-			product={product}
-			buttonText="Add to Cart"
-			buttonClick={funcMock}
-		/>
+		<Router>
+			<ProductCard
+				product={product}
+				buttonText="Add to Cart"
+				buttonClick={funcMock}
+			/>
+		</Router>
 	);
 
 	const button = screen.getByRole("button", { name: /add to cart/i });
@@ -43,12 +62,14 @@ test("Button displayed and triggers action", () => {
 
 test("quantity is displayed on button when provided", () => {
 	render(
-		<ProductCard
-			product={product}
-			buttonText="Remove"
-			buttonClick={() => {}}
-			quantity={99}
-		/>
+		<Router>
+			<ProductCard
+				product={product}
+				buttonText="Remove"
+				buttonClick={() => {}}
+				quantity={99}
+			/>
+		</Router>
 	);
 
 	const button = screen.getByRole("button");
