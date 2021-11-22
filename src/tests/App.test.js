@@ -49,7 +49,7 @@ test("Has Router with Route tags", () => {
 
 	const products = screen.getByText(/products/i);
 	userEvent.click(products);
-	expect(document.location.toString()).toContain("/products");
+	expect(document.location.toString()).toContain("/product");
 
 	const cart = screen.getByText(/cart/i);
 	userEvent.click(cart);

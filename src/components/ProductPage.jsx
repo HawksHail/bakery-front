@@ -85,9 +85,7 @@ function ProductPage() {
 			<Row>
 				<Breadcrumb>
 					<Breadcrumb.Item href="/category">Category</Breadcrumb.Item>
-					<Breadcrumb.Item
-						href={`/category-items/${product.category.id}`}
-					>
+					<Breadcrumb.Item href={`/category/${product.category.id}`}>
 						{product.category.categoryName}
 					</Breadcrumb.Item>
 					<Breadcrumb.Item active>

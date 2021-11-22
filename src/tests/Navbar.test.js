@@ -65,7 +65,7 @@ describe("Logged in tests", () => {
 
 		const homeLink = screen.getByText(/Products/);
 		expect(homeLink).toBeInTheDocument();
-		expect(homeLink.getAttribute("href")).toBe("/products");
+		expect(homeLink.getAttribute("href")).toBe("/product");
 	});
 
 	test("Navbar renders Cart link with correct href value", () => {

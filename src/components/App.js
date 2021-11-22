@@ -59,13 +59,13 @@ function App() {
 					<Route path="/login">
 						<Login />
 					</Route>
-					<Route path="/category">
+					<Route exact path="/category">
 						<DisplayAllCategories />
 					</Route>
-					<Route path="/category-items/:id">
+					<Route path="/category/:id">
 						<DisplayCategoryItems />
 					</Route>
-					<Route path="/products">
+					<Route exact path="/product">
 						<DisplayAllProducts />
 					</Route>
 					<Route path="/product/:id">

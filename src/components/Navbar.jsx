@@ -46,7 +46,7 @@ function DisplayNavbar() {
 							<FontAwesomeIcon icon={faBookOpen} />
 							&nbsp;Category
 						</Nav.Link>
-						<Nav.Link as={Link} eventKey="3" to="/products">
+						<Nav.Link as={Link} eventKey="3" to="/product">
 							<FontAwesomeIcon icon={faCookie} />
 							&nbsp;Products
 						</Nav.Link>
