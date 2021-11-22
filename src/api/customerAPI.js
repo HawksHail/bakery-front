@@ -26,3 +26,14 @@ export const createCustomer = async (sub, accessToken) => {
 	});
 	return await res.json();
 };
+
+export const updateCustomer = async (customer, accessToken) => {
+	await fetch(`${url}/customer`, {
+		method: "PUT",
+		headers: {
+			Authorization: `Bearer ${accessToken}`,
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ customer: customer }),
+	});
+};

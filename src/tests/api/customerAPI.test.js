@@ -1,4 +1,8 @@
-import { getCustomerIdFromSub, createCustomer } from "../../api/customerAPI";
+import {
+	getCustomerIdFromSub,
+	createCustomer,
+	updateCustomer,
+} from "../../api/customerAPI";
 import { url } from "../../api/url";
 
 let fetchSpy;
@@ -33,5 +37,28 @@ test("createCustomer fetches properly", () => {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({ sub: 1234 }),
+	});
+});
+
+test("updateCustomer fetches properly", () => {
+	const fakeCustomer = {
+		customerId: 1,
+		sub: "auth0|id",
+		companyName: "test Company",
+		contactName: "test name",
+		street: "test street",
+		city: "test city",
+		state: "test state",
+	};
+
+	updateCustomer(fakeCustomer, "token");
+
+	expect(fetchSpy).toBeCalledWith(`${url}/customer`, {
+		method: "PUT",
+		headers: {
+			Authorization: `Bearer token`,
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ customer: fakeCustomer }),
 	});
 });
