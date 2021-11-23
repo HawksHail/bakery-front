@@ -1,4 +1,9 @@
-import { getCart, addToCart, removeFromCart } from "../../api/cartAPI";
+import {
+	getCart,
+	addToCart,
+	removeFromCart,
+	checkoutCart,
+} from "../../api/cartAPI";
 import { url } from "../../api/url";
 
 let fetchSpy;
@@ -45,6 +50,17 @@ test("removeFromCart fetches properly", () => {
 
 	expect(fetchSpy).toBeCalledWith(`${url}/cart/1234/567`, {
 		method: "DELETE",
+		headers: {
+			Authorization: `Bearer token`,
+		},
+	});
+});
+
+test("checkoutCart fetches properly", () => {
+	checkoutCart(1234, "token");
+
+	expect(fetchSpy).toBeCalledWith(`${url}/cart/1234`, {
+		method: "POST",
 		headers: {
 			Authorization: `Bearer token`,
 		},

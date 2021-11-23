@@ -37,3 +37,12 @@ export const clearCart = async (custId, accessToken) => {
 		},
 	});
 };
+
+export const checkoutCart = async (custId, accessToken) => {
+	await fetch(`${url}/cart/${custId}`, {
+		method: "POST",
+		headers: {
+			Authorization: `Bearer ${accessToken}`,
+		},
+	});
+};
