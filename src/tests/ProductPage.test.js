@@ -129,10 +129,13 @@ test("API is called and product is rendered", async () => {
 
 	await waitForElementToBeRemoved(screen.getByText(/Loading$/i));
 
-	expect(screen.getByRole("link", { name: "Category" })).toBeInTheDocument();
+	expect(screen.getByRole("link", { name: "Category" })).toHaveAttribute(
+		"href",
+		"/category"
+	);
 	expect(
 		screen.getByRole("link", { name: fakeProduct.category.categoryName })
-	).toBeInTheDocument();
+	).toHaveAttribute("href", "/category/11");
 
 	expect(
 		screen.getByRole("img", { name: /product[0-9]+/ })

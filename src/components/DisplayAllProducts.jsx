@@ -51,7 +51,7 @@ function DisplayAllProducts({ history }) {
 			<h1>All Products</h1>
 			<ProductCardRow>
 				<Alert
-					className="fixed-bottom m-3 w-25"
+					className="fixed-bottom"
 					show={showAlert}
 					variant="info"
 					transition

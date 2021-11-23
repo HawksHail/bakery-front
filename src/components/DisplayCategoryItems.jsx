@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useParams, withRouter } from "react-router";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Alert, Breadcrumb } from "react-bootstrap";
 
@@ -60,14 +61,16 @@ function DisplayCategoryItems({ history }) {
 		<>
 			<h1>{category.categoryName}</h1>
 			<Breadcrumb>
-				<Breadcrumb.Item href="/category">Category</Breadcrumb.Item>
+				<Breadcrumb.Item linkAs={Link} linkProps={{ to: "/category" }}>
+					Category
+				</Breadcrumb.Item>
 				<Breadcrumb.Item active>
 					{category.categoryName}
 				</Breadcrumb.Item>
 			</Breadcrumb>
 			<ProductCardRow>
 				<Alert
-					className="fixed-bottom m-3 w-25"
+					className="fixed-bottom"
 					show={showAlert}
 					variant="info"
 					transition

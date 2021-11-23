@@ -13,9 +13,7 @@ function DisplayCategory(props) {
 					data-testid="link"
 					style={{ cursor: "pointer" }}
 					onClick={() =>
-						props.history.push(
-							`/category-items/${props.category.id}`
-						)
+						props.history.push(`/category/${props.category.id}`)
 					}
 				>
 					{props.category.categoryName}

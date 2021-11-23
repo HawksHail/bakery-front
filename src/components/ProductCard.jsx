@@ -1,12 +1,11 @@
 import React from "react";
 import { Col, Button, Card, Badge, Image } from "react-bootstrap";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 
 import Product from "../models/product";
 
 function ProductCard(props) {
-	const history = useHistory();
 	const buttonClick = () => {
 		props.buttonClick(props.product.id);
 	};
@@ -37,15 +36,9 @@ function ProductCard(props) {
 						/>
 					</a>
 					<Card.Title>
-						<a
-							className="link-primary"
-							style={{ cursor: "pointer" }}
-							onClick={() =>
-								history.push(`/product/${props.product.id}`)
-							}
-						>
+						<Link to={`/product/${props.product.id}`}>
 							{props.product.productName}
-						</a>
+						</Link>
 					</Card.Title>
 					<Card.Subtitle>
 						{props.categoryName ||

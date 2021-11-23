@@ -1,4 +1,9 @@
-import { getCustomerIdFromSub, createCustomer } from "../../api/customerAPI";
+import {
+	getCustomerIdFromSub,
+	createCustomer,
+	updateCustomer,
+	getCustomer,
+} from "../../api/customerAPI";
 import { url } from "../../api/url";
 
 let fetchSpy;
@@ -23,6 +28,18 @@ test("getCustomerIdFromSub fetches properly", () => {
 	});
 });
 
+test("getCustomer fetches properly", () => {
+	getCustomer(1234, "token");
+
+	expect(fetchSpy).toBeCalledWith(`${url}/customer/1234`, {
+		method: "GET",
+		headers: {
+			Authorization: `Bearer token`,
+			"Content-Type": "text/plain",
+		},
+	});
+});
+
 test("createCustomer fetches properly", () => {
 	createCustomer(1234, "token");
 
@@ -33,5 +50,28 @@ test("createCustomer fetches properly", () => {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({ sub: 1234 }),
+	});
+});
+
+test("updateCustomer fetches properly", () => {
+	const fakeCustomer = {
+		customerId: 1,
+		sub: "auth0|id",
+		companyName: "test Company",
+		contactName: "test name",
+		street: "test street",
+		city: "test city",
+		state: "test state",
+	};
+
+	updateCustomer(fakeCustomer, "token");
+
+	expect(fetchSpy).toBeCalledWith(`${url}/customer`, {
+		method: "PUT",
+		headers: {
+			Authorization: `Bearer token`,
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(fakeCustomer),
 	});
 });

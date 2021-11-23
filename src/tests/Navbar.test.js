@@ -65,7 +65,7 @@ describe("Logged in tests", () => {
 
 		const homeLink = screen.getByText(/Products/);
 		expect(homeLink).toBeInTheDocument();
-		expect(homeLink.getAttribute("href")).toBe("/products");
+		expect(homeLink.getAttribute("href")).toBe("/product");
 	});
 
 	test("Navbar renders Cart link with correct href value", () => {
@@ -80,6 +80,50 @@ describe("Logged in tests", () => {
 		const homeLink = screen.getByText(/Cart/);
 		expect(homeLink).toBeInTheDocument();
 		expect(homeLink.getAttribute("href")).toBe("/cart");
+	});
+
+	test("Navbar renders profile link with contact name and correct href value", () => {
+		render(
+			<AppContext.Provider
+				value={{
+					setCustomer: jest.fn(),
+					customer: { contactName: "name" },
+				}}
+			>
+				<Router>
+					<Navbar />
+				</Router>
+			</AppContext.Provider>
+		);
+
+		expect(screen.getByRole("link", { name: "Profile" })).toHaveAttribute(
+			"href",
+			"/profile"
+		);
+
+		expect(screen.getByText("name")).toBeInTheDocument();
+	});
+
+	test("Navbar renders profile link with Profile and correct href value", () => {
+		render(
+			<AppContext.Provider
+				value={{
+					setCustomer: jest.fn(),
+					customer: { contactName: null },
+				}}
+			>
+				<Router>
+					<Navbar />
+				</Router>
+			</AppContext.Provider>
+		);
+
+		expect(screen.getByRole("link", { name: "Profile" })).toHaveAttribute(
+			"href",
+			"/profile"
+		);
+
+		expect(screen.getByText("Profile")).toBeInTheDocument();
 	});
 
 	test("Log out button appears", () => {
