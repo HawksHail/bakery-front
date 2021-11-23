@@ -2,7 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { Alert, Button } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { getCart, removeFromCart, clearCart } from "../api/cartAPI";
+import {
+	getCart,
+	removeFromCart,
+	clearCart,
+	checkoutCart,
+} from "../api/cartAPI";
 import AppContext from "../contexts";
 import ProductCard from "./ProductCard";
 import ProductCardRow from "./ProductCardRow";
@@ -24,7 +29,7 @@ function DisplayCart() {
 					.then(setCart)
 					.catch(console.log);
 			} catch (error) {
-				console.log(error);
+				console.log("Error updating customer", error);
 			}
 		}
 	}, [customer?.customerId, getAccessTokenSilently]);
@@ -51,7 +56,7 @@ function DisplayCart() {
 			);
 			setShowAlert(true);
 		} catch (error) {
-			console.log(error);
+			console.log("Error removing item", error);
 		}
 	};
 
@@ -65,12 +70,23 @@ function DisplayCart() {
 			setCart([]);
 			setShowAlert(true);
 		} catch (error) {
-			console.log(error);
+			console.log("Error clearing cart", error);
 		}
 	};
 
-	const handleCheckoutButton = () => {
+	const handleCheckoutButton = async () => {
 		alert("handleCheckoutButton ");
+		try {
+			const accessToken = await getAccessTokenSilently({
+				audience: "https://zion.ee-cognizantacademy.com",
+			});
+			await checkoutCart(customer.customerId, accessToken);
+			// window.scrollTo(0, 0);
+			// setCart([]);
+			// setShowAlert(true);
+		} catch (error) {
+			console.log("Error checking out", error);
+		}
 	};
 
 	if (!cart) {

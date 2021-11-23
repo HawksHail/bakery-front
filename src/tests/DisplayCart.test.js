@@ -234,16 +234,16 @@ test("Checkout button appears and fetches API", async () => {
 	});
 	expect(checkoutButton).toBeInTheDocument();
 
-	// userEvent.click(checkoutButton);
+	userEvent.click(checkoutButton);
 
-	// waitFor(() => {
-	// 	expect(fetchSpy).toBeCalledWith(`${url}/cart/99`, {
-	// 		method: "DELETE",
-	// 		headers: {
-	// 			Authorization: `Bearer token`,
-	// 		},
-	// 	});
-	// });
+	waitFor(() => {
+		expect(fetchSpy).toBeCalledWith(`${url}/cart/99`, {
+			method: "POST",
+			headers: {
+				Authorization: `Bearer token`,
+			},
+		});
+	});
 });
 
 test("Total cost is calculated and appears", async () => {
