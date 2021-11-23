@@ -1,5 +1,16 @@
 import { url } from "./url";
 
+export const getCustomer = async (id, accessToken) => {
+	const res = await fetch(`${url}/customer/${id}`, {
+		method: "GET",
+		headers: {
+			Authorization: `Bearer ${accessToken}`,
+			"Content-Type": "text/plain",
+		},
+	});
+	return await res.json();
+};
+
 export const getCustomerIdFromSub = async (sub, accessToken) => {
 	const res = await fetch(`${url}/customer/sub`, {
 		method: "POST",
@@ -34,6 +45,6 @@ export const updateCustomer = async (customer, accessToken) => {
 			Authorization: `Bearer ${accessToken}`,
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify({ customer: customer }),
+		body: JSON.stringify(customer),
 	});
 };

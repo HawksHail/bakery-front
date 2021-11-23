@@ -2,6 +2,7 @@ import {
 	getCustomerIdFromSub,
 	createCustomer,
 	updateCustomer,
+	getCustomer,
 } from "../../api/customerAPI";
 import { url } from "../../api/url";
 
@@ -24,6 +25,18 @@ test("getCustomerIdFromSub fetches properly", () => {
 			"Content-Type": "text/plain",
 		},
 		body: 1234,
+	});
+});
+
+test("getCustomer fetches properly", () => {
+	getCustomer(1234, "token");
+
+	expect(fetchSpy).toBeCalledWith(`${url}/customer/1234`, {
+		method: "GET",
+		headers: {
+			Authorization: `Bearer token`,
+			"Content-Type": "text/plain",
+		},
 	});
 });
 
@@ -59,6 +72,6 @@ test("updateCustomer fetches properly", () => {
 			Authorization: `Bearer token`,
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify({ customer: fakeCustomer }),
+		body: JSON.stringify(fakeCustomer),
 	});
 });
