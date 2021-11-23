@@ -174,12 +174,20 @@ test("save button PUTs", async () => {
 		.options("/customer")
 		.optionally()
 		.reply(200)
+		.options(`/customer/${fakeCustomer.customerId}`)
+		.optionally()
+		.reply(200)
+		.get(`/customer/${fakeCustomer.customerId}`)
+		.optionally()
+		.reply(200, fakeCustomer)
 		.put("/customer")
 		.once()
 		.reply(204);
 
+	const setCustomer = jest.fn();
+
 	render(
-		<AppContext.Provider value={{ customer: fakeCustomer }}>
+		<AppContext.Provider value={{ customer: fakeCustomer, setCustomer }}>
 			<Profile />
 		</AppContext.Provider>
 	);
@@ -192,5 +200,9 @@ test("save button PUTs", async () => {
 
 	await waitFor(() => {
 		expect(scope.isDone()).toBeTruthy();
+	});
+
+	await waitFor(() => {
+		expect(setCustomer).toBeCalledTimes(2);
 	});
 });

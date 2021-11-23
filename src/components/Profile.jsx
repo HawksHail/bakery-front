@@ -2,12 +2,12 @@ import React, { useContext, useState, useEffect } from "react";
 import { Form, Button, FloatingLabel } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { updateCustomer } from "../api/customerAPI";
+import { updateCustomer, getCustomer } from "../api/customerAPI";
 import AppContext from "../contexts";
 import Loading from "./Loading";
 
 function Profile() {
-	const { customer } = useContext(AppContext);
+	const { customer, setCustomer } = useContext(AppContext);
 	const { getAccessTokenSilently } = useAuth0();
 
 	const [name, setName] = useState("");
@@ -15,6 +15,22 @@ function Profile() {
 	const [street, setStreet] = useState("");
 	const [city, setCity] = useState("");
 	const [state, setState] = useState("");
+
+	useEffect(async () => {
+		try {
+			const accessToken = await getAccessTokenSilently({
+				audience: "https://zion.ee-cognizantacademy.com",
+			});
+
+			let newCustomer = await getCustomer(
+				customer.customerId,
+				accessToken
+			);
+			setCustomer(newCustomer);
+		} catch (error) {
+			console.log("Error getting customer", error);
+		}
+	}, []);
 
 	useEffect(() => {
 		if (customer) {
@@ -31,18 +47,18 @@ function Profile() {
 		const newCustomer = {
 			customerId: customer.customerId,
 			sub: customer.sub,
-			contactName: name,
-			companyName: company,
-			street,
-			city,
-			state,
+			contactName: name ? name : null,
+			companyName: company ? company : null,
+			street: street ? street : null,
+			city: city ? city : null,
+			state: state ? state : null,
 		};
-		console.log(`newCustomer`, newCustomer);
 		try {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			updateCustomer(newCustomer, accessToken);
+			await updateCustomer(newCustomer, accessToken);
+			setCustomer(newCustomer);
 		} catch (error) {
 			console.log("save customer", error);
 		}
@@ -120,11 +136,17 @@ function Profile() {
 				<Button
 					type="submit"
 					disabled={
-						(name === customer.contactName || name === "") &&
-						company === customer.companyName &&
-						(street === customer.street || street === "") &&
-						(city === customer.city || city === "") &&
-						(state === customer.state || state === "")
+						(name === customer.contactName ||
+							(name === "" && customer.contactName === null)) &&
+						(company === customer.companyName ||
+							(company === "" &&
+								customer.companyName === null)) &&
+						(street === customer.street ||
+							(street === "" && customer.street === null)) &&
+						(city === customer.city ||
+							(city === "" && customer.city === null)) &&
+						(state === customer.state ||
+							(state === "" && customer.state === null))
 					}
 				>
 					Save
