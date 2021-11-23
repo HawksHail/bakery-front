@@ -125,7 +125,7 @@ test("contents of cart are loaded from API and displayed", () => {
 	expect(cards.length).toBe(2);
 });
 
-test("Button POSTS to API and alert appears", async () => {
+test("Remove Button POSTS to API and alert appears", async () => {
 	render(
 		<AppContext.Provider
 			value={{
@@ -212,6 +212,38 @@ test("Clear cart button appears and fetches API", async () => {
 	//need to mock fetch properly for this to work
 	// await waitForElementToBeRemoved(cards[0]);
 	// expect(cards[0]).not.toBeInTheDocument();
+});
+
+test("Checkout button appears and fetches API", async () => {
+	render(
+		<AppContext.Provider
+			value={{
+				cart: fakeCart,
+				setCart: jest.fn(),
+				customer: { customerId: 99 },
+			}}
+		>
+			<Router>
+				<DisplayCart />
+			</Router>
+		</AppContext.Provider>
+	);
+
+	const checkoutButton = screen.getByRole("button", {
+		name: /Checkout/i,
+	});
+	expect(checkoutButton).toBeInTheDocument();
+
+	// userEvent.click(checkoutButton);
+
+	// waitFor(() => {
+	// 	expect(fetchSpy).toBeCalledWith(`${url}/cart/99`, {
+	// 		method: "DELETE",
+	// 		headers: {
+	// 			Authorization: `Bearer token`,
+	// 		},
+	// 	});
+	// });
 });
 
 test("Total cost is calculated and appears", async () => {

@@ -41,7 +41,7 @@ function DisplayCart() {
 		return () => clearInterval(interval);
 	}, [showAlert]);
 
-	const removeFromCartButton = async prodId => {
+	const handleRemoveButton = async prodId => {
 		try {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
@@ -55,7 +55,7 @@ function DisplayCart() {
 		}
 	};
 
-	const clearCartButton = async () => {
+	const handleClearButton = async () => {
 		try {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
@@ -67,6 +67,10 @@ function DisplayCart() {
 		} catch (error) {
 			console.log(error);
 		}
+	};
+
+	const handleCheckoutButton = () => {
+		alert("handleCheckoutButton ");
 	};
 
 	if (!cart) {
@@ -103,19 +107,24 @@ function DisplayCart() {
 								product={item.product}
 								key={item.product.id}
 								buttonText="Remove"
-								buttonClick={removeFromCartButton}
+								buttonClick={handleRemoveButton}
 								quantity={item.quantity}
 							/>
 						))}
 					</ProductCardRow>
-					<div className="vstack gap-1">
-						<div>
+					<div className="vstack gap-3 mt-3">
+						<div className="hstack gap-3">
 							<Button
 								variant="danger"
-								className="mt-3"
-								onClick={clearCartButton}
+								onClick={handleClearButton}
 							>
 								Clear cart
+							</Button>
+							<Button
+								variant="primary"
+								onClick={handleCheckoutButton}
+							>
+								Checkout
 							</Button>
 						</div>
 						<div>
