@@ -71,7 +71,9 @@ function DisplayNavbar() {
 								>
 									{customer ? (
 										<span className="me-2">
-											{customer.contactName}
+											{customer.contactName
+												? customer.contactName
+												: "Profile"}
 										</span>
 									) : null}
 									<img

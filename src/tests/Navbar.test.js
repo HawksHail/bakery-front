@@ -82,7 +82,7 @@ describe("Logged in tests", () => {
 		expect(homeLink.getAttribute("href")).toBe("/cart");
 	});
 
-	test("Navbar renders profile link with correct href value", () => {
+	test("Navbar renders profile link with contact name and correct href value", () => {
 		render(
 			<AppContext.Provider
 				value={{
@@ -100,6 +100,30 @@ describe("Logged in tests", () => {
 			"href",
 			"/profile"
 		);
+
+		expect(screen.getByText("name")).toBeInTheDocument();
+	});
+
+	test("Navbar renders profile link with Profile and correct href value", () => {
+		render(
+			<AppContext.Provider
+				value={{
+					setCustomer: jest.fn(),
+					customer: { contactName: null },
+				}}
+			>
+				<Router>
+					<Navbar />
+				</Router>
+			</AppContext.Provider>
+		);
+
+		expect(screen.getByRole("link", { name: "Profile" })).toHaveAttribute(
+			"href",
+			"/profile"
+		);
+
+		expect(screen.getByText("Profile")).toBeInTheDocument();
 	});
 
 	test("Log out button appears", () => {
