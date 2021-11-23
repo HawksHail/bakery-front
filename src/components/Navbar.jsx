@@ -8,6 +8,7 @@ import {
 	faShoppingCart,
 	faCookie,
 	faBookOpen,
+	faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
 import logo from "../logo.svg";
@@ -39,26 +40,38 @@ function DisplayNavbar() {
 					<Nav className="flex-fill mb-2 mb-lg-0 align-items-center">
 						<Nav.Item>
 							<Nav.Link as={Link} eventKey="1" to="/">
-								<FontAwesomeIcon icon={faHome} />
-								&nbsp;Home
+								<FontAwesomeIcon
+									icon={faHome}
+									className="me-1"
+								/>
+								Home
 							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
 							<Nav.Link as={Link} eventKey="2" to="/category">
-								<FontAwesomeIcon icon={faBookOpen} />
-								&nbsp;Category
+								<FontAwesomeIcon
+									icon={faBookOpen}
+									className="me-1"
+								/>
+								Category
 							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
 							<Nav.Link as={Link} eventKey="3" to="/product">
-								<FontAwesomeIcon icon={faCookie} />
-								&nbsp;Products
+								<FontAwesomeIcon
+									icon={faCookie}
+									className="me-1"
+								/>
+								Products
 							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item className="me-0 me-md-auto">
 							<Nav.Link as={Link} eventKey="4" to="/cart">
-								<FontAwesomeIcon icon={faShoppingCart} />
-								&nbsp;Cart
+								<FontAwesomeIcon
+									icon={faShoppingCart}
+									className="me-1"
+								/>
+								Cart
 							</Nav.Link>
 						</Nav.Item>
 						{isAuthenticated && (
@@ -71,6 +84,10 @@ function DisplayNavbar() {
 								>
 									{customer ? (
 										<span className="me-2">
+											<FontAwesomeIcon
+												icon={faUser}
+												className="me-1"
+											/>
 											{customer.contactName
 												? customer.contactName
 												: "Profile"}
