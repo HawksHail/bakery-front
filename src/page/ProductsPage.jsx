@@ -7,11 +7,11 @@ import { Alert } from "react-bootstrap";
 import AppContext from "../contexts";
 import { getAllProducts } from "../api/productAPI";
 import { addToCart } from "../api/cartAPI";
-import Loading from "./Loading";
-import ProductCard from "./ProductCard";
-import ProductCardRow from "./ProductCardRow";
+import Loading from "../components/Loading";
+import ProductCard from "../components/ProductCard";
+import ProductCardRow from "../components/ProductCardRow";
 
-function DisplayAllProducts({ history }) {
+function ProductsPage({ history }) {
 	const { products, setProducts, setCart, customer } = useContext(AppContext);
 	const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 	const [showAlert, setShowAlert] = useState(false);
@@ -85,8 +85,8 @@ function DisplayAllProducts({ history }) {
 	);
 }
 
-DisplayAllProducts.propTypes = {
+ProductsPage.propTypes = {
 	history: PropTypes.object,
 };
 
-export default withRouter(DisplayAllProducts);
+export default withRouter(ProductsPage);

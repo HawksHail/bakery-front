@@ -9,11 +9,11 @@ import {
 	checkoutCart,
 } from "../api/cartAPI";
 import AppContext from "../contexts";
-import ProductCard from "./ProductCard";
-import ProductCardRow from "./ProductCardRow";
-import Loading from "./Loading";
+import ProductCard from "../components/ProductCard";
+import ProductCardRow from "../components/ProductCardRow";
+import Loading from "../components/Loading";
 
-function DisplayCart() {
+function CartPage() {
 	const { cart, setCart, customer } = useContext(AppContext);
 	const { getAccessTokenSilently } = useAuth0();
 	const [showAlert, setShowAlert] = useState(false);
@@ -173,4 +173,4 @@ function DisplayCart() {
 	);
 }
 
-export default DisplayCart;
+export default CartPage;

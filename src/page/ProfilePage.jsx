@@ -4,9 +4,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import { updateCustomer, getCustomer } from "../api/customerAPI";
 import AppContext from "../contexts";
-import Loading from "./Loading";
+import Loading from "../components/Loading";
 
-function Profile() {
+function ProfilePage() {
 	const { customer, setCustomer } = useContext(AppContext);
 	const { getAccessTokenSilently } = useAuth0();
 
@@ -158,4 +158,4 @@ function Profile() {
 	);
 }
 
-export default Profile;
+export default ProfilePage;

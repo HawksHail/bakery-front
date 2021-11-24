@@ -3,10 +3,10 @@ import { Table } from "react-bootstrap";
 
 import AppContext from "../contexts";
 import { getAllCategories } from "../api/categoryAPI";
-import DisplayCategory from "./DisplayCategory";
-import Loading from "./Loading";
+import CategoryRow from "../components/CategoryRow";
+import Loading from "../components/Loading";
 
-function DisplayAllCategories() {
+function CategoriesPage() {
 	const { categories, setCategories } = useContext(AppContext);
 
 	useEffect(() => {
@@ -26,7 +26,7 @@ function DisplayAllCategories() {
 				<tbody>
 					{categories.length > 0 ? (
 						categories.map(category => (
-							<DisplayCategory
+							<CategoryRow
 								category={category}
 								key={category.id}
 							/>
@@ -44,4 +44,4 @@ function DisplayAllCategories() {
 	);
 }
 
-export default DisplayAllCategories;
+export default CategoriesPage;
