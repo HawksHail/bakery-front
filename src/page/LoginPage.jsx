@@ -3,9 +3,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { withRouter } from "react-router";
 import PropTypes from "prop-types";
 
-import Loading from "./Loading";
+import Loading from "../components/Loading";
 
-function Login(props) {
+function LoginPage(props) {
 	const { isAuthenticated, isLoading } = useAuth0();
 
 	useEffect(() => {
@@ -21,10 +21,10 @@ function Login(props) {
 	return <h2>{isLoading ? <Loading /> : "You must log in to do that!"}</h2>;
 }
 
-Login.propTypes = {
+LoginPage.propTypes = {
 	props: PropTypes.object,
 	history: PropTypes.object,
 	location: PropTypes.object,
 };
 
-export default withRouter(Login);
+export default withRouter(LoginPage);

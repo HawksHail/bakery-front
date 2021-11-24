@@ -4,7 +4,7 @@ import { withRouter } from "react-router";
 
 import Category from "../models/category";
 
-function DisplayCategory(props) {
+function CategoryRow(props) {
 	return (
 		<tr>
 			<td>
@@ -24,9 +24,9 @@ function DisplayCategory(props) {
 	);
 }
 
-DisplayCategory.propTypes = {
+CategoryRow.propTypes = {
 	history: PropTypes.object,
 	category: PropTypes.shape(Category),
 };
 
-export default withRouter(DisplayCategory);
+export default withRouter(CategoryRow);

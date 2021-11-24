@@ -3,9 +3,9 @@ import { Container, Row, Col } from "react-bootstrap";
 
 import logo from "../logo.svg";
 import { getFeaturedProducts } from "../api/productAPI";
-import DisplayCarousel from "./DisplayCarousel";
+import DisplayCarousel from "../components/DisplayCarousel";
 
-function Home() {
+function HomePage() {
 	const [featured, setFeatured] = useState([]);
 
 	useEffect(() => {
@@ -43,4 +43,4 @@ function Home() {
 	);
 }
 
-export default Home;
+export default HomePage;

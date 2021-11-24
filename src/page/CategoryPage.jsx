@@ -8,11 +8,11 @@ import { Alert, Breadcrumb } from "react-bootstrap";
 import AppContext from "../contexts";
 import { getCategory } from "../api/categoryAPI";
 import { addToCart } from "../api/cartAPI";
-import ProductCard from "./ProductCard";
-import ProductCardRow from "./ProductCardRow";
-import Loading from "./Loading";
+import ProductCard from "../components/ProductCard";
+import ProductCardRow from "../components/ProductCardRow";
+import Loading from "../components/Loading";
 
-function DisplayCategoryItems({ history }) {
+function CategoryPage({ history }) {
 	const { id } = useParams();
 	const [category, setCategory] = useState(null);
 	const { setCart, customer } = useContext(AppContext);
@@ -99,8 +99,8 @@ function DisplayCategoryItems({ history }) {
 	);
 }
 
-DisplayCategoryItems.propTypes = {
+CategoryPage.propTypes = {
 	history: PropTypes.object,
 };
 
-export default withRouter(DisplayCategoryItems);
+export default withRouter(CategoryPage);

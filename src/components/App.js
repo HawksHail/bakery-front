@@ -3,19 +3,19 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import Container from "react-bootstrap/Container";
 
-import Navbar from "./Navbar";
-import Home from "./Home";
-import Login from "./Login";
-import DisplayAllProducts from "./DisplayAllProducts";
-import DisplayCart from "./DisplayCart";
-import DisplayAllCategories from "./DisplayAllCategories";
-import DisplayCategoryItems from "./DisplayCategoryItems";
-import PrivateRoute from "./PrivateRoute";
-import Footer from "./Footer";
 import AppContext from "../contexts";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import LoginPage from "../page/LoginPage";
+import HomePage from "../page/HomePage";
+import CategoriesPage from "../page/CategoriesPage";
+import CategoryPage from "../page/CategoryPage";
+import ProductsPage from "../page/ProductsPage";
+import ProductPage from "../page/ProductPage";
+import CartPage from "../page/CartPage";
+import ProfilePage from "../page/ProfilePage";
+import PrivateRoute from "./PrivateRoute";
 import { getCustomerIdFromSub, createCustomer } from "../api/customerAPI";
-import ProductPage from "./ProductPage";
-import Profile from "./Profile";
 
 function App() {
 	const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -55,28 +55,28 @@ function App() {
 			<Container as="main" fluid className="mb-3">
 				<Switch>
 					<Route exact path="/">
-						<Home />
+						<HomePage />
 					</Route>
 					<Route path="/login">
-						<Login />
+						<LoginPage />
 					</Route>
 					<Route exact path="/category">
-						<DisplayAllCategories />
+						<CategoriesPage />
 					</Route>
 					<Route path="/category/:id">
-						<DisplayCategoryItems />
+						<CategoryPage />
 					</Route>
 					<Route exact path="/product">
-						<DisplayAllProducts />
+						<ProductsPage />
 					</Route>
 					<Route path="/product/:id">
 						<ProductPage />
 					</Route>
 					<PrivateRoute path="/cart">
-						<DisplayCart />
+						<CartPage />
 					</PrivateRoute>
 					<PrivateRoute path="/profile">
-						<Profile />
+						<ProfilePage />
 					</PrivateRoute>
 				</Switch>
 			</Container>

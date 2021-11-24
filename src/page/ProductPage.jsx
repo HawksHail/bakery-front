@@ -14,7 +14,7 @@ import {
 } from "react-bootstrap";
 
 import AppContext from "../contexts";
-import Loading from "./Loading";
+import Loading from "../components/Loading";
 import { getProduct } from "../api/productAPI";
 import { addToCart } from "../api/cartAPI";
 
