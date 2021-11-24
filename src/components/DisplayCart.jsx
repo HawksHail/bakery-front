@@ -17,6 +17,7 @@ function DisplayCart() {
 	const { cart, setCart, customer } = useContext(AppContext);
 	const { getAccessTokenSilently } = useAuth0();
 	const [showAlert, setShowAlert] = useState(false);
+	const [alertMessage, setAlertMessage] = useState("");
 
 	useEffect(async () => {
 		if (customer?.customerId) {
@@ -54,6 +55,7 @@ function DisplayCart() {
 			await removeFromCart(customer.customerId, prodId, accessToken).then(
 				setCart
 			);
+			setAlertMessage("Item removed!");
 			setShowAlert(true);
 		} catch (error) {
 			console.log("Error removing item", error);
@@ -68,6 +70,7 @@ function DisplayCart() {
 			await clearCart(customer.customerId, accessToken);
 			window.scrollTo(0, 0);
 			setCart([]);
+			setAlertMessage("Cart cleared!");
 			setShowAlert(true);
 		} catch (error) {
 			console.log("Error clearing cart", error);
@@ -83,7 +86,8 @@ function DisplayCart() {
 			await checkoutCart(customer.customerId, accessToken);
 			window.scrollTo(0, 0);
 			setCart([]);
-			// setShowAlert(true);
+			setAlertMessage("Checked out successfully!");
+			setShowAlert(true);
 		} catch (error) {
 			console.log("Error checking out", error);
 		}
@@ -93,6 +97,16 @@ function DisplayCart() {
 		return (
 			<>
 				<h1>Cart</h1>
+				<Alert
+					className="fixed-bottom"
+					show={showAlert}
+					variant="danger"
+					transition
+					dismissible
+					onClose={() => setShowAlert(false)}
+				>
+					<Alert.Heading>{alertMessage}</Alert.Heading>
+				</Alert>
 				<h4>
 					<Loading />
 				</h4>
@@ -111,7 +125,7 @@ function DisplayCart() {
 				dismissible
 				onClose={() => setShowAlert(false)}
 			>
-				<Alert.Heading>Item removed!</Alert.Heading>
+				<Alert.Heading>{alertMessage}</Alert.Heading>
 			</Alert>
 			{cart.length < 1 ? (
 				<h4>Your cart is empty</h4>
