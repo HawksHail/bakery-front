@@ -9,6 +9,7 @@ import {
 	faCookie,
 	faBookOpen,
 	faUser,
+	faHistory,
 } from "@fortawesome/free-solid-svg-icons";
 
 import logo from "../logo.svg";
@@ -65,7 +66,7 @@ function DisplayNavbar() {
 								Products
 							</Nav.Link>
 						</Nav.Item>
-						<Nav.Item className="me-0 me-md-auto">
+						<Nav.Item>
 							<Nav.Link as={Link} eventKey="4" to="/cart">
 								<FontAwesomeIcon
 									icon={faShoppingCart}
@@ -74,11 +75,20 @@ function DisplayNavbar() {
 								Cart
 							</Nav.Link>
 						</Nav.Item>
+						<Nav.Item>
+							<Nav.Link as={Link} eventKey="5" to="/orders">
+								<FontAwesomeIcon
+									icon={faHistory}
+									className="me-1"
+								/>
+								Orders
+							</Nav.Link>
+						</Nav.Item>
 						{isAuthenticated && (
-							<Nav.Item>
+							<Nav.Item className="ms-0 ms-md-auto">
 								<Nav.Link
 									as={Link}
-									eventKey="5"
+									eventKey="6"
 									to="/profile"
 									aria-label="Profile"
 								>

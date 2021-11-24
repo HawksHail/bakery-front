@@ -16,6 +16,7 @@ import CartPage from "../page/CartPage";
 import ProfilePage from "../page/ProfilePage";
 import PrivateRoute from "./PrivateRoute";
 import { getCustomerIdFromSub, createCustomer } from "../api/customerAPI";
+import OrdersPage from "../page/OrdersPage";
 
 function App() {
 	const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -74,6 +75,9 @@ function App() {
 					</Route>
 					<PrivateRoute path="/cart">
 						<CartPage />
+					</PrivateRoute>
+					<PrivateRoute path="/orders">
+						<OrdersPage />
 					</PrivateRoute>
 					<PrivateRoute path="/profile">
 						<ProfilePage />
