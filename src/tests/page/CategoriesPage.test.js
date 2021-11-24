@@ -3,10 +3,10 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import nock from "nock";
 
-import AppContext from "../contexts";
-import DisplayAllCategories from "../components/DisplayAllCategories";
-import Category from "../models/category";
-import { url } from "../api/url";
+import AppContext from "../../contexts";
+import CategoriesPage from "../../page/CategoriesPage";
+import Category from "../../models/category";
+import { url } from "../../api/url";
 
 const categories = [
 	new Category(1, "name1", "description1", [1]),
@@ -34,7 +34,7 @@ test("list not loaded yet", () => {
 	render(
 		<AppContext.Provider value={{ categories: [] }}>
 			<Router>
-				<DisplayAllCategories />
+				<CategoriesPage />
 			</Router>
 		</AppContext.Provider>
 	);
@@ -55,7 +55,7 @@ test("API is called and all products are rendered", async () => {
 	render(
 		<AppContext.Provider value={{ categories, setCategories }}>
 			<Router>
-				<DisplayAllCategories />
+				<CategoriesPage />
 			</Router>
 		</AppContext.Provider>
 	);

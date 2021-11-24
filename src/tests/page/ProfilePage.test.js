@@ -3,9 +3,9 @@ import userEvent from "@testing-library/user-event";
 import nock from "nock";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import Profile from "../components/Profile";
-import AppContext from "../contexts";
-import { url } from "../api/url";
+import ProfilePage from "../../page/ProfilePage";
+import AppContext from "../../contexts";
+import { url } from "../../api/url";
 
 jest.mock("@auth0/auth0-react");
 
@@ -60,7 +60,7 @@ afterEach(function () {
 });
 
 test("Display loading before customer is loaded", () => {
-	render(<Profile />);
+	render(<ProfilePage />);
 
 	expect(screen.getByText("Loading")).toBeInTheDocument();
 });
@@ -68,7 +68,7 @@ test("Display loading before customer is loaded", () => {
 test("profile form renders", () => {
 	render(
 		<AppContext.Provider value={{ customer: fakeCustomer }}>
-			<Profile />
+			<ProfilePage />
 		</AppContext.Provider>
 	);
 
@@ -86,7 +86,7 @@ test("profile form renders", () => {
 test("profile loads customer info", () => {
 	render(
 		<AppContext.Provider value={{ customer: fakeCustomer }}>
-			<Profile />
+			<ProfilePage />
 		</AppContext.Provider>
 	);
 
@@ -110,7 +110,7 @@ test("profile loads customer info", () => {
 test("typing updates value", () => {
 	render(
 		<AppContext.Provider value={{ customer: fakeCustomer }}>
-			<Profile />
+			<ProfilePage />
 		</AppContext.Provider>
 	);
 
@@ -132,7 +132,7 @@ test("typing updates value", () => {
 test("Save button disabled if nothing new", () => {
 	render(
 		<AppContext.Provider value={{ customer: fakeCustomer }}>
-			<Profile />
+			<ProfilePage />
 		</AppContext.Provider>
 	);
 
@@ -142,7 +142,7 @@ test("Save button disabled if nothing new", () => {
 test("Save button enabled if new info entered", () => {
 	render(
 		<AppContext.Provider value={{ customer: fakeCustomer }}>
-			<Profile />
+			<ProfilePage />
 		</AppContext.Provider>
 	);
 
@@ -188,7 +188,7 @@ test("save button PUTs", async () => {
 
 	render(
 		<AppContext.Provider value={{ customer: fakeCustomer, setCustomer }}>
-			<Profile />
+			<ProfilePage />
 		</AppContext.Provider>
 	);
 

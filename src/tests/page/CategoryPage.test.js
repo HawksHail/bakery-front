@@ -11,12 +11,12 @@ import { Route } from "react-router-dom";
 import { MemoryRouter } from "react-router";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import AppContext from "../contexts";
-import Supplier from "../models/supplier";
-import Category from "../models/category";
-import Product from "../models/product";
-import DisplayCategoryItems from "../components/DisplayCategoryItems";
-import { url } from "../api/url";
+import AppContext from "../../contexts";
+import Supplier from "../../models/supplier";
+import Category from "../../models/category";
+import Product from "../../models/product";
+import CategoryPage from "../../page/CategoryPage";
+import { url } from "../../api/url";
 
 jest.mock("@auth0/auth0-react");
 
@@ -119,7 +119,7 @@ test("API call not loaded yet", () => {
 	render(
 		<MemoryRouter initialEntries={["/category-items/1"]}>
 			<Route path="/category-items/:id">
-				<DisplayCategoryItems />
+				<CategoryPage />
 			</Route>
 		</MemoryRouter>
 	);
@@ -138,7 +138,7 @@ test("API is called and all products in category are rendered", async () => {
 	render(
 		<MemoryRouter initialEntries={["/category-items/1"]}>
 			<Route path="/category-items/:id">
-				<DisplayCategoryItems />
+				<CategoryPage />
 			</Route>
 		</MemoryRouter>
 	);
@@ -188,7 +188,7 @@ test("Button POSTS to API and sets cart", async () => {
 		>
 			<MemoryRouter initialEntries={["/category-items/1"]}>
 				<Route path="/category-items/:id">
-					<DisplayCategoryItems />
+					<CategoryPage />
 				</Route>
 			</MemoryRouter>
 		</AppContext.Provider>

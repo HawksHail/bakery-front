@@ -3,12 +3,12 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import AppContext from "../contexts";
-import DisplayAllProducts from "../components/DisplayAllProducts";
-import Supplier from "../models/supplier";
-import Category from "../models/category";
-import Product from "../models/product";
-import { url } from "../api/url";
+import AppContext from "../../contexts";
+import ProductsPage from "../../page/ProductsPage";
+import Supplier from "../../models/supplier";
+import Category from "../../models/category";
+import Product from "../../models/product";
+import { url } from "../../api/url";
 
 const supplier = new Supplier(2, "company name", "contact name", []);
 const category = new Category(3, "category name", "description", []);
@@ -33,7 +33,7 @@ test("Title is rendered", () => {
 	render(
 		<AppContext.Provider value={fakeProducts}>
 			<Router>
-				<DisplayAllProducts />
+				<ProductsPage />
 			</Router>
 		</AppContext.Provider>
 	);
@@ -47,7 +47,7 @@ test("all products are rendered", () => {
 	render(
 		<AppContext.Provider value={fakeProducts}>
 			<Router>
-				<DisplayAllProducts />
+				<ProductsPage />
 			</Router>
 		</AppContext.Provider>
 	);
@@ -62,7 +62,7 @@ test("list not loaded yet", () => {
 	render(
 		<AppContext.Provider value={{ products: [] }}>
 			<Router>
-				<DisplayAllProducts />
+				<ProductsPage />
 			</Router>
 		</AppContext.Provider>
 	);
@@ -74,7 +74,7 @@ test("Button POSTS to API", () => {
 	render(
 		<AppContext.Provider value={fakeProducts}>
 			<Router>
-				<DisplayAllProducts />
+				<ProductsPage />
 			</Router>
 		</AppContext.Provider>
 	);
