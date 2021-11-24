@@ -81,8 +81,8 @@ function DisplayCart() {
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
 			await checkoutCart(customer.customerId, accessToken);
-			// window.scrollTo(0, 0);
-			// setCart([]);
+			window.scrollTo(0, 0);
+			setCart([]);
 			// setShowAlert(true);
 		} catch (error) {
 			console.log("Error checking out", error);
