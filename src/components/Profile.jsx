@@ -17,18 +17,20 @@ function Profile() {
 	const [state, setState] = useState("");
 
 	useEffect(async () => {
-		try {
-			const accessToken = await getAccessTokenSilently({
-				audience: "https://zion.ee-cognizantacademy.com",
-			});
+		if (customer?.customerId) {
+			try {
+				const accessToken = await getAccessTokenSilently({
+					audience: "https://zion.ee-cognizantacademy.com",
+				});
 
-			let newCustomer = await getCustomer(
-				customer.customerId,
-				accessToken
-			);
-			setCustomer(newCustomer);
-		} catch (error) {
-			console.log("Error getting customer", error);
+				let newCustomer = await getCustomer(
+					customer.customerId,
+					accessToken
+				);
+				setCustomer(newCustomer);
+			} catch (error) {
+				console.log("Error updating customer", error);
+			}
 		}
 	}, []);
 
