@@ -11,12 +11,12 @@ import { Route } from "react-router-dom";
 import { MemoryRouter } from "react-router";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import AppContext from "../contexts";
-import Supplier from "../models/supplier";
-import Category from "../models/category";
-import Product from "../models/product";
-import ProductPage from "../components/ProductPage";
-import { url } from "../api/url";
+import AppContext from "../../contexts";
+import Supplier from "../../models/supplier";
+import Category from "../../models/category";
+import Product from "../../models/product";
+import ProductPage from "../../page/ProductPage";
+import { url } from "../../api/url";
 
 jest.mock("@auth0/auth0-react");
 

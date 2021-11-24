@@ -9,9 +9,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import userEvent from "@testing-library/user-event";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import DisplayCart from "../components/DisplayCart";
-import AppContext from "../contexts";
-import { url } from "../api/url";
+import CartPage from "../../page/CartPage";
+import AppContext from "../../contexts";
+import { url } from "../../api/url";
 
 jest.mock("@auth0/auth0-react");
 
@@ -81,7 +81,7 @@ test("Cart not loaded from API yet", () => {
 	render(
 		<AppContext.Provider value={{ cart: null, setCart: () => {} }}>
 			<Router>
-				<DisplayCart />
+				<CartPage />
 			</Router>
 		</AppContext.Provider>
 	);
@@ -95,7 +95,7 @@ test("Empty cart", () => {
 	render(
 		<AppContext.Provider value={{ cart: [], setCart: jest.fn() }}>
 			<Router>
-				<DisplayCart />
+				<CartPage />
 			</Router>
 		</AppContext.Provider>
 	);
@@ -109,7 +109,7 @@ test("contents of cart are loaded from API and displayed", () => {
 	render(
 		<AppContext.Provider value={{ cart: fakeCart, setCart: jest.fn() }}>
 			<Router>
-				<DisplayCart />
+				<CartPage />
 			</Router>
 		</AppContext.Provider>
 	);
@@ -135,7 +135,7 @@ test("Remove Button POSTS to API and alert appears", async () => {
 			}}
 		>
 			<Router>
-				<DisplayCart />
+				<CartPage />
 			</Router>
 		</AppContext.Provider>
 	);
@@ -185,7 +185,7 @@ test("Clear cart button appears and fetches API", async () => {
 			}}
 		>
 			<Router>
-				<DisplayCart />
+				<CartPage />
 			</Router>
 		</AppContext.Provider>
 	);
@@ -224,7 +224,7 @@ test("Checkout button appears and fetches API", async () => {
 			}}
 		>
 			<Router>
-				<DisplayCart />
+				<CartPage />
 			</Router>
 		</AppContext.Provider>
 	);
@@ -256,7 +256,7 @@ test("Total cost is calculated and appears", async () => {
 			}}
 		>
 			<Router>
-				<DisplayCart />
+				<CartPage />
 			</Router>
 		</AppContext.Provider>
 	);

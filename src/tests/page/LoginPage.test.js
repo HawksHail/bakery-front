@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import Login from "../components/Login";
+import LoginPage from "../../page/LoginPage";
 
 jest.mock("@auth0/auth0-react");
 
@@ -18,7 +18,7 @@ describe("Auth0 loaded", () => {
 		test("Login page renders", () => {
 			render(
 				<Router>
-					<Login />
+					<LoginPage />
 					<Route path="/">home page</Route>
 				</Router>
 			);
@@ -40,7 +40,7 @@ describe("Auth0 loaded", () => {
 		test("Login page redirects once logged in", () => {
 			render(
 				<Router>
-					<Login />
+					<LoginPage />
 					<Route path="/">home page</Route>
 				</Router>
 			);
@@ -61,7 +61,7 @@ describe("Auth0 loading", () => {
 	test("Loading spinner renders", () => {
 		render(
 			<Router>
-				<Login />
+				<LoginPage />
 			</Router>
 		);
 

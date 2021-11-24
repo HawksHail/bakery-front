@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import DisplayCategory from "../components/DisplayCategory";
+import CategoryRow from "../components/CategoryRow";
 import Category from "../models/category";
 
 test("Card containing all info about product", () => {
@@ -11,7 +11,7 @@ test("Card containing all info about product", () => {
 		<Router>
 			<table>
 				<tbody>
-					<DisplayCategory
+					<CategoryRow
 						category={
 							new Category(3, "category name", "description", [])
 						}
@@ -31,7 +31,7 @@ test("Click link to category items", () => {
 		<Router>
 			<table>
 				<tbody>
-					<DisplayCategory
+					<CategoryRow
 						category={
 							new Category(3, "category name", "description", [])
 						}
