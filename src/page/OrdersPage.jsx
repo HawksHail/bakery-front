@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */ //todo remove
 import React, { useEffect, useState, useContext } from "react";
 import { Table } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -86,4 +85,3 @@ function OrderPage() {
 }
 
 export default OrderPage;
-/* eslint-enable no-unused-vars */ //todo remove
