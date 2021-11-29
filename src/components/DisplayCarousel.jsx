@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 function DisplayCarousel({ arr }) {
 	if (!arr || arr.length < 1) {
-		console.log("DisplayCarousel passed an empty array");
 		return null;
 	}
 
