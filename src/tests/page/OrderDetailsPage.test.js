@@ -34,7 +34,7 @@ beforeEach(() => {
 	});
 });
 
-test("API call not loaded yet", () => {
+test("Renders title", () => {
 	nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
