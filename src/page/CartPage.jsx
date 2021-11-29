@@ -159,12 +159,16 @@ function CartPage() {
 						</div>
 						<div>
 							Total: $
-							{cart.reduce(
-								(prev, curr) =>
-									prev +
-									curr.quantity * curr.product.unitPrice,
-								0
-							)}
+							{cart
+								.reduce(
+									(prev, curr) =>
+										prev +
+										curr.quantity * curr.product.unitPrice,
+									0
+								)
+								.toLocaleString(undefined, {
+									minimumFractionDigits: 2,
+								})}
 						</div>
 					</div>
 				</div>
