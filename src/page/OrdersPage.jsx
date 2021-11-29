@@ -18,7 +18,9 @@ function OrderPage() {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			getOrders(customer.customerId, accessToken).then(setOrders);
+			getOrders(customer.customerId, accessToken, abortController).then(
+				setOrders
+			);
 		}
 		if (customer?.customerId) {
 			fetchOrders();
