@@ -169,6 +169,35 @@ test("Calls API and renders rows", async () => {
 	expect(table.rows[2].textContent).toBe("#2832021-11-23Pending$8.50View");
 });
 
+test("Calls API and there are no orders", async () => {
+	const scope = nock(url)
+		.defaultReplyHeaders({
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Headers": "Authorization",
+		})
+		.options("/order/customer/9")
+		.optionally()
+		.reply(200)
+		.get("/order/customer/9")
+		.reply(200, []);
+
+	render(
+		<AppContext.Provider value={{ customer: { customerId: 9 } }}>
+			<Router>
+				<OrdersPage />
+			</Router>
+		</AppContext.Provider>
+	);
+
+	await waitForElementToBeRemoved(screen.getAllByText(/loading/i));
+
+	const table = screen.getByRole("table");
+
+	expect(table.rows).toHaveLength(2);
+
+	expect(table.rows[1].textContent).toBe("No orders");
+});
+
 test("Rows have links", async () => {
 	const scope = nock(url)
 		.defaultReplyHeaders({

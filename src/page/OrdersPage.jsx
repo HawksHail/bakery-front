@@ -45,34 +45,42 @@ function OrderPage() {
 						</tr>
 					</thead>
 					<tbody>
-						{orders.map(order => (
-							<tr key={order.id}>
-								<td>
-									<Link to={`/orders/${order.id}`}>
-										#{order.id}
-									</Link>
-								</td>
-								<td>{order.orderDate}</td>
-								<td>Pending</td>
-								<td>
-									$
-									{order.detailsList
-										.reduce(
-											(prev, curr) =>
-												prev +
-												curr.product.unitPrice *
-													curr.quantity,
-											0
-										)
-										.toLocaleString(undefined, {
-											minimumFractionDigits: 2,
-										})}
-								</td>
-								<td>
-									<Link to={`/orders/${order.id}`}>View</Link>
-								</td>
+						{orders.length > 0 ? (
+							orders.map(order => (
+								<tr key={order.id}>
+									<td>
+										<Link to={`/orders/${order.id}`}>
+											#{order.id}
+										</Link>
+									</td>
+									<td>{order.orderDate}</td>
+									<td>Pending</td>
+									<td>
+										$
+										{order.detailsList
+											.reduce(
+												(prev, curr) =>
+													prev +
+													curr.product.unitPrice *
+														curr.quantity,
+												0
+											)
+											.toLocaleString(undefined, {
+												minimumFractionDigits: 2,
+											})}
+									</td>
+									<td>
+										<Link to={`/orders/${order.id}`}>
+											View
+										</Link>
+									</td>
+								</tr>
+							))
+						) : (
+							<tr>
+								<td colSpan="5">No orders</td>
 							</tr>
-						))}
+						)}
 					</tbody>
 				</Table>
 			) : (
