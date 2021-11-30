@@ -78,7 +78,6 @@ function CartPage() {
 	};
 
 	const handleCheckoutButton = async () => {
-		alert("handleCheckoutButton ");
 		try {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
