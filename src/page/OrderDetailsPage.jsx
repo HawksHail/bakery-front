@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, withRouter } from "react-router";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Table } from "react-bootstrap";
 
 import { getOrder } from "../api/orderAPI";
 import Loading from "../components/Loading";
@@ -47,6 +48,48 @@ function OrderDetailsPage() {
 						<span className="text-primary fw-bold">Processing</span>
 						.
 					</p>
+					<Table striped bordered hover>
+						<thead>
+							<tr>
+								<th>Product</th>
+								<th>Quantity</th>
+								<th>Total</th>
+							</tr>
+						</thead>
+						<tbody>
+							{order.detailsList.map(item => (
+								<tr key={item.product.id}>
+									<td>{item.product.productName}</td>
+									<td>{item.quantity}</td>
+									<td>
+										$
+										{(item.quantity * item.product.unitPrice).toLocaleString(undefined, {
+												minimumFractionDigits: 2,
+											})}
+									</td>
+								</tr>
+							))}
+						</tbody>
+						<tfoot>
+							<tr>
+								<th colSpan="2" className="text-end">
+									Total
+								</th>
+								<td>
+									$
+									{order.detailsList.reduce(
+										(prev, curr) =>
+											prev +
+											curr.quantity *
+												curr.product.unitPrice,
+										0
+									).toLocaleString(undefined, {
+										minimumFractionDigits: 2,
+									})}
+								</td>
+							</tr>
+						</tfoot>
+					</Table>
 				</div>
 			) : (
 				<h4>

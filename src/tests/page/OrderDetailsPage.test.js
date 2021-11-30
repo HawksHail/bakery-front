@@ -148,3 +148,38 @@ test("Calls API and renders order details", async () => {
 	expect(screen.getByText(/and is currently/)).toBeInTheDocument();
 	expect(screen.getByText("Processing")).toBeInTheDocument();
 });
+
+test("Calls API and renders product table", async () => {
+	nock(url)
+		.defaultReplyHeaders({
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Headers": "Authorization",
+		})
+		.options("/order/1")
+		.optionally()
+		.reply(200)
+		.get("/order/1")
+		.optionally() //gets aborted and throws DOMException
+		.reply(200, fakeOrder);
+
+	render(
+		<MemoryRouter initialEntries={["/orders/1"]}>
+			<Route path="/orders/:id">
+				<OrderDetailsPage />
+			</Route>
+		</MemoryRouter>
+	);
+
+	await waitForElementToBeRemoved(screen.getByText(/^loading$/i));
+
+	const table = screen.getByRole("table");
+	expect(table).toBeInTheDocument();
+
+	expect(screen.getByText("Product")).toBeInTheDocument();
+	expect(screen.getByText("Quantity")).toBeInTheDocument();
+	expect(screen.getAllByText("Total")).toHaveLength(2);
+
+	expect(table.rows).toHaveLength(3);
+
+	expect(table.rows[1].textContent).toBe("Product312$17.00");
+});
