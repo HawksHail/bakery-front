@@ -24,7 +24,7 @@ function DisplayNavbar() {
 		<Navbar
 			bg="dark"
 			variant="dark"
-			expand="md"
+			expand="lg"
 			fixed="top"
 			collapseOnSelect
 		>
