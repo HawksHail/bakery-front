@@ -47,8 +47,11 @@ function ProductCard(props) {
 					<Card.Text>
 						By: {props.product.supplier.companyName}
 					</Card.Text>
-					<Card.Text className="mb-0">
-						${props.product.unitPrice}
+					<Card.Text>
+						$
+						{props.product.unitPrice.toLocaleString(undefined, {
+							minimumFractionDigits: 2,
+						})}
 					</Card.Text>
 					<Button
 						className="w-75 mt-auto mx-4 d-flex justify-content-around"

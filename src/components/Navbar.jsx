@@ -9,6 +9,7 @@ import {
 	faCookie,
 	faBookOpen,
 	faUser,
+	faHistory,
 } from "@fortawesome/free-solid-svg-icons";
 
 import logo from "../logo.svg";
@@ -23,7 +24,7 @@ function DisplayNavbar() {
 		<Navbar
 			bg="dark"
 			variant="dark"
-			expand="md"
+			expand="lg"
 			fixed="top"
 			collapseOnSelect
 		>
@@ -65,45 +66,66 @@ function DisplayNavbar() {
 								Products
 							</Nav.Link>
 						</Nav.Item>
-						<Nav.Item className="me-0 me-md-auto">
-							<Nav.Link as={Link} eventKey="4" to="/cart">
-								<FontAwesomeIcon
-									icon={faShoppingCart}
-									className="me-1"
-								/>
-								Cart
-							</Nav.Link>
-						</Nav.Item>
 						{isAuthenticated && (
-							<Nav.Item>
-								<Nav.Link
-									as={Link}
-									eventKey="5"
-									to="/profile"
-									aria-label="Profile"
-								>
-									{customer ? (
-										<span className="me-2">
-											<FontAwesomeIcon
-												icon={faUser}
-												className="me-1"
-											/>
-											{customer.contactName
-												? customer.contactName
-												: "Profile"}
-										</span>
-									) : null}
-									<img
-										src={user.picture}
-										alt={user.name}
-										className="rounded-circle"
-										height="40px"
-										width="40px"
-									/>
-								</Nav.Link>
-							</Nav.Item>
+							<>
+								<Nav.Item>
+									<Nav.Link as={Link} eventKey="4" to="/cart">
+										<FontAwesomeIcon
+											icon={faShoppingCart}
+											className="me-1"
+										/>
+										Cart
+									</Nav.Link>
+								</Nav.Item>
+								<Nav.Item>
+									<Nav.Link
+										as={Link}
+										eventKey="5"
+										to="/orders"
+									>
+										<FontAwesomeIcon
+											icon={faHistory}
+											className="me-1"
+										/>
+										Orders
+									</Nav.Link>
+								</Nav.Item>
+
+								<Nav.Item className="ms-0 ms-md-auto">
+									<Nav.Link
+										as={Link}
+										eventKey="6"
+										to="/profile"
+										aria-label="Profile"
+									>
+										{customer ? (
+											<span className="me-2">
+												<FontAwesomeIcon
+													icon={faUser}
+													className="me-1"
+												/>
+												{customer.contactName
+													? customer.contactName
+													: "Profile"}
+											</span>
+										) : null}
+										<img
+											src={user.picture}
+											alt={user.name}
+											className="rounded-circle"
+											height="40px"
+											width="40px"
+										/>
+									</Nav.Link>
+								</Nav.Item>
+							</>
 						)}
-						<Nav.Item>
+
+						<Nav.Item
+							className={
+								isAuthenticated ? null : "ms-0 ms-md-auto"
+							}
+						>
 							<AuthenticationButton />
 						</Nav.Item>
 					</Nav>

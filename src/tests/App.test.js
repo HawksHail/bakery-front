@@ -17,6 +17,9 @@ const fakeUser = {
 };
 
 beforeEach(() => {
+	if (!nock.isActive()) {
+		nock.activate();
+	}
 	useAuth0.mockReturnValue({
 		isAuthenticated: true,
 		user: { sub: "auth0|ID" },
@@ -35,6 +38,7 @@ afterEach(function () {
 });
 
 test("Has Router with Route tags", () => {
+	nock.restore();
 	render(
 		<ProductsContextProvider>
 			<App />

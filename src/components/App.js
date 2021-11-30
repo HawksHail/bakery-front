@@ -14,6 +14,8 @@ import ProductsPage from "../page/ProductsPage";
 import ProductPage from "../page/ProductPage";
 import CartPage from "../page/CartPage";
 import ProfilePage from "../page/ProfilePage";
+import OrdersPage from "../page/OrdersPage";
+import OrderDetailsPage from "../page/OrderDetailsPage";
 import PrivateRoute from "./PrivateRoute";
 import { getCustomerIdFromSub, createCustomer } from "../api/customerAPI";
 
@@ -74,6 +76,12 @@ function App() {
 					</Route>
 					<PrivateRoute path="/cart">
 						<CartPage />
+					</PrivateRoute>
+					<PrivateRoute exact path="/orders">
+						<OrdersPage />
+					</PrivateRoute>
+					<PrivateRoute path="/orders/:id">
+						<OrderDetailsPage />
 					</PrivateRoute>
 					<PrivateRoute path="/profile">
 						<ProfilePage />

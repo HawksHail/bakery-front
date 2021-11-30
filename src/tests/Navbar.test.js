@@ -5,6 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import Navbar from "../components/Navbar";
 import AppContext from "../contexts";
+import OrdersPage from "../page/OrdersPage";
 
 jest.mock("@auth0/auth0-react");
 
@@ -80,6 +81,20 @@ describe("Logged in tests", () => {
 		const homeLink = screen.getByText(/Cart/);
 		expect(homeLink).toBeInTheDocument();
 		expect(homeLink.getAttribute("href")).toBe("/cart");
+	});
+
+	test("Navbar renders Orders link with correct href value", () => {
+		render(
+			<AppContext.Provider value={{ setCustomer: jest.fn() }}>
+				<Router>
+					<Navbar />
+				</Router>
+			</AppContext.Provider>
+		);
+
+		const ordersLink = screen.getByText(/Orders/);
+		expect(ordersLink).toBeInTheDocument();
+		expect(ordersLink.getAttribute("href")).toBe("/orders");
 	});
 
 	test("Navbar renders profile link with contact name and correct href value", () => {
