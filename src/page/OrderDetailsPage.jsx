@@ -63,9 +63,12 @@ function OrderDetailsPage() {
 									<td>{item.quantity}</td>
 									<td>
 										$
-										{(item.quantity * item.product.unitPrice).toLocaleString(undefined, {
-												minimumFractionDigits: 2,
-											})}
+										{(
+											item.quantity *
+											item.product.unitPrice
+										).toLocaleString(undefined, {
+											minimumFractionDigits: 2,
+										})}
 									</td>
 								</tr>
 							))}
@@ -77,15 +80,17 @@ function OrderDetailsPage() {
 								</th>
 								<td>
 									$
-									{order.detailsList.reduce(
-										(prev, curr) =>
-											prev +
-											curr.quantity *
-												curr.product.unitPrice,
-										0
-									).toLocaleString(undefined, {
-										minimumFractionDigits: 2,
-									})}
+									{order.detailsList
+										.reduce(
+											(prev, curr) =>
+												prev +
+												curr.quantity *
+													curr.product.unitPrice,
+											0
+										)
+										.toLocaleString(undefined, {
+											minimumFractionDigits: 2,
+										})}
 								</td>
 							</tr>
 						</tfoot>
