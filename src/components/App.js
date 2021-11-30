@@ -6,6 +6,7 @@ import Container from "react-bootstrap/Container";
 import AppContext from "../contexts";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import ToastManager from "./ToastManager";
 import LoginPage from "../page/LoginPage";
 import HomePage from "../page/HomePage";
 import CategoriesPage from "../page/CategoriesPage";
@@ -87,6 +88,7 @@ function App() {
 						<ProfilePage />
 					</PrivateRoute>
 				</Switch>
+				<ToastManager />
 			</Container>
 			<Footer />
 		</Router>
