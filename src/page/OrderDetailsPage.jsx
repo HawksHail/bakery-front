@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */ //todo remove
 import React, { useState, useEffect } from "react";
 import { useParams, withRouter } from "react-router";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -106,4 +105,3 @@ function OrderDetailsPage() {
 }
 
 export default withRouter(OrderDetailsPage);
-/* eslint-enable no-unused-vars */ //todo remove
