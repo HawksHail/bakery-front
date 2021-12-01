@@ -2,6 +2,7 @@ import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 
 import DisplayToasts from "../components/DisplayToasts";
+import ToastContextProvider from "../contexts/ToastContextProvider";
 import useToasts from "../hooks/useToasts";
 
 jest.mock("../hooks/useToasts");
@@ -12,7 +13,11 @@ test("Renders nothing when no notifications", () => {
 		setToasts: jest.fn(),
 		handleAddToast: jest.fn(),
 	});
-	render(<DisplayToasts />);
+	render(
+		<ToastContextProvider>
+			<DisplayToasts />
+		</ToastContextProvider>
+	);
 
 	expect(screen.queryByRole("alert")).not.toBeInTheDocument();
 });
@@ -31,13 +36,17 @@ test("Renders toast", () => {
 		handleAddToast: jest.fn(),
 	});
 
-	render(<DisplayToasts />);
+	render(
+		<ToastContextProvider>
+			<DisplayToasts />
+		</ToastContextProvider>
+	);
 	expect(screen.getByRole("alert")).toBeInTheDocument();
 	expect(screen.getByText("header1")).toBeInTheDocument();
 	expect(screen.getByText("body1")).toBeInTheDocument();
 });
 
-test("Modifys toast after timeout", async () => {
+test("Modifies toast after timeout", async () => {
 	let toasts = [
 		{
 			id: 0,
@@ -53,7 +62,11 @@ test("Modifys toast after timeout", async () => {
 		handleAddToast: jest.fn(),
 	});
 
-	render(<DisplayToasts />);
+	render(
+		<ToastContextProvider>
+			<DisplayToasts />
+		</ToastContextProvider>
+	);
 
 	expect(screen.getByRole("alert")).toBeInTheDocument();
 

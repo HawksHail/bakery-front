@@ -1,29 +1,39 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ToastContainer, Toast, ToastHeader, ToastBody } from "react-bootstrap";
 
-import useToasts from "../hooks/useToasts";
+import { ToastContext } from "../contexts";
 
 function DisplayToasts() {
-	const { toasts, setToasts } = useToasts();
+	const { toasts, setToasts } = useContext(ToastContext);
 
 	return (
 		<ToastContainer className="fixed-bottom m-2">
-			{toasts.map((x, idx) => (
+			{toasts.map((toast, idx) => (
 				<Toast
-					key={x.id}
+					key={toast.id}
+					bg={toast.variant}
 					onClose={() => {
 						const arr = [...toasts];
 						arr[idx].show = false;
 						setToasts(arr);
 					}}
-					show={x.show}
+					show={toast.show}
 					delay={4500}
 					autohide
 				>
 					<ToastHeader>
-						<strong className="me-auto">{x.header}</strong>
+						<strong className="me-auto">{toast.header}</strong>
 					</ToastHeader>
-					<ToastBody>{x.body}</ToastBody>
+					<ToastBody
+						className={
+							(toast.variant === "primary" ||
+								toast.variant === "dark" ||
+								toast.variant === "info") &&
+							"text-white"
+						}
+					>
+						{toast.body}
+					</ToastBody>
 				</Toast>
 			))}
 		</ToastContainer>

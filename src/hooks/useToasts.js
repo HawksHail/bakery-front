@@ -4,11 +4,12 @@ const useToasts = () => {
 	const [id, setId] = useState(0);
 	const [toasts, setToasts] = useState([]);
 
-	const handleAddToast = (headerText = "", bodyText = "") => {
+	const handleAddToast = (headerText = "", bodyText = "", variant) => {
 		setToasts([
 			...toasts,
 			{
 				id,
+				variant, //bootstrap toast color
 				header: headerText,
 				body: bodyText,
 				show: true,

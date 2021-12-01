@@ -6,7 +6,8 @@ import nock from "nock";
 
 import App from "../components/App";
 import ProductsContextProvider from "../contexts/ProductsContextProvider";
-import AppContext from "../contexts";
+import ToastContextProvider from "../contexts/ToastContextProvider";
+import AppContext, { ToastContext } from "../contexts";
 import { url } from "../api/url";
 
 jest.mock("@auth0/auth0-react");
@@ -40,9 +41,11 @@ afterEach(function () {
 test("Has Router with Route tags", () => {
 	nock.restore();
 	render(
-		<ProductsContextProvider>
-			<App />
-		</ProductsContextProvider>
+		<ToastContextProvider>
+			<ProductsContextProvider>
+				<App />
+			</ProductsContextProvider>
+		</ToastContextProvider>
 	);
 
 	expect(screen.getByText(/Welcome/i)).toBeInTheDocument();
@@ -78,9 +81,11 @@ test("fetches user using auth0 sub id", async () => {
 
 	const setCustomer = jest.fn();
 	render(
-		<AppContext.Provider value={{ setCustomer }}>
-			<App />
-		</AppContext.Provider>
+		<ToastContextProvider>
+			<AppContext.Provider value={{ setCustomer }}>
+				<App />
+			</AppContext.Provider>
+		</ToastContextProvider>
 	);
 
 	await waitFor(() => {
@@ -107,9 +112,11 @@ test("fetches user using auth0 sub id returns 404 and tries to create new custom
 
 	const setCustomer = jest.fn();
 	render(
-		<AppContext.Provider value={{ setCustomer }}>
-			<App />
-		</AppContext.Provider>
+		<ToastContextProvider>
+			<AppContext.Provider value={{ setCustomer }}>
+				<App />
+			</AppContext.Provider>
+		</ToastContextProvider>
 	);
 
 	await waitFor(() => {
