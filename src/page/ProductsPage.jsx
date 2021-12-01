@@ -30,7 +30,8 @@ function ProductsPage({ history }) {
 			handleAddToast(
 				"Success",
 				`${product.productName} added to cart!`,
-				"primary"
+				"primary",
+				"text-white"
 			);
 		} catch (error) {
 			console.log(error);

@@ -18,6 +18,8 @@ test("handleAddToast adds to the array", () => {
 	expect(result.current.toasts).toEqual([
 		{
 			id: 0,
+			bg: null,
+			textColor: "text-reset",
 			header: "header1",
 			body: "body1",
 			show: true,
@@ -38,12 +40,16 @@ test("handleAddToast adds multiple to the array", () => {
 	expect(result.current.toasts).toEqual([
 		{
 			id: 0,
+			bg: null,
+			textColor: "text-reset",
 			header: "header1",
 			body: "body1",
 			show: true,
 		},
 		{
 			id: 1,
+			bg: null,
+			textColor: "text-reset",
 			header: "",
 			body: "",
 			show: true,
@@ -70,6 +76,8 @@ test("Removes hidden old toasts", () => {
 	expect(result.current.toasts).toEqual([
 		{
 			id: 0,
+			bg: null,
+			textColor: "text-reset",
 			header: "header1",
 			body: "body1",
 			show: true,

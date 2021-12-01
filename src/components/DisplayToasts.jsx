@@ -11,7 +11,7 @@ function DisplayToasts() {
 			{toasts.map((toast, idx) => (
 				<Toast
 					key={toast.id}
-					bg={toast.variant}
+					bg={toast.bg}
 					onClose={() => {
 						const arr = [...toasts];
 						arr[idx].show = false;
@@ -24,14 +24,7 @@ function DisplayToasts() {
 					<ToastHeader>
 						<strong className="me-auto">{toast.header}</strong>
 					</ToastHeader>
-					<ToastBody
-						className={
-							(toast.variant === "primary" ||
-								toast.variant === "dark" ||
-								toast.variant === "info") &&
-							"text-white"
-						}
-					>
+					<ToastBody className={toast.textColor}>
 						{toast.body}
 					</ToastBody>
 				</Toast>
