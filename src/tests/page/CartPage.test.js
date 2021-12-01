@@ -132,7 +132,7 @@ test("contents of cart are loaded from API and displayed", () => {
 	expect(cards.length).toBe(2);
 });
 
-test("Remove Button POSTS to API and alert appears", async () => {
+test("Remove Button POSTS to API and handleAddToast is called", async () => {
 	const handleAddToast = jest.fn();
 	render(
 		<ToastContext.Provider value={{ handleAddToast }}>
@@ -165,9 +165,6 @@ test("Remove Button POSTS to API and alert appears", async () => {
 	expect(buttons.length).toBe(2);
 
 	userEvent.click(buttons[0]);
-
-	// const alert = await screen.findByText(/Item removed!/i);
-	// expect(alert).toBeInTheDocument();
 
 	await waitFor(() => expect(handleAddToast).toBeCalledTimes(1));
 
