@@ -10,8 +10,9 @@ import userEvent from "@testing-library/user-event";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import CartPage from "../../page/CartPage";
-import AppContext from "../../contexts";
+import AppContext, { ToastContext } from "../../contexts";
 import { url } from "../../api/url";
+import ToastContextProvider from "../../contexts/ToastContextProvider";
 
 jest.mock("@auth0/auth0-react");
 
@@ -79,11 +80,13 @@ beforeEach(() => {
 
 test("Cart not loaded from API yet", () => {
 	render(
-		<AppContext.Provider value={{ cart: null, setCart: () => {} }}>
-			<Router>
-				<CartPage />
-			</Router>
-		</AppContext.Provider>
+		<ToastContextProvider>
+			<AppContext.Provider value={{ cart: null, setCart: () => {} }}>
+				<Router>
+					<CartPage />
+				</Router>
+			</AppContext.Provider>
+		</ToastContextProvider>
 	);
 
 	expect(screen.getByRole("heading", { name: /Cart/ })).toBeInTheDocument();
@@ -93,11 +96,13 @@ test("Cart not loaded from API yet", () => {
 
 test("Empty cart", () => {
 	render(
-		<AppContext.Provider value={{ cart: [], setCart: jest.fn() }}>
-			<Router>
-				<CartPage />
-			</Router>
-		</AppContext.Provider>
+		<ToastContextProvider>
+			<AppContext.Provider value={{ cart: [], setCart: jest.fn() }}>
+				<Router>
+					<CartPage />
+				</Router>
+			</AppContext.Provider>
+		</ToastContextProvider>
 	);
 
 	expect(screen.getByText(/Cart/)).toBeInTheDocument();
@@ -107,11 +112,13 @@ test("Empty cart", () => {
 
 test("contents of cart are loaded from API and displayed", () => {
 	render(
-		<AppContext.Provider value={{ cart: fakeCart, setCart: jest.fn() }}>
-			<Router>
-				<CartPage />
-			</Router>
-		</AppContext.Provider>
+		<ToastContextProvider>
+			<AppContext.Provider value={{ cart: fakeCart, setCart: jest.fn() }}>
+				<Router>
+					<CartPage />
+				</Router>
+			</AppContext.Provider>
+		</ToastContextProvider>
 	);
 	waitFor(() => {
 		expect(fetchSpy).toBeCalledWith(
@@ -125,19 +132,22 @@ test("contents of cart are loaded from API and displayed", () => {
 	expect(cards.length).toBe(2);
 });
 
-test("Remove Button POSTS to API and alert appears", async () => {
+test("Remove Button POSTS to API and handleAddToast is called", async () => {
+	const handleAddToast = jest.fn();
 	render(
-		<AppContext.Provider
-			value={{
-				cart: fakeCart,
-				setCart: jest.fn(),
-				customer: { customerId: 99 },
-			}}
-		>
-			<Router>
-				<CartPage />
-			</Router>
-		</AppContext.Provider>
+		<ToastContext.Provider value={{ handleAddToast }}>
+			<AppContext.Provider
+				value={{
+					cart: fakeCart,
+					setCart: jest.fn(),
+					customer: { customerId: 99 },
+				}}
+			>
+				<Router>
+					<CartPage />
+				</Router>
+			</AppContext.Provider>
+		</ToastContext.Provider>
 	);
 
 	waitFor(() => {
@@ -156,8 +166,7 @@ test("Remove Button POSTS to API and alert appears", async () => {
 
 	userEvent.click(buttons[0]);
 
-	const alert = await screen.findByText(/Item removed!/i);
-	expect(alert).toBeInTheDocument();
+	await waitFor(() => expect(handleAddToast).toBeCalledTimes(1));
 
 	waitFor(() => {
 		expect(fetchSpy).toBeCalledWith(
@@ -170,24 +179,23 @@ test("Remove Button POSTS to API and alert appears", async () => {
 			}
 		);
 	});
-
-	userEvent.click(screen.getByRole("button", { name: /Close alert/i }));
-	await waitForElementToBeRemoved(alert);
 });
 
 test("Clear cart button appears and fetches API", async () => {
 	render(
-		<AppContext.Provider
-			value={{
-				cart: fakeCart,
-				setCart: jest.fn(),
-				customer: { customerId: 99 },
-			}}
-		>
-			<Router>
-				<CartPage />
-			</Router>
-		</AppContext.Provider>
+		<ToastContextProvider>
+			<AppContext.Provider
+				value={{
+					cart: fakeCart,
+					setCart: jest.fn(),
+					customer: { customerId: 99 },
+				}}
+			>
+				<Router>
+					<CartPage />
+				</Router>
+			</AppContext.Provider>
+		</ToastContextProvider>
 	);
 
 	const clearButton = screen.getByRole("button", {
@@ -216,17 +224,19 @@ test("Clear cart button appears and fetches API", async () => {
 
 test("Checkout button appears and fetches API", async () => {
 	render(
-		<AppContext.Provider
-			value={{
-				cart: fakeCart,
-				setCart: jest.fn(),
-				customer: { customerId: 99 },
-			}}
-		>
-			<Router>
-				<CartPage />
-			</Router>
-		</AppContext.Provider>
+		<ToastContextProvider>
+			<AppContext.Provider
+				value={{
+					cart: fakeCart,
+					setCart: jest.fn(),
+					customer: { customerId: 99 },
+				}}
+			>
+				<Router>
+					<CartPage />
+				</Router>
+			</AppContext.Provider>
+		</ToastContextProvider>
 	);
 
 	const checkoutButton = screen.getByRole("button", {
@@ -248,17 +258,19 @@ test("Checkout button appears and fetches API", async () => {
 
 test("Total cost is calculated and appears", async () => {
 	render(
-		<AppContext.Provider
-			value={{
-				cart: fakeCart,
-				setCart: jest.fn(),
-				customer: { customerId: 99 },
-			}}
-		>
-			<Router>
-				<CartPage />
-			</Router>
-		</AppContext.Provider>
+		<ToastContextProvider>
+			<AppContext.Provider
+				value={{
+					cart: fakeCart,
+					setCart: jest.fn(),
+					customer: { customerId: 99 },
+				}}
+			>
+				<Router>
+					<CartPage />
+				</Router>
+			</AppContext.Provider>
+		</ToastContextProvider>
 	);
 
 	expect(screen.getByText(/Total:/i)).toBeInTheDocument();

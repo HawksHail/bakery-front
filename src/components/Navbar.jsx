@@ -90,8 +90,7 @@ function DisplayNavbar() {
 										Orders
 									</Nav.Link>
 								</Nav.Item>
-
-								<Nav.Item className="ms-0 ms-md-auto">
+								<Nav.Item className="ms-0 ms-lg-auto">
 									<Nav.Link
 										as={Link}
 										eventKey="6"

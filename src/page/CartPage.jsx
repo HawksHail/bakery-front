@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Alert, Button } from "react-bootstrap";
+import React, { useContext, useEffect } from "react";
+import { Button } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import {
@@ -8,16 +8,15 @@ import {
 	clearCart,
 	checkoutCart,
 } from "../api/cartAPI";
-import AppContext from "../contexts";
+import AppContext, { ToastContext } from "../contexts";
 import ProductCard from "../components/ProductCard";
 import ProductCardRow from "../components/ProductCardRow";
 import Loading from "../components/Loading";
 
 function CartPage() {
 	const { cart, setCart, customer } = useContext(AppContext);
+	const { handleAddToast } = useContext(ToastContext);
 	const { getAccessTokenSilently } = useAuth0();
-	const [showAlert, setShowAlert] = useState(false);
-	const [alertMessage, setAlertMessage] = useState("");
 
 	useEffect(async () => {
 		if (customer?.customerId) {
@@ -35,28 +34,22 @@ function CartPage() {
 		}
 	}, [customer?.customerId, getAccessTokenSilently]);
 
-	useEffect(() => {
-		let interval = null;
-		if (showAlert) {
-			interval = setInterval(() => {
-				setShowAlert(false);
-			}, 4500);
-		} else {
-			clearInterval(interval);
-		}
-		return () => clearInterval(interval);
-	}, [showAlert]);
-
-	const handleRemoveButton = async prodId => {
+	const handleRemoveButton = async item => {
 		try {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			await removeFromCart(customer.customerId, prodId, accessToken).then(
-				setCart
+			await removeFromCart(
+				customer.customerId,
+				item.product.id,
+				accessToken
+			).then(setCart);
+			handleAddToast(
+				"Item removed!",
+				`${item.product.productName} removed from cart!`,
+				"danger",
+				"text-white"
 			);
-			setAlertMessage("Item removed!");
-			setShowAlert(true);
 		} catch (error) {
 			console.log("Error removing item", error);
 		}
@@ -70,8 +63,7 @@ function CartPage() {
 			await clearCart(customer.customerId, accessToken);
 			window.scrollTo(0, 0);
 			setCart([]);
-			setAlertMessage("Cart cleared!");
-			setShowAlert(true);
+			handleAddToast("Cleared!", "Cart cleared!", "danger", "text-white");
 		} catch (error) {
 			console.log("Error clearing cart", error);
 		}
@@ -85,8 +77,7 @@ function CartPage() {
 			await checkoutCart(customer.customerId, accessToken);
 			window.scrollTo(0, 0);
 			setCart([]);
-			setAlertMessage("Checked out successfully!");
-			setShowAlert(true);
+			handleAddToast("Success!", "Checked out!", "primary", "text-white");
 		} catch (error) {
 			console.log("Error checking out", error);
 		}
@@ -96,16 +87,6 @@ function CartPage() {
 		return (
 			<>
 				<h1>Cart</h1>
-				<Alert
-					className="fixed-bottom"
-					show={showAlert}
-					variant="danger"
-					transition
-					dismissible
-					onClose={() => setShowAlert(false)}
-				>
-					<Alert.Heading>{alertMessage}</Alert.Heading>
-				</Alert>
 				<h4>
 					<Loading />
 				</h4>
@@ -116,16 +97,6 @@ function CartPage() {
 	return (
 		<>
 			<h1>Cart</h1>
-			<Alert
-				className="fixed-bottom"
-				show={showAlert}
-				variant="danger"
-				transition
-				dismissible
-				onClose={() => setShowAlert(false)}
-			>
-				<Alert.Heading>{alertMessage}</Alert.Heading>
-			</Alert>
 			{cart.length < 1 ? (
 				<h4>Your cart is empty</h4>
 			) : (
@@ -136,7 +107,7 @@ function CartPage() {
 								product={item.product}
 								key={item.product.id}
 								buttonText="Remove"
-								buttonClick={handleRemoveButton}
+								buttonClick={() => handleRemoveButton(item)}
 								quantity={item.quantity}
 							/>
 						))}

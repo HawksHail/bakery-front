@@ -10,10 +10,9 @@ import {
 	Button,
 	Form,
 	InputGroup,
-	Alert,
 } from "react-bootstrap";
 
-import AppContext from "../contexts";
+import AppContext, { ToastContext } from "../contexts";
 import Loading from "../components/Loading";
 import { getProduct } from "../api/productAPI";
 import { addToCart } from "../api/cartAPI";
@@ -22,26 +21,14 @@ function ProductPage() {
 	const { id } = useParams();
 	const [product, setProduct] = useState(null);
 	const [quantity, setQuantity] = useState(1);
-	const [showAlert, setShowAlert] = useState(false);
 	const { setCart, customer } = useContext(AppContext);
+	const { handleAddToast } = useContext(ToastContext);
 
 	const { getAccessTokenSilently } = useAuth0();
 
 	useEffect(() => {
 		getProduct(id).then(setProduct).catch(console.log);
 	}, [id]);
-
-	useEffect(() => {
-		let interval = null;
-		if (showAlert) {
-			interval = setInterval(() => {
-				setShowAlert(false);
-			}, 4500);
-		} else {
-			clearInterval(interval);
-		}
-		return () => clearInterval(interval);
-	}, [showAlert]);
 
 	const handleAddToCart = async event => {
 		event.preventDefault();
@@ -55,7 +42,12 @@ function ProductPage() {
 				accessToken,
 				quantity
 			).then(setCart);
-			setShowAlert(true);
+			handleAddToast(
+				"Item(s) added!",
+				`${quantity} ${product.productName} added to cart!`,
+				"primary",
+				"text-white"
+			);
 		} catch (error) {
 			console.log(error);
 		}
@@ -71,16 +63,6 @@ function ProductPage() {
 
 	return (
 		<>
-			<Alert
-				className="fixed-bottom"
-				show={showAlert}
-				variant="danger"
-				transition
-				dismissible
-				onClose={() => setShowAlert(false)}
-			>
-				<Alert.Heading>Item added!</Alert.Heading>
-			</Alert>
 			<Row>
 				<Breadcrumb>
 					<Breadcrumb.Item

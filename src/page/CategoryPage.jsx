@@ -3,9 +3,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useParams, withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Alert, Breadcrumb } from "react-bootstrap";
+import { Breadcrumb } from "react-bootstrap";
 
-import AppContext from "../contexts";
+import AppContext, { ToastContext } from "../contexts";
 import { getCategory } from "../api/categoryAPI";
 import { addToCart } from "../api/cartAPI";
 import ProductCard from "../components/ProductCard";
@@ -16,34 +16,27 @@ function CategoryPage({ history }) {
 	const { id } = useParams();
 	const [category, setCategory] = useState(null);
 	const { setCart, customer } = useContext(AppContext);
+	const { handleAddToast } = useContext(ToastContext);
 	const { isAuthenticated, getAccessTokenSilently } = useAuth0();
-	const [showAlert, setShowAlert] = useState(false);
 
 	useEffect(() => {
 		getCategory(id).then(setCategory).catch(console.log);
 	}, [id]);
 
-	useEffect(() => {
-		let interval = null;
-		if (showAlert) {
-			interval = setInterval(() => {
-				setShowAlert(false);
-			}, 4500);
-		} else {
-			clearInterval(interval);
-		}
-		return () => clearInterval(interval);
-	}, [showAlert]);
-
-	const addToCartButton = async prodId => {
+	const addToCartButton = async product => {
 		try {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			await addToCart(customer.customerId, prodId, accessToken)
+			await addToCart(customer.customerId, product.id, accessToken)
 				.then(setCart)
 				.catch(e => console.log("Error posting cart", e));
-			setShowAlert(true);
+			handleAddToast(
+				"Success",
+				`${product.productName} added to cart!`,
+				"primary",
+				"text-white"
+			);
 		} catch (error) {
 			console.log("Error adding to cart", error);
 		}
@@ -69,16 +62,6 @@ function CategoryPage({ history }) {
 				</Breadcrumb.Item>
 			</Breadcrumb>
 			<ProductCardRow>
-				<Alert
-					className="fixed-bottom"
-					show={showAlert}
-					variant="info"
-					transition
-					dismissible
-					onClose={() => setShowAlert(false)}
-				>
-					<Alert.Heading>Item added!</Alert.Heading>
-				</Alert>
 				{category.productList.map(product => (
 					<ProductCard
 						product={product}
@@ -87,7 +70,7 @@ function CategoryPage({ history }) {
 						buttonText="Add to Cart"
 						buttonClick={
 							isAuthenticated
-								? addToCartButton
+								? () => addToCartButton(product)
 								: () => {
 										history.push("/login");
 								  }
