@@ -20,7 +20,6 @@ function ProductsPage({ history }) {
 	}, []);
 
 	const addToCartButton = async product => {
-		console.log(`product`, product);
 		try {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
