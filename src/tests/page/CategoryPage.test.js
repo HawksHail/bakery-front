@@ -17,6 +17,7 @@ import Category from "../../models/category";
 import Product from "../../models/product";
 import CategoryPage from "../../page/CategoryPage";
 import { url } from "../../api/url";
+import ToastContextProvider from "../../contexts/ToastContextProvider";
 
 jest.mock("@auth0/auth0-react");
 
@@ -175,23 +176,25 @@ test("Button POSTS to API and sets cart", async () => {
 	const setCart = jest.fn();
 
 	render(
-		<AppContext.Provider
-			value={{
-				customer: {
-					customerId: 9,
-					sub: "auth0|617c1ea289fdd10070ece377",
-					companyName: "Test Company",
-					contactName: "Test contact",
-				},
-				setCart,
-			}}
-		>
-			<MemoryRouter initialEntries={["/category-items/1"]}>
-				<Route path="/category-items/:id">
-					<CategoryPage />
-				</Route>
-			</MemoryRouter>
-		</AppContext.Provider>
+		<ToastContextProvider>
+			<AppContext.Provider
+				value={{
+					customer: {
+						customerId: 9,
+						sub: "auth0|617c1ea289fdd10070ece377",
+						companyName: "Test Company",
+						contactName: "Test contact",
+					},
+					setCart,
+				}}
+			>
+				<MemoryRouter initialEntries={["/category-items/1"]}>
+					<Route path="/category-items/:id">
+						<CategoryPage />
+					</Route>
+				</MemoryRouter>
+			</AppContext.Provider>
+		</ToastContextProvider>
 	);
 
 	await waitForElementToBeRemoved(screen.getByText("Loading"));
