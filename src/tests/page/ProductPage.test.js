@@ -17,6 +17,7 @@ import Category from "../../models/category";
 import Product from "../../models/product";
 import ProductPage from "../../page/ProductPage";
 import { url } from "../../api/url";
+import { ToastContext } from "../../contexts";
 
 jest.mock("@auth0/auth0-react");
 
@@ -231,15 +232,19 @@ test("Add to cart Button posts to API and alert appears", async () => {
 		.reply(200, [{ product: fakeProduct, quantity: 1 }]);
 
 	const setCart = jest.fn();
-
+	const handleAddToast = jest.fn();
 	render(
-		<AppContext.Provider value={{ setCart, customer: { customerId: 99 } }}>
-			<MemoryRouter initialEntries={["/product/1"]}>
-				<Route path="/product/:id">
-					<ProductPage />
-				</Route>
-			</MemoryRouter>
-		</AppContext.Provider>
+		<ToastContext.Provider value={{ handleAddToast }}>
+			<AppContext.Provider
+				value={{ setCart, customer: { customerId: 99 } }}
+			>
+				<MemoryRouter initialEntries={["/product/1"]}>
+					<Route path="/product/:id">
+						<ProductPage />
+					</Route>
+				</MemoryRouter>
+			</AppContext.Provider>
+		</ToastContext.Provider>
 	);
 
 	await waitForElementToBeRemoved(screen.getByText(/Loading$/i));
@@ -250,12 +255,10 @@ test("Add to cart Button posts to API and alert appears", async () => {
 	userEvent.click(cartButton);
 
 	await waitFor(() => {
-		expect(setCart).toBeCalledTimes(1);
+		expect(handleAddToast).toBeCalledTimes(1);
 	});
 
-	const alert = await screen.findByText(/Item added!/i);
-	expect(alert).toBeInTheDocument();
-
-	userEvent.click(screen.getByRole("button", { name: /Close alert/i }));
-	await waitForElementToBeRemoved(alert);
+	await waitFor(() => {
+		expect(setCart).toBeCalledTimes(1);
+	});
 });
