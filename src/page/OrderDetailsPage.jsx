@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { useParams, withRouter } from "react-router";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Table } from "react-bootstrap";
@@ -6,10 +7,10 @@ import { Table } from "react-bootstrap";
 import { getOrder } from "../api/orderAPI";
 import Loading from "../components/Loading";
 
-function OrderDetailsPage() {
+function OrderDetailsPage(props) {
 	const { id } = useParams();
 	const { getAccessTokenSilently } = useAuth0();
-	const [order, setOrder] = useState(null);
+	const [order, setOrder] = useState(props.location?.state?.order);
 
 	useEffect(() => {
 		const abortController = new AbortController();
@@ -21,7 +22,7 @@ function OrderDetailsPage() {
 				.then(setOrder)
 				.catch(console.log);
 		}
-		if (id) {
+		if (!order) {
 			fetchOrder();
 		}
 		return () => {
@@ -103,5 +104,19 @@ function OrderDetailsPage() {
 		</>
 	);
 }
+
+OrderDetailsPage.propTypes = {
+	location: PropTypes.shape({
+		pathname: PropTypes.string,
+		state: PropTypes.shape({
+			order: PropTypes.shape({
+				id: PropTypes.number,
+				customer: PropTypes.shape({ id: PropTypes.number }),
+				orderDate: PropTypes.string,
+				detailsList: PropTypes.array,
+			}),
+		}),
+	}),
+};
 
 export default withRouter(OrderDetailsPage);

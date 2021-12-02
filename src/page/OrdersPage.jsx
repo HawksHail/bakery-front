@@ -49,7 +49,12 @@ function OrderPage() {
 							orders.map(order => (
 								<tr key={order.id}>
 									<td>
-										<Link to={`/orders/${order.id}`}>
+										<Link
+											to={{
+												pathname: `/orders/${order.id}`,
+												state: { order },
+											}}
+										>
 											#{order.id}
 										</Link>
 									</td>
@@ -70,7 +75,12 @@ function OrderPage() {
 											})}
 									</td>
 									<td>
-										<Link to={`/orders/${order.id}`}>
+										<Link
+											to={{
+												pathname: `/orders/${order.id}`,
+												state: { order },
+											}}
+										>
 											View
 										</Link>
 									</td>
