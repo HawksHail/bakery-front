@@ -36,7 +36,12 @@ function ProductCard(props) {
 						/>
 					</a>
 					<Card.Title>
-						<Link to={`/product/${props.product.id}`}>
+						<Link
+							to={{
+								pathname: `/product/${props.product.id}`,
+								state: { product: props.product },
+							}}
+						>
 							{props.product.productName}
 						</Link>
 					</Card.Title>
