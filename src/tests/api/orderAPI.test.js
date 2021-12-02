@@ -1,4 +1,4 @@
-import { getOrders, getOrder } from "../../api/orderApi";
+import { getOrders, getOrder } from "../../api/orderAPI";
 import { url } from "../../api/url";
 
 let fetchSpy;
