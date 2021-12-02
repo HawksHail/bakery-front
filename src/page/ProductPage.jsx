@@ -29,7 +29,9 @@ function ProductPage(props) {
 	const { getAccessTokenSilently } = useAuth0();
 
 	useEffect(() => {
-		getProduct(id).then(setProduct).catch(console.log);
+		if (!product) {
+			getProduct(id).then(setProduct).catch(console.log);
+		}
 	}, [id]);
 
 	const handleAddToCart = async event => {
