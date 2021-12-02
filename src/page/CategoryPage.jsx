@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useParams, withRouter } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Breadcrumb } from "react-bootstrap";
 
@@ -11,16 +11,20 @@ import { addToCart } from "../api/cartAPI";
 import ProductCard from "../components/ProductCard";
 import ProductCardRow from "../components/ProductCardRow";
 import Loading from "../components/Loading";
+import Category from "../models/category";
 
-function CategoryPage({ history }) {
+function CategoryPage(props) {
 	const { id } = useParams();
-	const [category, setCategory] = useState(null);
+	const [category, setCategory] = useState(props.location?.state?.category);
 	const { setCart, customer } = useContext(AppContext);
 	const { handleAddToast } = useContext(ToastContext);
 	const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+	const history = useHistory();
 
 	useEffect(() => {
-		getCategory(id).then(setCategory).catch(console.log);
+		if (!category?.productList) {
+			getCategory(id).then(setCategory).catch(console.log);
+		}
 	}, [id]);
 
 	const addToCartButton = async product => {
@@ -42,7 +46,7 @@ function CategoryPage({ history }) {
 		}
 	};
 
-	if (!category?.productList) {
+	if (!category) {
 		return (
 			<div>
 				<Loading />
@@ -61,29 +65,38 @@ function CategoryPage({ history }) {
 					{category.categoryName}
 				</Breadcrumb.Item>
 			</Breadcrumb>
-			<ProductCardRow>
-				{category.productList.map(product => (
-					<ProductCard
-						product={product}
-						key={product.id}
-						categoryName={category.categoryName}
-						buttonText="Add to Cart"
-						buttonClick={
-							isAuthenticated
-								? () => addToCartButton(product)
-								: () => {
-										history.push("/login");
-								  }
-						}
-					/>
-				))}
-			</ProductCardRow>
+			{category?.productList ? (
+				<ProductCardRow>
+					{category.productList.map(product => (
+						<ProductCard
+							product={product}
+							key={product.id}
+							categoryName={category.categoryName}
+							buttonText="Add to Cart"
+							buttonClick={
+								isAuthenticated
+									? () => addToCartButton(product)
+									: () => {
+											history.push("/login");
+									  }
+							}
+						/>
+					))}
+				</ProductCardRow>
+			) : (
+				<Loading />
+			)}
 		</>
 	);
 }
 
 CategoryPage.propTypes = {
-	history: PropTypes.object,
+	location: PropTypes.shape({
+		pathname: PropTypes.string,
+		state: PropTypes.shape({
+			category: PropTypes.shape(Category),
+		}),
+	}),
 };
 
 export default withRouter(CategoryPage);

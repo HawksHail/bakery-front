@@ -28,7 +28,10 @@ function DisplayCarousel({ arr }) {
 							<h3>{product.productName}</h3>
 						</Link>
 						<Link
-							to={`/category/${product.category.id}`}
+							to={{
+								pathname: `/category/${product.category.id}`,
+								state: { category: product.category },
+							}}
 							className="text-secondary"
 						>
 							{product.category.categoryName}
