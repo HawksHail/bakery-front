@@ -10,25 +10,28 @@ function DisplayCarousel({ arr }) {
 
 	return (
 		<Carousel>
-			{arr.map(item => (
-				<Carousel.Item key={item.id}>
+			{arr.map(product => (
+				<Carousel.Item key={product.id}>
 					<img
 						className="d-block w-100 rounded-3"
-						src={item.imgURL}
-						alt={item.productName}
+						src={product.imgURL}
+						alt={product.productName}
 					/>
 					<Carousel.Caption className="bg-primary bg-opacity-50">
 						<Link
-							to={`/product/${item.id}`}
+							to={{
+								pathname: `/product/${product.id}`,
+								state: { product: product },
+							}}
 							className="link-secondary"
 						>
-							<h3>{item.productName}</h3>
+							<h3>{product.productName}</h3>
 						</Link>
 						<Link
-							to={`/category/${item.category.id}`}
+							to={`/category/${product.category.id}`}
 							className="text-secondary"
 						>
-							{item.category.categoryName}
+							{product.category.categoryName}
 						</Link>
 					</Carousel.Caption>
 				</Carousel.Item>
