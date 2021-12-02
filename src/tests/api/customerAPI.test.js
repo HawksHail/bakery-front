@@ -55,7 +55,7 @@ test("createCustomer fetches properly", () => {
 
 test("updateCustomer fetches properly", () => {
 	const fakeCustomer = {
-		customerId: 1,
+		id: 1,
 		sub: "auth0|id",
 		companyName: "test Company",
 		contactName: "test name",

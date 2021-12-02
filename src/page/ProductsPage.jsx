@@ -24,9 +24,7 @@ function ProductsPage({ history }) {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			await addToCart(customer.customerId, product.id, accessToken).then(
-				setCart
-			);
+			await addToCart(customer.id, product.id, accessToken).then(setCart);
 			handleAddToast(
 				"Success",
 				`${product.productName} added to cart!`,

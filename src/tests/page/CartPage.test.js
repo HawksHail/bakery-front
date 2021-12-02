@@ -121,9 +121,7 @@ test("contents of cart are loaded from API and displayed", () => {
 		</ToastContextProvider>
 	);
 	waitFor(() => {
-		expect(fetchSpy).toBeCalledWith(
-			`${url}/cart/${fakeCart.customer.customerId}`
-		);
+		expect(fetchSpy).toBeCalledWith(`${url}/cart/${fakeCart.customer.id}`);
 	});
 
 	expect(screen.getByText(/Cart/)).toBeInTheDocument();
@@ -140,7 +138,7 @@ test("Remove Button POSTS to API and handleAddToast is called", async () => {
 				value={{
 					cart: fakeCart,
 					setCart: jest.fn(),
-					customer: { customerId: 99 },
+					customer: { id: 99 },
 				}}
 			>
 				<Router>
@@ -151,14 +149,11 @@ test("Remove Button POSTS to API and handleAddToast is called", async () => {
 	);
 
 	waitFor(() => {
-		expect(fetchSpy).toBeCalledWith(
-			`${url}/cart/${fakeCart.customer.customerId}`,
-			{
-				headers: {
-					Authorization: "Bearer token",
-				},
-			}
-		);
+		expect(fetchSpy).toBeCalledWith(`${url}/cart/${fakeCart.customer.id}`, {
+			headers: {
+				Authorization: "Bearer token",
+			},
+		});
 	});
 
 	const buttons = await screen.findAllByRole("button", { name: /remove/i });
@@ -170,7 +165,7 @@ test("Remove Button POSTS to API and handleAddToast is called", async () => {
 
 	waitFor(() => {
 		expect(fetchSpy).toBeCalledWith(
-			`${url}/cart/${fakeCart.customer.customerId}/${fakeCart.items[0].product.id}`,
+			`${url}/cart/${fakeCart.customer.id}/${fakeCart.items[0].product.id}`,
 			{
 				method: "DELETE",
 				headers: {
@@ -188,7 +183,7 @@ test("Clear cart button appears and fetches API", async () => {
 				value={{
 					cart: fakeCart,
 					setCart: jest.fn(),
-					customer: { customerId: 99 },
+					customer: { id: 99 },
 				}}
 			>
 				<Router>
@@ -229,7 +224,7 @@ test("Checkout button appears and fetches API", async () => {
 				value={{
 					cart: fakeCart,
 					setCart: jest.fn(),
-					customer: { customerId: 99 },
+					customer: { id: 99 },
 				}}
 			>
 				<Router>
@@ -263,7 +258,7 @@ test("Total cost is calculated and appears", async () => {
 				value={{
 					cart: fakeCart,
 					setCart: jest.fn(),
-					customer: { customerId: 99 },
+					customer: { id: 99 },
 				}}
 			>
 				<Router>

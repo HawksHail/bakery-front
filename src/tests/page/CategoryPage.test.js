@@ -180,7 +180,7 @@ test("Button POSTS to API and sets cart", async () => {
 			<AppContext.Provider
 				value={{
 					customer: {
-						customerId: 9,
+						id: 9,
 						sub: "auth0|617c1ea289fdd10070ece377",
 						companyName: "Test Company",
 						contactName: "Test contact",

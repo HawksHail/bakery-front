@@ -13,7 +13,7 @@ import { url } from "../api/url";
 jest.mock("@auth0/auth0-react");
 
 const fakeUser = {
-	customerId: 9,
+	id: 9,
 	sub: "auth0|ID",
 };
 

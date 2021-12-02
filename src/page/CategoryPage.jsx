@@ -28,7 +28,7 @@ function CategoryPage({ history }) {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			await addToCart(customer.customerId, product.id, accessToken)
+			await addToCart(customer.id, product.id, accessToken)
 				.then(setCart)
 				.catch(e => console.log("Error posting cart", e));
 			handleAddToast(

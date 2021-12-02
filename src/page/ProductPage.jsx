@@ -39,7 +39,7 @@ function ProductPage(props) {
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
 			await addToCart(
-				customer.customerId,
+				customer.id,
 				product.id,
 				accessToken,
 				quantity

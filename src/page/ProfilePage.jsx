@@ -17,16 +17,13 @@ function ProfilePage() {
 	const [state, setState] = useState("");
 
 	useEffect(async () => {
-		if (customer?.customerId) {
+		if (customer?.id) {
 			try {
 				const accessToken = await getAccessTokenSilently({
 					audience: "https://zion.ee-cognizantacademy.com",
 				});
 
-				let newCustomer = await getCustomer(
-					customer.customerId,
-					accessToken
-				);
+				let newCustomer = await getCustomer(customer.id, accessToken);
 				setCustomer(newCustomer);
 			} catch (error) {
 				console.log("Error updating customer", error);
@@ -47,7 +44,7 @@ function ProfilePage() {
 	const handleSave = async event => {
 		event.preventDefault();
 		const newCustomer = {
-			customerId: customer.customerId,
+			id: customer.id,
 			sub: customer.sub,
 			contactName: name ? name : null,
 			companyName: company ? company : null,

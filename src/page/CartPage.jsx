@@ -19,20 +19,20 @@ function CartPage() {
 	const { getAccessTokenSilently } = useAuth0();
 
 	useEffect(async () => {
-		if (customer?.customerId) {
+		if (customer?.id) {
 			try {
 				const accessToken = await getAccessTokenSilently({
 					audience: "https://zion.ee-cognizantacademy.com",
 				});
 
-				getCart(customer.customerId, accessToken)
+				getCart(customer.id, accessToken)
 					.then(setCart)
 					.catch(console.log);
 			} catch (error) {
 				console.log("Error updating customer", error);
 			}
 		}
-	}, [customer?.customerId, getAccessTokenSilently]);
+	}, [customer?.id, getAccessTokenSilently]);
 
 	const handleRemoveButton = async item => {
 		try {
@@ -40,7 +40,7 @@ function CartPage() {
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
 			await removeFromCart(
-				customer.customerId,
+				customer.id,
 				item.product.id,
 				accessToken
 			).then(setCart);
@@ -60,7 +60,7 @@ function CartPage() {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			await clearCart(customer.customerId, accessToken);
+			await clearCart(customer.id, accessToken);
 			window.scrollTo(0, 0);
 			setCart([]);
 			handleAddToast("Cleared!", "Cart cleared!", "danger", "text-white");
@@ -74,7 +74,7 @@ function CartPage() {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			await checkoutCart(customer.customerId, accessToken);
+			await checkoutCart(customer.id, accessToken);
 			window.scrollTo(0, 0);
 			setCart([]);
 			handleAddToast("Success!", "Checked out!", "primary", "text-white");
