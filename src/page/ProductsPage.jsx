@@ -16,7 +16,9 @@ function ProductsPage({ history }) {
 	const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
 	useEffect(() => {
-		getAllProducts().then(setProducts).catch(console.log);
+		if (!products || products?.length < 1) {
+			getAllProducts().then(setProducts).catch(console.log);
+		}
 	}, []);
 
 	const addToCartButton = async product => {

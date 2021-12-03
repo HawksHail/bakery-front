@@ -10,7 +10,9 @@ function CategoriesPage() {
 	const { categories, setCategories } = useContext(AppContext);
 
 	useEffect(() => {
-		getAllCategories().then(setCategories).catch(console.log);
+		if (!categories || categories?.length < 1) {
+			getAllCategories().then(setCategories).catch(console.log);
+		}
 	}, []);
 
 	return (
