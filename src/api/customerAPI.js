@@ -5,7 +5,6 @@ export const getCustomer = async (id, accessToken) => {
 		method: "GET",
 		headers: {
 			Authorization: `Bearer ${accessToken}`,
-			"Content-Type": "text/plain",
 		},
 	});
 	return await res.json();

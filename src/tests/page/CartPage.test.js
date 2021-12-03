@@ -177,6 +177,8 @@ test("Remove Button POSTS to API and handleAddToast is called", async () => {
 });
 
 test("Clear cart button appears and fetches API", async () => {
+	window.scrollTo = jest.fn();
+
 	render(
 		<ToastContextProvider>
 			<AppContext.Provider
@@ -218,6 +220,8 @@ test("Clear cart button appears and fetches API", async () => {
 });
 
 test("Checkout button appears and fetches API", async () => {
+	window.scrollTo = jest.fn();
+
 	render(
 		<ToastContextProvider>
 			<AppContext.Provider

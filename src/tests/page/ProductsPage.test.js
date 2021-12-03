@@ -16,6 +16,7 @@ import Category from "../../models/category";
 import Product from "../../models/product";
 import { url } from "../../api/url";
 import ProductsContextProvider from "../../contexts/ProductsContextProvider";
+import ToastContextProvider from "../../contexts/ToastContextProvider";
 
 jest.mock("@auth0/auth0-react");
 
@@ -98,13 +99,15 @@ test("API is called and products are rendered", async () => {
 
 test("Button POSTS to API", async () => {
 	render(
-		<AppContext.Provider
-			value={{ products: fakeProducts, customer: { id: 9 } }}
-		>
-			<Router>
-				<ProductsPage />
-			</Router>
-		</AppContext.Provider>
+		<ToastContextProvider>
+			<AppContext.Provider
+				value={{ products: fakeProducts, customer: { id: 9 } }}
+			>
+				<Router>
+					<ProductsPage />
+				</Router>
+			</AppContext.Provider>
+		</ToastContextProvider>
 	);
 
 	const buttons = screen.getAllByRole("button", { name: /add to cart/i });
