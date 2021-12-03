@@ -7,7 +7,7 @@ import "./scss/custom.scss";
 import "./styles/index.css";
 import App from "./components/App";
 import reportWebVitals from "./reportWebVitals";
-import ProductsContextProvider from "./contexts/ProductsContextProvider";
+import AppContextProvider from "./contexts/AppContextProvider";
 import ToastContextProvider from "./contexts/ToastContextProvider";
 
 ReactDOM.render(
@@ -19,9 +19,9 @@ ReactDOM.render(
 	>
 		<React.StrictMode>
 			<ToastContextProvider>
-				<ProductsContextProvider>
+				<AppContextProvider>
 					<App />
-				</ProductsContextProvider>
+				</AppContextProvider>
 			</ToastContextProvider>
 		</React.StrictMode>
 	</Auth0Provider>,

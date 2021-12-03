@@ -15,7 +15,7 @@ import Supplier from "../../models/supplier";
 import Category from "../../models/category";
 import Product from "../../models/product";
 import { url } from "../../api/url";
-import ProductsContextProvider from "../../contexts/ProductsContextProvider";
+import AppContextProvider from "../../contexts/AppContextProvider";
 import ToastContextProvider from "../../contexts/ToastContextProvider";
 
 jest.mock("@auth0/auth0-react");
@@ -82,11 +82,11 @@ test("list not loaded yet", () => {
 
 test("API is called and products are rendered", async () => {
 	render(
-		<ProductsContextProvider>
+		<AppContextProvider>
 			<Router>
 				<ProductsPage />
 			</Router>
-		</ProductsContextProvider>
+		</AppContextProvider>
 	);
 
 	await waitForElementToBeRemoved(() => screen.getByText(/Loading$/i));

@@ -9,7 +9,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import nock from "nock";
 
 import AppContext from "../../contexts";
-import ProductsContextProvider from "../../contexts/ProductsContextProvider";
+import AppContextProvider from "../../contexts/AppContextProvider";
 import CategoriesPage from "../../page/CategoriesPage";
 import Category from "../../models/category";
 import { url } from "../../api/url";
@@ -58,11 +58,11 @@ test("API is called and all products are rendered", async () => {
 		.reply(200, categories);
 
 	render(
-		<ProductsContextProvider>
+		<AppContextProvider>
 			<Router>
 				<CategoriesPage />
 			</Router>
-		</ProductsContextProvider>
+		</AppContextProvider>
 	);
 
 	await waitForElementToBeRemoved(() => screen.getByText(/Loading$/i));

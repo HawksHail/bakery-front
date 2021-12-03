@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import AppContext from ".";
 
-const ProductsContextProvider = ({ children }) => {
+const AppContextProvider = ({ children }) => {
 	const [products, setProducts] = useState([]);
 	const [categories, setCategories] = useState([]);
 	const [cart, setCart] = useState(null);
@@ -25,8 +25,8 @@ const ProductsContextProvider = ({ children }) => {
 	);
 };
 
-ProductsContextProvider.propTypes = {
+AppContextProvider.propTypes = {
 	children: PropTypes.node,
 };
 
-export default ProductsContextProvider;
+export default AppContextProvider;
