@@ -2,14 +2,13 @@ import React from "react";
 import {
 	render,
 	screen,
-	waitFor,
 	waitForElementToBeRemoved,
 } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import nock from "nock";
 
-import AppContext from "../../contexts";
-import AppContextProvider from "../../contexts/AppContextProvider";
+import { ProductContext } from "../../contexts";
+import ProductContextProvider from "../../contexts/ProductContextProvider";
 import CategoriesPage from "../../page/CategoriesPage";
 import Category from "../../models/category";
 import { url } from "../../api/url";
@@ -38,11 +37,11 @@ test("list not loaded yet", () => {
 		.reply(200, categories);
 
 	render(
-		<AppContext.Provider value={{ categories: [] }}>
+		<ProductContext.Provider value={{ categories: [] }}>
 			<Router>
 				<CategoriesPage />
 			</Router>
-		</AppContext.Provider>
+		</ProductContext.Provider>
 	);
 
 	expect(screen.getByText(/Loading$/i)).toBeInTheDocument();
@@ -58,11 +57,11 @@ test("API is called and all products are rendered", async () => {
 		.reply(200, categories);
 
 	render(
-		<AppContextProvider>
+		<ProductContextProvider>
 			<Router>
 				<CategoriesPage />
 			</Router>
-		</AppContextProvider>
+		</ProductContextProvider>
 	);
 
 	await waitForElementToBeRemoved(() => screen.getByText(/Loading$/i));

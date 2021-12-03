@@ -1,13 +1,13 @@
 import React, { useContext, useEffect } from "react";
 import { Table } from "react-bootstrap";
 
-import AppContext from "../contexts";
+import { ProductContext } from "../contexts";
 import { getAllCategories } from "../api/categoryAPI";
 import CategoryRow from "../components/CategoryRow";
 import Loading from "../components/Loading";
 
 function CategoriesPage() {
-	const { categories, setCategories } = useContext(AppContext);
+	const { categories, setCategories } = useContext(ProductContext);
 
 	useEffect(() => {
 		if (!categories || categories?.length < 1) {
