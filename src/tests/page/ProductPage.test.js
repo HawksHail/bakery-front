@@ -235,9 +235,7 @@ test("Add to cart Button posts to API and alert appears", async () => {
 	const handleAddToast = jest.fn();
 	render(
 		<ToastContext.Provider value={{ handleAddToast }}>
-			<AppContext.Provider
-				value={{ setCart, customer: { customerId: 99 } }}
-			>
+			<AppContext.Provider value={{ setCart, customer: { id: 99 } }}>
 				<MemoryRouter initialEntries={["/product/1"]}>
 					<Route path="/product/:id">
 						<ProductPage />

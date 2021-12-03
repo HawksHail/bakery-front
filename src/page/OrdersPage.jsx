@@ -18,17 +18,17 @@ function OrderPage() {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			getOrders(customer.customerId, accessToken, abortController)
+			getOrders(customer.id, accessToken, abortController)
 				.then(setOrders)
 				.catch(console.log);
 		}
-		if (customer?.customerId) {
+		if (customer?.id) {
 			fetchOrders();
 		}
 		return () => {
 			abortController.abort(); // cancel pending fetch request on component unmount
 		};
-	}, [customer?.customerId, getAccessTokenSilently]);
+	}, [customer?.id, getAccessTokenSilently]);
 
 	return (
 		<>
@@ -49,7 +49,12 @@ function OrderPage() {
 							orders.map(order => (
 								<tr key={order.id}>
 									<td>
-										<Link to={`/orders/${order.id}`}>
+										<Link
+											to={{
+												pathname: `/orders/${order.id}`,
+												state: { order },
+											}}
+										>
 											#{order.id}
 										</Link>
 									</td>
@@ -70,7 +75,12 @@ function OrderPage() {
 											})}
 									</td>
 									<td>
-										<Link to={`/orders/${order.id}`}>
+										<Link
+											to={{
+												pathname: `/orders/${order.id}`,
+												state: { order },
+											}}
+										>
 											View
 										</Link>
 									</td>

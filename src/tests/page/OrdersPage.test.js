@@ -18,7 +18,7 @@ const fakeOrders = [
 	{
 		id: 282,
 		customer: {
-			customerId: 9,
+			id: 9,
 		},
 		orderDate: "2021-11-24",
 		detailsList: [
@@ -50,7 +50,7 @@ const fakeOrders = [
 	{
 		id: 283,
 		customer: {
-			customerId: 9,
+			id: 9,
 		},
 		orderDate: "2021-11-23",
 		detailsList: [
@@ -123,7 +123,7 @@ test("Renders Table headers", async () => {
 		.reply(200, fakeOrders);
 
 	render(
-		<AppContext.Provider value={{ customer: { customerId: 9 } }}>
+		<AppContext.Provider value={{ customer: { id: 9 } }}>
 			<Router>
 				<OrdersPage />
 			</Router>
@@ -152,7 +152,7 @@ test("Calls API and renders rows", async () => {
 		.reply(200, fakeOrders);
 
 	render(
-		<AppContext.Provider value={{ customer: { customerId: 9 } }}>
+		<AppContext.Provider value={{ customer: { id: 9 } }}>
 			<Router>
 				<OrdersPage />
 			</Router>
@@ -182,7 +182,7 @@ test("Calls API and there are no orders", async () => {
 		.reply(200, []);
 
 	render(
-		<AppContext.Provider value={{ customer: { customerId: 9 } }}>
+		<AppContext.Provider value={{ customer: { id: 9 } }}>
 			<Router>
 				<OrdersPage />
 			</Router>
@@ -211,7 +211,7 @@ test("Rows have links", async () => {
 		.reply(200, fakeOrders);
 
 	render(
-		<AppContext.Provider value={{ customer: { customerId: 9 } }}>
+		<AppContext.Provider value={{ customer: { id: 9 } }}>
 			<Router>
 				<OrdersPage />
 			</Router>

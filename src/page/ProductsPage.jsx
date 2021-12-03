@@ -16,7 +16,9 @@ function ProductsPage({ history }) {
 	const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
 	useEffect(() => {
-		getAllProducts().then(setProducts).catch(console.log);
+		if (!products || products?.length < 1) {
+			getAllProducts().then(setProducts).catch(console.log);
+		}
 	}, []);
 
 	const addToCartButton = async product => {
@@ -24,9 +26,7 @@ function ProductsPage({ history }) {
 			const accessToken = await getAccessTokenSilently({
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
-			await addToCart(customer.customerId, product.id, accessToken).then(
-				setCart
-			);
+			await addToCart(customer.id, product.id, accessToken).then(setCart);
 			handleAddToast(
 				"Success",
 				`${product.productName} added to cart!`,

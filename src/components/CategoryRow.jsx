@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
+import { Link } from "react-router-dom";
 
 import Category from "../models/category";
 
@@ -8,16 +9,16 @@ function CategoryRow(props) {
 	return (
 		<tr>
 			<td>
-				<a
+				<Link
 					className="link-primary"
 					data-testid="link"
-					style={{ cursor: "pointer" }}
-					onClick={() =>
-						props.history.push(`/category/${props.category.id}`)
-					}
+					to={{
+						pathname: `/category/${props.category.id}`,
+						state: { category: props.category },
+					}}
 				>
 					{props.category.categoryName}
-				</a>
+				</Link>
 			</td>
 			<td>{props.category.description}</td>
 		</tr>

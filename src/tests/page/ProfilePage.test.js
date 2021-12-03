@@ -10,7 +10,7 @@ import { url } from "../../api/url";
 jest.mock("@auth0/auth0-react");
 
 const fakeCustomer = {
-	customerId: 9,
+	id: 9,
 	sub: "auth0|ID",
 	companyName: "test company",
 	contactName: "test name",
@@ -174,10 +174,10 @@ test("save button PUTs", async () => {
 		.options("/customer")
 		.optionally()
 		.reply(200)
-		.options(`/customer/${fakeCustomer.customerId}`)
+		.options(`/customer/${fakeCustomer.id}`)
 		.optionally()
 		.reply(200)
-		.get(`/customer/${fakeCustomer.customerId}`)
+		.get(`/customer/${fakeCustomer.id}`)
 		.optionally()
 		.reply(200, fakeCustomer)
 		.put("/customer")

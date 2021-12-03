@@ -17,7 +17,7 @@ jest.mock("@auth0/auth0-react");
 const fakeOrder = {
 	id: 1,
 	customer: {
-		customerId: 9,
+		id: 9,
 	},
 	orderDate: "2021-11-24",
 	detailsList: [

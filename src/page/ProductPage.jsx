@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import PropTypes from "prop-types";
 import { useParams, withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -13,13 +14,14 @@ import {
 } from "react-bootstrap";
 
 import AppContext, { ToastContext } from "../contexts";
+import Product from "../models/product";
 import Loading from "../components/Loading";
 import { getProduct } from "../api/productAPI";
 import { addToCart } from "../api/cartAPI";
 
-function ProductPage() {
+function ProductPage(props) {
 	const { id } = useParams();
-	const [product, setProduct] = useState(null);
+	const [product, setProduct] = useState(props.location?.state?.product);
 	const [quantity, setQuantity] = useState(1);
 	const { setCart, customer } = useContext(AppContext);
 	const { handleAddToast } = useContext(ToastContext);
@@ -27,7 +29,9 @@ function ProductPage() {
 	const { getAccessTokenSilently } = useAuth0();
 
 	useEffect(() => {
-		getProduct(id).then(setProduct).catch(console.log);
+		if (!product) {
+			getProduct(id).then(setProduct).catch(console.log);
+		}
 	}, [id]);
 
 	const handleAddToCart = async event => {
@@ -37,7 +41,7 @@ function ProductPage() {
 				audience: "https://zion.ee-cognizantacademy.com",
 			});
 			await addToCart(
-				customer.customerId,
+				customer.id,
 				product.id,
 				accessToken,
 				quantity
@@ -161,5 +165,14 @@ function ProductPage() {
 		</>
 	);
 }
+
+ProductPage.propTypes = {
+	location: PropTypes.shape({
+		pathname: PropTypes.string,
+		state: PropTypes.shape({
+			product: PropTypes.shape(Product),
+		}),
+	}),
+};
 
 export default withRouter(ProductPage);
