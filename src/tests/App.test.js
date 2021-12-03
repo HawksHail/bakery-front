@@ -37,7 +37,7 @@ afterEach(function () {
 });
 
 test("fetches user using auth0 sub id", async () => {
-	const scope = nock(url)
+	 nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "Authorization",
@@ -75,7 +75,7 @@ test("fetches user using auth0 sub id", async () => {
 });
 
 test("fetches user using auth0 sub id returns 404 and tries to create new customer", async () => {
-	const scope = nock(url)
+	 nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "Authorization",

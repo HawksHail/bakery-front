@@ -1,9 +1,5 @@
-import {
-	render,
-	screen,
-	waitFor,
-	waitForElementToBeRemoved,
-} from "@testing-library/react";
+import React from "react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import nock from "nock";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -75,7 +71,7 @@ afterEach(function () {
 });
 
 test("Display loading before customer is loaded", () => {
-	const scope = nock(url)
+	nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "Authorization",
@@ -93,7 +89,7 @@ test("Display loading before customer is loaded", () => {
 });
 
 test("profile form renders", () => {
-	const scope = nock(url)
+	nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "Authorization",
@@ -123,7 +119,7 @@ test("profile form renders", () => {
 });
 
 test("profile loads customer info", () => {
-	const scope = nock(url)
+	nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "Authorization",
@@ -159,7 +155,7 @@ test("profile loads customer info", () => {
 });
 
 test("typing updates value", () => {
-	const scope = nock(url)
+	nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "Authorization",
@@ -193,7 +189,7 @@ test("typing updates value", () => {
 });
 
 test("Save button disabled if nothing new", () => {
-	const scope = nock(url)
+	nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "Authorization",
@@ -215,7 +211,7 @@ test("Save button disabled if nothing new", () => {
 });
 
 test("Save button enabled if new info entered", () => {
-	const scope = nock(url)
+	nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "Authorization",

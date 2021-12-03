@@ -27,7 +27,7 @@ afterEach(function () {
 });
 
 test("list not loaded yet", () => {
-	const scope = nock(url)
+	nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "Authorization",
@@ -48,7 +48,7 @@ test("list not loaded yet", () => {
 });
 
 test("API is called and all products are rendered", async () => {
-	const scope = nock(url)
+	nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "Authorization",

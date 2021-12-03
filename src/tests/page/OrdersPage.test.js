@@ -110,7 +110,7 @@ test("Renders Orders Title", () => {
 });
 
 test("Renders Table headers", async () => {
-	const scope = nock(url)
+	 nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "Authorization",
@@ -140,7 +140,7 @@ test("Renders Table headers", async () => {
 });
 
 test("Calls API and renders rows", async () => {
-	const scope = nock(url)
+	 nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "Authorization",
@@ -170,7 +170,7 @@ test("Calls API and renders rows", async () => {
 });
 
 test("Calls API and there are no orders", async () => {
-	const scope = nock(url)
+	 nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "Authorization",
@@ -199,7 +199,7 @@ test("Calls API and there are no orders", async () => {
 });
 
 test("Rows have links", async () => {
-	const scope = nock(url)
+	nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "Authorization",
