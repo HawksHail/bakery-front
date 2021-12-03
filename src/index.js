@@ -9,6 +9,7 @@ import App from "./components/App";
 import reportWebVitals from "./reportWebVitals";
 import AppContextProvider from "./contexts/AppContextProvider";
 import ToastContextProvider from "./contexts/ToastContextProvider";
+import ProductContextProvider from "./contexts/ProductContextProvider";
 
 ReactDOM.render(
 	<Auth0Provider
@@ -18,11 +19,13 @@ ReactDOM.render(
 		audience="https://zion.ee-cognizantacademy.com"
 	>
 		<React.StrictMode>
-			<ToastContextProvider>
-				<AppContextProvider>
-					<App />
-				</AppContextProvider>
-			</ToastContextProvider>
+			<AppContextProvider>
+				<ToastContextProvider>
+					<ProductContextProvider>
+						<App />
+					</ProductContextProvider>
+				</ToastContextProvider>
+			</AppContextProvider>
 		</React.StrictMode>
 	</Auth0Provider>,
 	document.getElementById("root")

@@ -9,14 +9,15 @@ import userEvent from "@testing-library/user-event";
 import { BrowserRouter as Router } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import AppContext from "../../contexts";
+import AppContext, { ProductContext } from "../../contexts";
+import AppContextProvider from "../../contexts/AppContextProvider";
+import ToastContextProvider from "../../contexts/ToastContextProvider";
+import ProductContextProvider from "../../contexts/ProductContextProvider";
 import ProductsPage from "../../page/ProductsPage";
 import Supplier from "../../models/supplier";
 import Category from "../../models/category";
 import Product from "../../models/product";
 import { url } from "../../api/url";
-import AppContextProvider from "../../contexts/AppContextProvider";
-import ToastContextProvider from "../../contexts/ToastContextProvider";
 
 jest.mock("@auth0/auth0-react");
 
@@ -43,11 +44,13 @@ beforeEach(() => {
 
 test("Title is rendered", () => {
 	render(
-		<AppContext.Provider value={{ products: fakeProducts }}>
-			<Router>
-				<ProductsPage />
-			</Router>
-		</AppContext.Provider>
+		<AppContextProvider>
+			<ProductContext.Provider value={{ products: fakeProducts }}>
+				<Router>
+					<ProductsPage />
+				</Router>
+			</ProductContext.Provider>
+		</AppContextProvider>
 	);
 
 	expect(
@@ -57,11 +60,13 @@ test("Title is rendered", () => {
 
 test("all products are rendered", () => {
 	render(
-		<AppContext.Provider value={{ products: fakeProducts }}>
-			<Router>
-				<ProductsPage />
-			</Router>
-		</AppContext.Provider>
+		<AppContextProvider>
+			<ProductContext.Provider value={{ products: fakeProducts }}>
+				<Router>
+					<ProductsPage />
+				</Router>
+			</ProductContext.Provider>
+		</AppContextProvider>
 	);
 
 	const cards = screen.getAllByText(/name[0-9]/);
@@ -70,11 +75,13 @@ test("all products are rendered", () => {
 
 test("list not loaded yet", () => {
 	render(
-		<AppContext.Provider value={{ products: [] }}>
-			<Router>
-				<ProductsPage />
-			</Router>
-		</AppContext.Provider>
+		<AppContextProvider>
+			<ProductContext.Provider value={{ products: [] }}>
+				<Router>
+					<ProductsPage />
+				</Router>
+			</ProductContext.Provider>
+		</AppContextProvider>
 	);
 
 	expect(screen.getByText(/Loading$/i)).toBeInTheDocument();
@@ -83,9 +90,11 @@ test("list not loaded yet", () => {
 test("API is called and products are rendered", async () => {
 	render(
 		<AppContextProvider>
-			<Router>
-				<ProductsPage />
-			</Router>
+			<ProductContextProvider>
+				<Router>
+					<ProductsPage />
+				</Router>
+			</ProductContextProvider>
 		</AppContextProvider>
 	);
 
@@ -100,12 +109,12 @@ test("API is called and products are rendered", async () => {
 test("Button POSTS to API", async () => {
 	render(
 		<ToastContextProvider>
-			<AppContext.Provider
-				value={{ products: fakeProducts, customer: { id: 9 } }}
-			>
-				<Router>
-					<ProductsPage />
-				</Router>
+			<AppContext.Provider value={{ customer: { id: 9 } }}>
+				<ProductContext.Provider value={{ products: fakeProducts }}>
+					<Router>
+						<ProductsPage />
+					</Router>
+				</ProductContext.Provider>
 			</AppContext.Provider>
 		</ToastContextProvider>
 	);
