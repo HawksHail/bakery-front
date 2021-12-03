@@ -160,7 +160,7 @@ test("API is called and all products in category are rendered", async () => {
 });
 
 test("Button POSTS to API and sets cart", async () => {
-	const scope = nock(url)
+	nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "Authorization",

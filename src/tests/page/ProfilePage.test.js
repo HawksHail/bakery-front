@@ -1,3 +1,4 @@
+import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import nock from "nock";
@@ -27,20 +28,30 @@ const setForm = (name, company, street, city, state) => {
 	const cityInput = screen.getByRole("textbox", { name: "City" });
 	const stateInput = screen.getByRole("textbox", { name: "State" });
 
-	userEvent.clear(nameInput);
-	userEvent.type(nameInput, name);
+	if (name) {
+		userEvent.clear(nameInput);
+		userEvent.type(nameInput, name);
+	}
 
-	userEvent.clear(companyInput);
-	userEvent.type(companyInput, company);
+	if (company) {
+		userEvent.clear(companyInput);
+		userEvent.type(companyInput, company);
+	}
 
-	userEvent.clear(streetInput);
-	userEvent.type(streetInput, street);
+	if (street) {
+		userEvent.clear(streetInput);
+		userEvent.type(streetInput, street);
+	}
 
-	userEvent.clear(cityInput);
-	userEvent.type(cityInput, city);
+	if (city) {
+		userEvent.clear(cityInput);
+		userEvent.type(cityInput, city);
+	}
 
-	userEvent.clear(stateInput);
-	userEvent.type(stateInput, state);
+	if (state) {
+		userEvent.clear(stateInput);
+		userEvent.type(stateInput, state);
+	}
 };
 
 beforeEach(() => {
@@ -60,12 +71,36 @@ afterEach(function () {
 });
 
 test("Display loading before customer is loaded", () => {
+	nock(url)
+		.defaultReplyHeaders({
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Headers": "Authorization",
+		})
+		.options("/customer/9")
+		.optionally()
+		.reply(200)
+		.get("/customer/9")
+		.optionally()
+		.reply(200, fakeCustomer);
+
 	render(<ProfilePage />);
 
 	expect(screen.getByText("Loading")).toBeInTheDocument();
 });
 
 test("profile form renders", () => {
+	nock(url)
+		.defaultReplyHeaders({
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Headers": "Authorization",
+		})
+		.options("/customer/9")
+		.optionally()
+		.reply(200)
+		.get("/customer/9")
+		.optionally()
+		.reply(200, fakeCustomer);
+
 	render(
 		<AppContext.Provider value={{ customer: fakeCustomer }}>
 			<ProfilePage />
@@ -84,6 +119,18 @@ test("profile form renders", () => {
 });
 
 test("profile loads customer info", () => {
+	nock(url)
+		.defaultReplyHeaders({
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Headers": "Authorization",
+		})
+		.options("/customer/9")
+		.optionally()
+		.reply(200)
+		.get("/customer/9")
+		.optionally()
+		.reply(200, fakeCustomer);
+
 	render(
 		<AppContext.Provider value={{ customer: fakeCustomer }}>
 			<ProfilePage />
@@ -108,6 +155,18 @@ test("profile loads customer info", () => {
 });
 
 test("typing updates value", () => {
+	nock(url)
+		.defaultReplyHeaders({
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Headers": "Authorization",
+		})
+		.options("/customer/9")
+		.optionally()
+		.reply(200)
+		.get("/customer/9")
+		.optionally()
+		.reply(200, fakeCustomer);
+
 	render(
 		<AppContext.Provider value={{ customer: fakeCustomer }}>
 			<ProfilePage />
@@ -130,6 +189,18 @@ test("typing updates value", () => {
 });
 
 test("Save button disabled if nothing new", () => {
+	nock(url)
+		.defaultReplyHeaders({
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Headers": "Authorization",
+		})
+		.options("/customer/9")
+		.optionally()
+		.reply(200)
+		.get("/customer/9")
+		.optionally()
+		.reply(200, fakeCustomer);
+
 	render(
 		<AppContext.Provider value={{ customer: fakeCustomer }}>
 			<ProfilePage />
@@ -140,6 +211,18 @@ test("Save button disabled if nothing new", () => {
 });
 
 test("Save button enabled if new info entered", () => {
+	nock(url)
+		.defaultReplyHeaders({
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Headers": "Authorization",
+		})
+		.options("/customer/9")
+		.optionally()
+		.reply(200)
+		.get("/customer/9")
+		.optionally()
+		.reply(200, fakeCustomer);
+
 	render(
 		<AppContext.Provider value={{ customer: fakeCustomer }}>
 			<ProfilePage />
@@ -171,15 +254,15 @@ test("save button PUTs", async () => {
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "Authorization",
 		})
-		.options("/customer")
-		.optionally()
-		.reply(200)
 		.options(`/customer/${fakeCustomer.id}`)
 		.optionally()
 		.reply(200)
 		.get(`/customer/${fakeCustomer.id}`)
 		.optionally()
 		.reply(200, fakeCustomer)
+		.options("/customer")
+		.optionally()
+		.reply(200)
 		.put("/customer")
 		.once()
 		.reply(204);

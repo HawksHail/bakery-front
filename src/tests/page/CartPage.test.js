@@ -3,7 +3,6 @@ import {
 	render,
 	screen,
 	waitFor,
-	waitForElementToBeRemoved,
 } from "@testing-library/react";
 import { useAuth0 } from "@auth0/auth0-react";
 import userEvent from "@testing-library/user-event";
@@ -177,6 +176,8 @@ test("Remove Button POSTS to API and handleAddToast is called", async () => {
 });
 
 test("Clear cart button appears and fetches API", async () => {
+	window.scrollTo = jest.fn();
+
 	render(
 		<ToastContextProvider>
 			<AppContext.Provider
@@ -218,6 +219,8 @@ test("Clear cart button appears and fetches API", async () => {
 });
 
 test("Checkout button appears and fetches API", async () => {
+	window.scrollTo = jest.fn();
+
 	render(
 		<ToastContextProvider>
 			<AppContext.Provider

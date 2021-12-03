@@ -29,45 +29,6 @@ const fakeProduct = new Product(
 	6
 );
 
-const fakeCart = [
-	{
-		product: {
-			id: 4,
-			productName: "Test Product",
-			supplier: {
-				id: 1,
-				companyName: "Test Company",
-				contactName: "Test Contact",
-			},
-			category: {
-				id: 2,
-				categoryName: "Test Category",
-				description: "Test description",
-			},
-			unitPrice: 22.0,
-		},
-		quantity: 2,
-	},
-	{
-		product: {
-			id: 5,
-			productName: "Test Product2",
-			supplier: {
-				id: 1,
-				companyName: "Test Company",
-				contactName: "Test Contact",
-			},
-			category: {
-				id: 13,
-				categoryName: "Test Category2",
-				description: "Second category",
-			},
-			unitPrice: 17.0,
-		},
-		quantity: 2,
-	},
-];
-
 const user = {
 	email: "johndoe@me.com",
 	email_verified: true,

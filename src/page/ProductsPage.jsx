@@ -3,7 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { withRouter } from "react-router";
 import PropTypes from "prop-types";
 
-import AppContext, { ToastContext } from "../contexts";
+import AppContext, { ProductContext, ToastContext } from "../contexts";
 import { getAllProducts } from "../api/productAPI";
 import { addToCart } from "../api/cartAPI";
 import Loading from "../components/Loading";
@@ -11,7 +11,8 @@ import ProductCard from "../components/ProductCard";
 import ProductCardRow from "../components/ProductCardRow";
 
 function ProductsPage({ history }) {
-	const { products, setProducts, setCart, customer } = useContext(AppContext);
+	const { setCart, customer } = useContext(AppContext);
+	const { products, setProducts } = useContext(ProductContext);
 	const { handleAddToast } = useContext(ToastContext);
 	const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 

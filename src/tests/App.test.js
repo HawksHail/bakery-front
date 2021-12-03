@@ -1,13 +1,11 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { render, waitFor } from "@testing-library/react";
 import { useAuth0 } from "@auth0/auth0-react";
 import nock from "nock";
 
 import App from "../components/App";
-import ProductsContextProvider from "../contexts/ProductsContextProvider";
 import ToastContextProvider from "../contexts/ToastContextProvider";
-import AppContext, { ToastContext } from "../contexts";
+import AppContext from "../contexts";
 import { url } from "../api/url";
 
 jest.mock("@auth0/auth0-react");
@@ -38,37 +36,8 @@ afterEach(function () {
 	}
 });
 
-test("Has Router with Route tags", () => {
-	nock.restore();
-	render(
-		<ToastContextProvider>
-			<ProductsContextProvider>
-				<App />
-			</ProductsContextProvider>
-		</ToastContextProvider>
-	);
-
-	expect(screen.getByText(/Welcome/i)).toBeInTheDocument();
-
-	const category = screen.getByText(/category/i);
-	userEvent.click(category);
-	expect(document.location.toString()).toContain("/category");
-
-	const products = screen.getByText(/products/i);
-	userEvent.click(products);
-	expect(document.location.toString()).toContain("/product");
-
-	const cart = screen.getByText(/cart/i);
-	userEvent.click(cart);
-	expect(document.location.toString()).toContain("/cart");
-
-	const profile = screen.getByRole("link", { name: /profile/i });
-	userEvent.click(profile);
-	expect(document.location.toString()).toContain("/profile");
-});
-
 test("fetches user using auth0 sub id", async () => {
-	const scope = nock(url)
+	 nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "Authorization",
@@ -77,6 +46,18 @@ test("fetches user using auth0 sub id", async () => {
 		.optionally()
 		.reply(200)
 		.post("/customer/sub")
+		.reply(200, fakeUser)
+		.options("/product/featured")
+		.optionally()
+		.reply(200)
+		.get("/product/featured")
+		.optionally()
+		.reply(200, [])
+		.options("/customer/9")
+		.optionally()
+		.reply(200)
+		.get("/customer/9")
+		.optionally()
 		.reply(200, fakeUser);
 
 	const setCustomer = jest.fn();
@@ -94,7 +75,7 @@ test("fetches user using auth0 sub id", async () => {
 });
 
 test("fetches user using auth0 sub id returns 404 and tries to create new customer", async () => {
-	const scope = nock(url)
+	 nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "Authorization",
@@ -108,6 +89,18 @@ test("fetches user using auth0 sub id returns 404 and tries to create new custom
 		.optionally()
 		.reply(200)
 		.post("/customer")
+		.reply(200, fakeUser)
+		.options("/product/featured")
+		.optionally()
+		.reply(200)
+		.get("/product/featured")
+		.optionally()
+		.reply(200, [])
+		.options("/customer/9")
+		.optionally()
+		.reply(200)
+		.get("/customer/9")
+		.optionally()
 		.reply(200, fakeUser);
 
 	const setCustomer = jest.fn();

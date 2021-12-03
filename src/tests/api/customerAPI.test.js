@@ -35,7 +35,6 @@ test("getCustomer fetches properly", () => {
 		method: "GET",
 		headers: {
 			Authorization: `Bearer token`,
-			"Content-Type": "text/plain",
 		},
 	});
 });

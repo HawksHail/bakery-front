@@ -5,7 +5,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import Navbar from "../components/Navbar";
 import AppContext from "../contexts";
-import OrdersPage from "../page/OrdersPage";
 
 jest.mock("@auth0/auth0-react");
 
