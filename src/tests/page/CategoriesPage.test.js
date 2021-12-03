@@ -1,9 +1,15 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import {
+	render,
+	screen,
+	waitFor,
+	waitForElementToBeRemoved,
+} from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import nock from "nock";
 
 import AppContext from "../../contexts";
+import ProductsContextProvider from "../../contexts/ProductsContextProvider";
 import CategoriesPage from "../../page/CategoriesPage";
 import Category from "../../models/category";
 import { url } from "../../api/url";
@@ -51,18 +57,15 @@ test("API is called and all products are rendered", async () => {
 		.get("/category")
 		.reply(200, categories);
 
-	const setCategories = jest.fn();
 	render(
-		<AppContext.Provider value={{ categories, setCategories }}>
+		<ProductsContextProvider>
 			<Router>
 				<CategoriesPage />
 			</Router>
-		</AppContext.Provider>
+		</ProductsContextProvider>
 	);
 
-	await waitFor(() => {
-		expect(setCategories).toBeCalledTimes(1);
-	});
+	await waitForElementToBeRemoved(() => screen.getByText(/Loading$/i));
 
 	const cards = screen.getAllByText(/name[0-9]/);
 	expect(cards.length).toBe(2);
