@@ -18,7 +18,7 @@ function HomePage() {
 				<Row className="align-items-lg-center mb-4 mt-2">
 					<Col className="mx-auto col-9 col-md-4 col-lg-5 order-md-2">
 						<img
-							className="img-fluid rounded-3 mb-3 mb-md-0"
+							className="img-fluid rounded-3 mb-3 mb-md-0 shadow"
 							src={logo}
 							width={400}
 							height={400}

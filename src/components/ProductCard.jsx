@@ -26,7 +26,7 @@ function ProductCard(props) {
 						<Image
 							fluid
 							rounded
-							className="card-img-top mb-1"
+							className="card-img-top mb-1 shadow"
 							src={
 								props.product.imgURL
 									? props.product.imgURL
