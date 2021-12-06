@@ -96,7 +96,7 @@ function ProductPage(props) {
 						<Image
 							fluid
 							rounded
-							className="mb-1"
+							className="mb-1 shadow"
 							src={
 								product.imgURL
 									? product.imgURL

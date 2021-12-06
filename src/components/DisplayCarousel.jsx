@@ -9,11 +9,11 @@ function DisplayCarousel({ arr }) {
 	}
 
 	return (
-		<Carousel>
+		<Carousel className="shadow">
 			{arr.map(product => (
 				<Carousel.Item key={product.id}>
 					<img
-						className="d-block w-100 rounded-3"
+						className="d-block w-100 rounded-3 "
 						src={product.imgURL}
 						alt={product.productName}
 					/>
