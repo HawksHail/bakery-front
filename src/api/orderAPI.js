@@ -1,21 +1,31 @@
 import { url } from "./url";
 
-export const getOrders = async (custId, accessToken, abortController) => {
-	const res = await fetch(`${url}/order/customer/${custId}`, {
+//args: [orderId, accessToken]
+export const getOrders = async (args, _, { signal }) => {
+	const res = await fetch(`${url}/order/customer/${args[0]}`, {
 		headers: {
-			Authorization: `Bearer ${accessToken}`,
+			Authorization: `Bearer ${args[1]}`,
 		},
-		signal: abortController?.signal,
+		signal,
 	});
+	if (!res.ok)
+		throw new Error(`Error getting orders`, {
+			cause: res.status,
+		});
 	return await res.json();
 };
 
-export const getOrder = async (orderId, accessToken, abortController) => {
-	const res = await fetch(`${url}/order/${orderId}`, {
+//args: [orderId, accessToken]
+export const getOrder = async (args, _, { signal }) => {
+	const res = await fetch(`${url}/order/${args[0]}`, {
 		headers: {
-			Authorization: `Bearer ${accessToken}`,
+			Authorization: `Bearer ${args[1]}`,
 		},
-		signal: abortController?.signal,
+		signal,
 	});
+	if (!res.ok)
+		throw new Error(`Error getting order ${args[0]}`, {
+			cause: res.status,
+		});
 	return await res.json();
 };

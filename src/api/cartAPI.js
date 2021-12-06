@@ -1,11 +1,17 @@
 import { url } from "./url";
 
-export const getCart = async (custId, accessToken) => {
-	const res = await fetch(`${url}/cart/${custId}`, {
+//args: [customerId, accessToken]
+export const getCart = async (args, _, { signal }) => {
+	const res = await fetch(`${url}/cart/${args[0]}`, {
 		headers: {
-			Authorization: `Bearer ${accessToken}`,
+			Authorization: `Bearer ${args[1]}`,
 		},
+		signal,
 	});
+	if (!res.ok)
+		throw new Error(`Error getting cart`, {
+			cause: res.status,
+		});
 	return await res.json();
 };
 

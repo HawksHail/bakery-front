@@ -110,7 +110,7 @@ test("Renders Orders Title", () => {
 });
 
 test("Renders Table headers", async () => {
-	 nock(url)
+	nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "Authorization",
@@ -140,7 +140,7 @@ test("Renders Table headers", async () => {
 });
 
 test("Calls API and renders rows", async () => {
-	 nock(url)
+	nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "Authorization",
@@ -170,7 +170,7 @@ test("Calls API and renders rows", async () => {
 });
 
 test("Calls API and there are no orders", async () => {
-	 nock(url)
+	nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "Authorization",
@@ -196,6 +196,38 @@ test("Calls API and there are no orders", async () => {
 	expect(table.rows).toHaveLength(2);
 
 	expect(table.rows[1].textContent).toBe("No orders");
+});
+
+test("Calls API and returns error", async () => {
+	const originalError = console.error;
+	console.error = jest.fn();
+
+	nock(url)
+		.defaultReplyHeaders({
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Headers": "Authorization",
+		})
+		.options("/order/customer/9")
+		.optionally()
+		.reply(200)
+		.get("/order/customer/9")
+		.reply(404);
+
+	render(
+		<AppContext.Provider value={{ customer: { id: 9 } }}>
+			<Router>
+				<OrdersPage />
+			</Router>
+		</AppContext.Provider>
+	);
+
+	await waitForElementToBeRemoved(screen.getAllByText(/loading/i));
+
+	expect(screen.getByRole("heading", { name: "Error" })).toBeInTheDocument();
+
+	expect(console.error).toBeCalledWith(new Error("Error getting orders"));
+
+	console.error = originalError;
 });
 
 test("Rows have links", async () => {

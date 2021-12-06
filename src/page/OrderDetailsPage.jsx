@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useParams, withRouter } from "react-router";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Table } from "react-bootstrap";
+import { useAsync } from "react-async";
 
 import { getOrder } from "../api/orderAPI";
 import Loading from "../components/Loading";
@@ -12,23 +13,36 @@ function OrderDetailsPage(props) {
 	const { getAccessTokenSilently } = useAuth0();
 	const [order, setOrder] = useState(props.location?.state?.order);
 
-	useEffect(() => {
-		const abortController = new AbortController();
-		async function fetchOrder() {
-			const accessToken = await getAccessTokenSilently({
-				audience: "https://zion.ee-cognizantacademy.com",
-			});
-			getOrder(id, accessToken, abortController)
-				.then(setOrder)
-				.catch(console.log);
-		}
-		if (!order) {
-			fetchOrder();
-		}
-		return () => {
-			abortController.abort(); // cancel pending fetch request on component unmount
-		};
-	}, [id, getAccessTokenSilently]);
+	const { error, counter, run } = useAsync({
+		deferFn: getOrder,
+		accesstoken: getAccessTokenSilently({
+			audience: "https://zion.ee-cognizantacademy.com",
+		}),
+		onResolve: setOrder,
+		onReject: console.error,
+	});
+
+	async function getTokenAndRun() {
+		const token = await getAccessTokenSilently({
+			audience: "https://zion.ee-cognizantacademy.com",
+		});
+		run(id, token);
+	}
+
+	if (counter == 0) {
+		getTokenAndRun();
+	}
+
+	if (error) {
+		return (
+			<>
+				<h2 className="text-danger">Error</h2>
+				<p>
+					HTTP {error.cause}: {error.message}
+				</p>
+			</>
+		);
+	}
 
 	return (
 		<>

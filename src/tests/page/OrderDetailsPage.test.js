@@ -71,7 +71,7 @@ beforeEach(() => {
 	});
 });
 
-test("Renders title", () => {
+test("Renders title", async () => {
 	nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
@@ -93,9 +93,11 @@ test("Renders title", () => {
 	);
 
 	expect(screen.getByText(/order\s*#1/i)).toBeInTheDocument();
+
+	await waitForElementToBeRemoved(screen.getByText(/^loading$/i)); //needed to prevent act error
 });
 
-test("Renders Loading", () => {
+test("Renders Loading", async () => {
 	nock(url)
 		.defaultReplyHeaders({
 			"Access-Control-Allow-Origin": "*",
@@ -117,6 +119,8 @@ test("Renders Loading", () => {
 	);
 
 	expect(screen.getByText(/^loading$/i)).toBeInTheDocument();
+
+	await waitForElementToBeRemoved(screen.getByText(/^loading$/i)); //needed to prevent act error
 });
 
 test("Calls API and renders order details", async () => {
@@ -129,7 +133,6 @@ test("Calls API and renders order details", async () => {
 		.optionally()
 		.reply(200)
 		.get("/order/1")
-		.optionally() //gets aborted and throws DOMException
 		.reply(200, fakeOrder);
 
 	render(
@@ -159,7 +162,6 @@ test("Calls API and renders product table", async () => {
 		.optionally()
 		.reply(200)
 		.get("/order/1")
-		.optionally() //gets aborted and throws DOMException
 		.reply(200, fakeOrder);
 
 	render(
@@ -182,4 +184,36 @@ test("Calls API and renders product table", async () => {
 	expect(table.rows).toHaveLength(3);
 
 	expect(table.rows[1].textContent).toBe("Product312$17.00");
+});
+
+test("Calls API and returns error", async () => {
+	const originalError = console.error;
+	console.error = jest.fn();
+
+	nock(url)
+		.defaultReplyHeaders({
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Headers": "Authorization",
+		})
+		.options("/order/1")
+		.optionally()
+		.reply(200)
+		.get("/order/1")
+		.reply(404);
+
+	render(
+		<MemoryRouter initialEntries={["/orders/1"]}>
+			<Route path="/orders/:id">
+				<OrderDetailsPage />
+			</Route>
+		</MemoryRouter>
+	);
+
+	await waitForElementToBeRemoved(screen.getByText(/^loading$/i));
+
+	expect(screen.getByRole("heading", { name: "Error" })).toBeInTheDocument();
+
+	expect(console.error).toBeCalledWith(new Error("Error getting order 1"));
+
+	console.error = originalError;
 });

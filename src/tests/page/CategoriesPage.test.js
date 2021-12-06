@@ -69,3 +69,31 @@ test("API is called and all products are rendered", async () => {
 	const cards = screen.getAllByText(/name[0-9]/);
 	expect(cards.length).toBe(2);
 });
+
+test("API is called returns error", async () => {
+	const originalError = console.error;
+	console.error = jest.fn();
+	nock(url)
+		.defaultReplyHeaders({
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Headers": "Authorization",
+		})
+		.get("/category")
+		.reply(404);
+
+	render(
+		<ProductContextProvider>
+			<Router>
+				<CategoriesPage />
+			</Router>
+		</ProductContextProvider>
+	);
+
+	await waitForElementToBeRemoved(() => screen.getByText(/Loading$/i));
+
+	expect(screen.getByRole("heading", { name: "Error" })).toBeInTheDocument();
+
+	expect(console.error).toBeCalledWith(new Error("Error getting categories"));
+
+	console.error = originalError;
+});

@@ -33,6 +33,7 @@ let fetchSpy;
 beforeEach(() => {
 	fetchSpy = jest.spyOn(global, "fetch").mockImplementation(() =>
 		Promise.resolve({
+			ok: true,
 			json: () => Promise.resolve(fakeProducts),
 		})
 	);
@@ -73,18 +74,23 @@ test("all products are rendered", () => {
 	expect(cards.length).toBe(2);
 });
 
-test("list not loaded yet", () => {
+test("list not loaded yet displays loading", async () => {
 	render(
 		<AppContextProvider>
-			<ProductContext.Provider value={{ products: [] }}>
+			<ProductContextProvider>
 				<Router>
 					<ProductsPage />
 				</Router>
-			</ProductContext.Provider>
+			</ProductContextProvider>
 		</AppContextProvider>
 	);
 
 	expect(screen.getByText(/Loading$/i)).toBeInTheDocument();
+
+	await waitForElementToBeRemoved(screen.getByText(/Loading$/i), {
+		//needed to prevent act error
+		timeout: 3000,
+	});
 });
 
 test("API is called and products are rendered", async () => {
@@ -98,12 +104,42 @@ test("API is called and products are rendered", async () => {
 		</AppContextProvider>
 	);
 
-	await waitForElementToBeRemoved(() => screen.getByText(/Loading$/i));
+	await waitForElementToBeRemoved(screen.getByText(/Loading$/i));
 
-	expect(fetchSpy).toBeCalledWith(`${url}/product`);
+	expect(fetchSpy).toBeCalledWith(`${url}/product`, { signal: undefined });
 
 	const cards = screen.getAllByText(/name[0-9]/);
 	expect(cards.length).toBe(2);
+});
+
+test("API is called and returns error", async () => {
+	const originalError = console.error;
+	console.error = jest.fn();
+
+	fetchSpy = jest.spyOn(global, "fetch").mockImplementation(() =>
+		Promise.resolve({
+			ok: false,
+			json: () => Promise.resolve(fakeProducts),
+		})
+	);
+
+	render(
+		<AppContextProvider>
+			<ProductContextProvider>
+				<Router>
+					<ProductsPage />
+				</Router>
+			</ProductContextProvider>
+		</AppContextProvider>
+	);
+
+	await waitForElementToBeRemoved(screen.getByText(/Loading$/i));
+
+	expect(screen.getByRole("heading", { name: "Error" })).toBeInTheDocument();
+
+	expect(console.error).toBeCalledWith(new Error("Error getting products"));
+
+	console.error = originalError;
 });
 
 test("Button POSTS to API", async () => {

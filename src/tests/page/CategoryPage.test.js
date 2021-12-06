@@ -99,6 +99,7 @@ afterEach(function () {
 });
 
 beforeEach(() => {
+	nock.cleanAll();
 	useAuth0.mockReturnValue({
 		isAuthenticated: true,
 		user,
@@ -157,6 +158,34 @@ test("API is called and all products in category are rendered", async () => {
 
 	const cards = screen.getAllByText(/product[0-9]/);
 	expect(cards).toHaveLength(3);
+});
+
+test("API returns error, and is displayed", async () => {
+	const originalError = console.error;
+	console.error = jest.fn();
+
+	nock(url)
+		.defaultReplyHeaders({
+			"Access-Control-Allow-Origin": "*",
+		})
+		.get("/category/1")
+		.reply(404);
+
+	render(
+		<MemoryRouter initialEntries={["/category-items/1"]}>
+			<Route path="/category-items/:id">
+				<CategoryPage />
+			</Route>
+		</MemoryRouter>
+	);
+
+	await waitForElementToBeRemoved(screen.getByText(/Loading$/i));
+
+	expect(screen.getByRole("heading", { name: "Error" })).toBeInTheDocument();
+
+	expect(console.error).toBeCalledWith(new Error("Error getting category 1"));
+
+	console.error = originalError;
 });
 
 test("Button POSTS to API and sets cart", async () => {

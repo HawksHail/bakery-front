@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Table } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
+import { useAsync } from "react-async";
 
 import { getOrders } from "../api/orderAPI";
 import AppContext from "../contexts";
@@ -12,23 +13,34 @@ function OrderPage() {
 	const { getAccessTokenSilently } = useAuth0();
 	const { customer } = useContext(AppContext);
 
-	useEffect(() => {
-		const abortController = new AbortController();
-		async function fetchOrders() {
-			const accessToken = await getAccessTokenSilently({
-				audience: "https://zion.ee-cognizantacademy.com",
-			});
-			getOrders(customer.id, accessToken, abortController)
-				.then(setOrders)
-				.catch(console.log);
-		}
-		if (customer?.id) {
-			fetchOrders();
-		}
-		return () => {
-			abortController.abort(); // cancel pending fetch request on component unmount
-		};
-	}, [customer?.id, getAccessTokenSilently]);
+	const { error, counter, run } = useAsync({
+		deferFn: getOrders,
+		onResolve: setOrders,
+		onReject: console.error,
+	});
+
+	async function getTokenAndRun() {
+		const token = await getAccessTokenSilently({
+			audience: "https://zion.ee-cognizantacademy.com",
+		});
+		run(customer.id, token);
+	}
+
+	if (customer?.id && counter == 0) {
+		getTokenAndRun();
+	}
+
+	if (error) {
+		return (
+			<>
+				<h2 className="text-danger">Error</h2>
+
+				<p>
+					HTTP {error.cause}: {error.message}
+				</p>
+			</>
+		);
+	}
 
 	return (
 		<>

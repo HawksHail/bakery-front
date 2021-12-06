@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { withRouter } from "react-router";
-import PropTypes from "prop-types";
+import { withRouter, useHistory } from "react-router";
+import { useAsync } from "react-async";
 
 import AppContext, { ProductContext, ToastContext } from "../contexts";
 import { getAllProducts } from "../api/productAPI";
@@ -10,17 +10,19 @@ import Loading from "../components/Loading";
 import ProductCard from "../components/ProductCard";
 import ProductCardRow from "../components/ProductCardRow";
 
-function ProductsPage({ history }) {
+function ProductsPage() {
 	const { setCart, customer } = useContext(AppContext);
 	const { products, setProducts } = useContext(ProductContext);
 	const { handleAddToast } = useContext(ToastContext);
 	const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+	const history = useHistory();
 
-	useEffect(() => {
-		if (!products || products?.length < 1) {
-			getAllProducts().then(setProducts).catch(console.log);
-		}
-	}, []);
+	const { error } = useAsync({
+		promiseFn: getAllProducts,
+		onResolve: setProducts,
+		onReject: console.error,
+		initialValue: !products || products?.length < 1 ? null : products,
+	});
 
 	const addToCartButton = async product => {
 		try {
@@ -38,6 +40,18 @@ function ProductsPage({ history }) {
 			console.log(error);
 		}
 	};
+
+	if (error) {
+		return (
+			<>
+				<h2 className="text-danger">Error</h2>
+
+				<p>
+					HTTP {error.cause}: {error.message}
+				</p>
+			</>
+		);
+	}
 
 	return (
 		<>
@@ -67,9 +81,5 @@ function ProductsPage({ history }) {
 		</>
 	);
 }
-
-ProductsPage.propTypes = {
-	history: PropTypes.object,
-};
 
 export default withRouter(ProductsPage);

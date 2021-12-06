@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import { useParams, withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useAsync } from "react-async";
 import {
 	Breadcrumb,
 	Row,
@@ -28,11 +29,12 @@ function ProductPage(props) {
 
 	const { getAccessTokenSilently } = useAuth0();
 
-	useEffect(() => {
-		if (!product) {
-			getProduct(id).then(setProduct).catch(console.log);
-		}
-	}, [id]);
+	const { error } = useAsync({
+		promiseFn: getProduct,
+		id,
+		onResolve: setProduct,
+		onReject: console.error,
+	});
 
 	const handleAddToCart = async event => {
 		event.preventDefault();
@@ -56,6 +58,18 @@ function ProductPage(props) {
 			console.log(error);
 		}
 	};
+
+	if (error) {
+		return (
+			<>
+				<h2 className="text-danger">Error</h2>
+
+				<p>
+					HTTP {error.cause}: {error.message}
+				</p>
+			</>
+		);
+	}
 
 	if (!product) {
 		return (

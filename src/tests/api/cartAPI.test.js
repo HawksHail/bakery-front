@@ -10,18 +10,44 @@ let fetchSpy;
 beforeEach(() => {
 	fetchSpy = jest.spyOn(global, "fetch").mockImplementation(() =>
 		Promise.resolve({
+			ok: true,
 			json: () => Promise.resolve({}),
 		})
 	);
 });
 
-test("getCart fetches properly", () => {
-	getCart(1234, "token");
+test("getCart fetches properly", async () => {
+	const abort = new AbortController();
+	await getCart([1234, "token"], {}, { signal: abort }).catch(e => {
+		throw new Error("Failed", { cause: e });
+	});
 
 	expect(fetchSpy).toBeCalledWith(`${url}/cart/1234`, {
 		headers: {
 			Authorization: `Bearer token`,
 		},
+		signal: abort,
+	});
+});
+
+test("getCart fetches throws error", async () => {
+	expect.assertions();
+	fetchSpy.mockImplementation(() =>
+		Promise.resolve({ ok: false, json: () => Promise.resolve({}) })
+	);
+	const abort = new AbortController();
+
+	try {
+		await getCart([1234, "token"], {}, { signal: abort });
+	} catch (error) {
+		expect(error.message).toEqual("Error getting cart");
+	}
+
+	expect(fetchSpy).toBeCalledWith(`${url}/cart/1234`, {
+		headers: {
+			Authorization: `Bearer token`,
+		},
+		signal: abort,
 	});
 });
 

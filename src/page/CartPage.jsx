@@ -1,6 +1,7 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Button } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useAsync } from "react-async";
 
 import {
 	getCart,
@@ -18,21 +19,15 @@ function CartPage() {
 	const { handleAddToast } = useContext(ToastContext);
 	const { getAccessTokenSilently } = useAuth0();
 
-	useEffect(async () => {
-		if (customer?.id) {
-			try {
-				const accessToken = await getAccessTokenSilently({
-					audience: "https://zion.ee-cognizantacademy.com",
-				});
-
-				getCart(customer.id, accessToken)
-					.then(setCart)
-					.catch(console.log);
-			} catch (error) {
-				console.log("Error updating customer", error);
-			}
-		}
-	}, [customer?.id, getAccessTokenSilently]);
+	const {
+		error,
+		counter,
+		run: runGetCart,
+	} = useAsync({
+		deferFn: getCart,
+		onResolve: setCart,
+		onReject: console.error,
+	});
 
 	const handleRemoveButton = async item => {
 		try {
@@ -82,6 +77,29 @@ function CartPage() {
 			console.log("Error checking out", error);
 		}
 	};
+
+	async function getTokenAndRunGetCart() {
+		const token = await getAccessTokenSilently({
+			audience: "https://zion.ee-cognizantacademy.com",
+		});
+		runGetCart(customer.id, token);
+	}
+
+	if (customer?.id && counter == 0) {
+		getTokenAndRunGetCart();
+	}
+
+	if (error) {
+		return (
+			<>
+				<h2 className="text-danger">Error</h2>
+
+				<p>
+					HTTP {error.cause}: {error.message}
+				</p>
+			</>
+		);
+	}
 
 	if (!cart) {
 		return (

@@ -3,6 +3,7 @@ import {
 	render,
 	screen,
 	waitFor,
+	waitForElementToBeRemoved,
 } from "@testing-library/react";
 import { useAuth0 } from "@auth0/auth0-react";
 import userEvent from "@testing-library/user-event";
@@ -64,6 +65,7 @@ let fetchSpy;
 beforeEach(() => {
 	fetchSpy = jest.spyOn(global, "fetch").mockImplementation(() =>
 		Promise.resolve({
+			ok: true,
 			json: () => Promise.resolve(fakeCart),
 		})
 	);
@@ -127,6 +129,42 @@ test("contents of cart are loaded from API and displayed", () => {
 
 	const cards = screen.getAllByText(/test product/i);
 	expect(cards.length).toBe(2);
+});
+
+test("API is called and returns error", async () => {
+	const originalError = console.error;
+	console.error = jest.fn();
+
+	fetchSpy = jest.spyOn(global, "fetch").mockImplementation(() =>
+		Promise.resolve({
+			ok: false,
+			json: () => Promise.resolve({}),
+		})
+	);
+
+	render(
+		<ToastContextProvider>
+			<AppContext.Provider
+				value={{
+					cart: null,
+					setCart: jest.fn(),
+					customer: { id: 99 },
+				}}
+			>
+				<Router>
+					<CartPage />
+				</Router>
+			</AppContext.Provider>
+		</ToastContextProvider>
+	);
+
+	await waitForElementToBeRemoved(screen.getAllByText(/loading/i));
+
+	expect(screen.getByRole("heading", { name: "Error" })).toBeInTheDocument();
+
+	expect(console.error).toBeCalledWith(new Error("Error getting cart"));
+
+	console.error = originalError;
 });
 
 test("Remove Button POSTS to API and handleAddToast is called", async () => {

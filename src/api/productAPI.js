@@ -1,12 +1,20 @@
 import { url } from "./url";
 
-export const getAllProducts = async () => {
-	const res = await fetch(`${url}/product`);
+export const getAllProducts = async ({ signal }) => {
+	const res = await fetch(`${url}/product`, { signal });
+	if (!res.ok)
+		throw new Error(`Error getting products`, {
+			cause: res.status,
+		});
 	return await res.json();
 };
 
-export const getProduct = async id => {
-	const res = await fetch(`${url}/product/${id}`);
+export const getProduct = async ({ id }, { signal }) => {
+	const res = await fetch(`${url}/product/${id}`, { signal });
+	if (!res.ok)
+		throw new Error(`Error getting product ${id}`, {
+			cause: res.status,
+		});
 	return await res.json();
 };
 

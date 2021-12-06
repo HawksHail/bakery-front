@@ -44,6 +44,7 @@ afterEach(function () {
 });
 
 beforeEach(() => {
+	nock.cleanAll();
 	useAuth0.mockReturnValue({
 		isAuthenticated: true,
 		user,
@@ -111,6 +112,33 @@ test("API is called and product is rendered", async () => {
 	expect(
 		screen.getByRole("button", { name: /Add\sto\scart/ })
 	).toBeInTheDocument();
+});
+
+test("API is called and returns error", async () => {
+	const originalError = console.error;
+	console.error = jest.fn();
+	nock(url)
+		.defaultReplyHeaders({
+			"Access-Control-Allow-Origin": "*",
+		})
+		.get("/product/1")
+		.reply(404);
+
+	render(
+		<MemoryRouter initialEntries={["/product/1"]}>
+			<Route path="/product/:id">
+				<ProductPage />
+			</Route>
+		</MemoryRouter>
+	);
+
+	await waitForElementToBeRemoved(screen.getByText(/Loading$/i));
+
+	expect(screen.getByRole("heading", { name: "Error" })).toBeInTheDocument();
+
+	expect(console.error).toBeCalledWith(new Error("Error getting product 1"));
+
+	console.error = originalError;
 });
 
 test("Quantity +/- button increments/decrements quantity", async () => {

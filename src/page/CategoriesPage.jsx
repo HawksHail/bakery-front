@@ -1,5 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Table } from "react-bootstrap";
+import { useAsync } from "react-async";
 
 import { ProductContext } from "../contexts";
 import { getAllCategories } from "../api/categoryAPI";
@@ -9,11 +10,24 @@ import Loading from "../components/Loading";
 function CategoriesPage() {
 	const { categories, setCategories } = useContext(ProductContext);
 
-	useEffect(() => {
-		if (!categories || categories?.length < 1) {
-			getAllCategories().then(setCategories).catch(console.log);
-		}
-	}, []);
+	const { error } = useAsync({
+		promiseFn: getAllCategories,
+		onResolve: setCategories,
+		onReject: console.error,
+		initialValue: !categories || categories?.length < 1 ? null : categories,
+	});
+
+	if (error) {
+		return (
+			<>
+				<h2 className="text-danger">Error</h2>
+
+				<p>
+					HTTP {error.cause}: {error.message}
+				</p>
+			</>
+		);
+	}
 
 	return (
 		<>
