@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { withRouter, useHistory } from "react-router";
+import { useHistory } from "react-router";
 import { useAsync } from "react-async";
 
 import AppContext, { ProductContext, ToastContext } from "../contexts";
@@ -37,7 +37,7 @@ function ProductsPage() {
 				"text-white"
 			);
 		} catch (error) {
-			console.error("Error adding to cart",error);
+			console.error("Error adding to cart", error);
 		}
 	};
 
@@ -82,4 +82,4 @@ function ProductsPage() {
 	);
 }
 
-export default withRouter(ProductsPage);
+export default ProductsPage;

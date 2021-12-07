@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useParams, withRouter } from "react-router";
-import { Link, useHistory } from "react-router-dom";
+import { useParams } from "react-router";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Breadcrumb } from "react-bootstrap";
 import { useAsync } from "react-async";
@@ -14,9 +14,10 @@ import ProductCardRow from "../components/ProductCardRow";
 import Loading from "../components/Loading";
 import Category from "../models/category";
 
-function CategoryPage(props) {
+function CategoryPage() {
 	const { id } = useParams();
-	const [category, setCategory] = useState(props.location?.state?.category);
+	const location = useLocation();
+	const [category, setCategory] = useState(location.state?.category);
 	const { setCart, customer } = useContext(AppContext);
 	const { handleAddToast } = useContext(ToastContext);
 	const { isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -113,4 +114,4 @@ CategoryPage.propTypes = {
 	}),
 };
 
-export default withRouter(CategoryPage);
+export default CategoryPage;

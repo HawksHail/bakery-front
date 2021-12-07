@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { useParams, withRouter } from "react-router";
+import { useParams, useLocation } from "react-router";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Table } from "react-bootstrap";
 import { useAsync } from "react-async";
@@ -8,10 +7,11 @@ import { useAsync } from "react-async";
 import { getOrder } from "../api/orderAPI";
 import Loading from "../components/Loading";
 
-function OrderDetailsPage(props) {
+function OrderDetailsPage() {
 	const { id } = useParams();
 	const { getAccessTokenSilently } = useAuth0();
-	const [order, setOrder] = useState(props.location?.state?.order);
+	const location = useLocation();
+	const [order, setOrder] = useState(location.state?.order);
 
 	const { error, counter, run } = useAsync({
 		deferFn: getOrder,
@@ -119,18 +119,4 @@ function OrderDetailsPage(props) {
 	);
 }
 
-OrderDetailsPage.propTypes = {
-	location: PropTypes.shape({
-		pathname: PropTypes.string,
-		state: PropTypes.shape({
-			order: PropTypes.shape({
-				id: PropTypes.number,
-				customer: PropTypes.shape({ id: PropTypes.number }),
-				orderDate: PropTypes.string,
-				detailsList: PropTypes.array,
-			}),
-		}),
-	}),
-};
-
-export default withRouter(OrderDetailsPage);
+export default OrderDetailsPage;

@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
-import PropTypes from "prop-types";
-import { useParams, withRouter } from "react-router";
+import { useParams, useLocation } from "react-router";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAsync } from "react-async";
@@ -15,14 +14,14 @@ import {
 } from "react-bootstrap";
 
 import AppContext, { ToastContext } from "../contexts";
-import Product from "../models/product";
 import Loading from "../components/Loading";
 import { getProduct } from "../api/productAPI";
 import { addToCart } from "../api/cartAPI";
 
-function ProductPage(props) {
+function ProductPage() {
 	const { id } = useParams();
-	const [product, setProduct] = useState(props.location?.state?.product);
+	const location = useLocation();
+	const [product, setProduct] = useState(location.state?.product);
 	const [quantity, setQuantity] = useState(1);
 	const { setCart, customer } = useContext(AppContext);
 	const { handleAddToast } = useContext(ToastContext);
@@ -187,13 +186,4 @@ function ProductPage(props) {
 	);
 }
 
-ProductPage.propTypes = {
-	location: PropTypes.shape({
-		pathname: PropTypes.string,
-		state: PropTypes.shape({
-			product: PropTypes.shape(Product),
-		}),
-	}),
-};
-
-export default withRouter(ProductPage);
+export default ProductPage;
