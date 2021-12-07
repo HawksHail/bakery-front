@@ -87,6 +87,7 @@ function App() {
 					<PrivateRoute path="/profile">
 						<ProfilePage />
 					</PrivateRoute>
+					<Route path="*">Page not found.</Route>
 				</Switch>
 				<DisplayToasts />
 			</Container>
