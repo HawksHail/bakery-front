@@ -35,6 +35,9 @@ function DisplayNavbar() {
 						src={logo}
 						alt="logo"
 					/>
+					<span className="ms-2 d-lg-none text-white">
+						Blissful Bakery
+					</span>
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">
