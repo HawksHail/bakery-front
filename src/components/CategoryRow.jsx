@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 
 import Category from "../models/category";
@@ -26,8 +25,7 @@ function CategoryRow(props) {
 }
 
 CategoryRow.propTypes = {
-	history: PropTypes.object,
 	category: PropTypes.shape(Category),
 };
 
-export default withRouter(CategoryRow);
+export default CategoryRow;

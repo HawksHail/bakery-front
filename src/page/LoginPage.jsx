@@ -1,30 +1,38 @@
 import React, { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { withRouter } from "react-router";
-import PropTypes from "prop-types";
+import { useHistory, useLocation } from "react-router";
 
 import Loading from "../components/Loading";
+import LoginButton from "../components/LoginButton";
 
-function LoginPage(props) {
+function LoginPage() {
 	const { isAuthenticated, isLoading } = useAuth0();
+	const history = useHistory();
+	const location = useLocation();
 
 	useEffect(() => {
 		if (!isLoading && isAuthenticated) {
-			if (props.location.state?.from) {
-				props.history.push(props.location.state.from);
+			if (location.state?.from) {
+				history.push(location.state.from);
 			} else {
-				props.history.push("/");
+				history.push("/");
 			}
 		}
 	}, [isAuthenticated, isLoading]);
+	if (isLoading) {
+		return (
+			<h2>
+				<Loading />
+			</h2>
+		);
+	}
 
-	return <h2>{isLoading ? <Loading /> : "You must log in to do that!"}</h2>;
+	return (
+		<>
+			<h2>You must log in to do that!</h2>
+			<LoginButton />
+		</>
+	);
 }
 
-LoginPage.propTypes = {
-	props: PropTypes.object,
-	history: PropTypes.object,
-	location: PropTypes.object,
-};
-
-export default withRouter(LoginPage);
+export default LoginPage;
