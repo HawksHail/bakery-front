@@ -4,6 +4,7 @@ import { withRouter } from "react-router";
 import PropTypes from "prop-types";
 
 import Loading from "../components/Loading";
+import LoginButton from "../components/LoginButton";
 
 function LoginPage(props) {
 	const { isAuthenticated, isLoading } = useAuth0();
@@ -17,8 +18,20 @@ function LoginPage(props) {
 			}
 		}
 	}, [isAuthenticated, isLoading]);
+	if (isLoading) {
+		return (
+			<h2>
+				<Loading />
+			</h2>
+		);
+	}
 
-	return <h2>{isLoading ? <Loading /> : "You must log in to do that!"}</h2>;
+	return (
+		<>
+			<h2>You must log in to do that!</h2>
+			<LoginButton />
+		</>
+	);
 }
 
 LoginPage.propTypes = {
