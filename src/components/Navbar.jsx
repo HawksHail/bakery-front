@@ -122,7 +122,7 @@ function DisplayNavbar() {
 
 						<Nav.Item
 							className={
-								isAuthenticated ? null : "ms-0 ms-md-auto"
+								isAuthenticated ? null : "ms-0 ms-lg-auto"
 							}
 						>
 							<AuthenticationButton />
