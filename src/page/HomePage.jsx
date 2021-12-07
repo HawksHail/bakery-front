@@ -9,7 +9,7 @@ function HomePage() {
 	const [featured, setFeatured] = useState([]);
 
 	useEffect(() => {
-		getFeaturedProducts().then(setFeatured).catch(console.log);
+		getFeaturedProducts().then(setFeatured).catch(console.error);
 	}, []);
 
 	return (

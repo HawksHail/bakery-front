@@ -36,7 +36,7 @@ function CategoryPage(props) {
 			});
 			await addToCart(customer.id, product.id, accessToken)
 				.then(setCart)
-				.catch(e => console.log("Error posting cart", e));
+				.catch(e => console.error("Error posting cart", e));
 			handleAddToast(
 				"Success",
 				`${product.productName} added to cart!`,
@@ -44,7 +44,7 @@ function CategoryPage(props) {
 				"text-white"
 			);
 		} catch (error) {
-			console.log("Error adding to cart", error);
+			console.error("Error adding to cart", error);
 		}
 	};
 

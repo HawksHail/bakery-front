@@ -47,7 +47,7 @@ function App() {
 				}
 				setCustomer(customer);
 			} catch (error) {
-				console.log("Error getting customer", error);
+				console.error("Error getting customer", error);
 			}
 		}
 	}, [user]);

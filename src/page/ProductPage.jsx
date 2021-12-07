@@ -55,7 +55,7 @@ function ProductPage(props) {
 				"text-white"
 			);
 		} catch (error) {
-			console.log(error);
+			console.error("Error adding to cart",error);
 		}
 	};
 

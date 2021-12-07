@@ -26,7 +26,7 @@ function ProfilePage() {
 				let newCustomer = await getCustomer(customer.id, accessToken);
 				setCustomer(newCustomer);
 			} catch (error) {
-				console.log("Error updating customer", error);
+				console.error("Error updating customer", error);
 			}
 		}
 	}, []);
@@ -59,7 +59,7 @@ function ProfilePage() {
 			await updateCustomer(newCustomer, accessToken);
 			setCustomer(newCustomer);
 		} catch (error) {
-			console.log("save customer", error);
+			console.error("Error saving data", error);
 		}
 	};
 

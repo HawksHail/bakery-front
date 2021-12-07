@@ -46,7 +46,7 @@ function CartPage() {
 				"text-white"
 			);
 		} catch (error) {
-			console.log("Error removing item", error);
+			console.error("Error removing item", error);
 		}
 	};
 
@@ -60,7 +60,7 @@ function CartPage() {
 			setCart([]);
 			handleAddToast("Cleared!", "Cart cleared!", "danger", "text-white");
 		} catch (error) {
-			console.log("Error clearing cart", error);
+			console.error("Error clearing cart", error);
 		}
 	};
 
@@ -74,7 +74,7 @@ function CartPage() {
 			setCart([]);
 			handleAddToast("Success!", "Checked out!", "primary", "text-white");
 		} catch (error) {
-			console.log("Error checking out", error);
+			console.error("Error checking out", error);
 		}
 	};
 
