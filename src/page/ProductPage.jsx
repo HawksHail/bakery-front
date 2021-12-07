@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import { useParams, withRouter } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAsync } from "react-async";
 import {
@@ -26,8 +26,9 @@ function ProductPage(props) {
 	const [quantity, setQuantity] = useState(1);
 	const { setCart, customer } = useContext(AppContext);
 	const { handleAddToast } = useContext(ToastContext);
+	const history = useHistory();
 
-	const { getAccessTokenSilently } = useAuth0();
+	const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
 	const { error } = useAsync({
 		promiseFn: getProduct,
@@ -55,7 +56,7 @@ function ProductPage(props) {
 				"text-white"
 			);
 		} catch (error) {
-			console.error("Error adding to cart",error);
+			console.error("Error adding to cart", error);
 		}
 	};
 
@@ -132,7 +133,13 @@ function ProductPage(props) {
 					</Row>
 					<Row>
 						<Form
-							onSubmit={handleAddToCart}
+							onSubmit={
+								isAuthenticated
+									? handleAddToCart
+									: () => {
+											history.push("/login");
+									  }
+							}
 							className="vstack gap-2"
 						>
 							<Button type="submit" style={{ width: "12rem" }}>
