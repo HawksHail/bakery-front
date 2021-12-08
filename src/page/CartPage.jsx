@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAsync } from "react-async";
@@ -85,9 +85,11 @@ function CartPage() {
 		runGetCart(customer.id, token);
 	}
 
-	if (customer?.id && counter == 0) {
-		getTokenAndRunGetCart();
-	}
+	useEffect(() => {
+		if (customer?.id && counter == 0) {
+			getTokenAndRunGetCart();
+		}
+	}, [customer?.id, getAccessTokenSilently]);
 
 	if (error) {
 		return (

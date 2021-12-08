@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
@@ -26,9 +26,11 @@ function OrderPage() {
 		run(customer.id, token);
 	}
 
-	if (customer?.id && counter == 0) {
-		getTokenAndRun();
-	}
+	useEffect(() => {
+		if (customer?.id && counter == 0) {
+			getTokenAndRun();
+		}
+	}, [customer?.id, getAccessTokenSilently]);
 
 	if (error) {
 		return (
