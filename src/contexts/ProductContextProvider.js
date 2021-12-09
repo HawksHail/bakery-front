@@ -6,12 +6,15 @@ import { ProductContext } from ".";
 const ProductContextProvider = ({ children }) => {
 	const [products, setProducts] = useState([]);
 	const [categories, setCategories] = useState([]);
+	const [suppliers, setSuppliers] = useState([]);
 
 	const context = {
 		products,
 		setProducts,
 		categories,
 		setCategories,
+		suppliers,
+		setSuppliers,
 	};
 
 	return (
