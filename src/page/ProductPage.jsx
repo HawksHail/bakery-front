@@ -129,7 +129,12 @@ function ProductPage() {
 						<p className="h4">By: {product.supplier.companyName}</p>
 					</Row>
 					<Row>
-						<p className="h4">${product.unitPrice}</p>
+						<p className="h4">
+							$
+							{product.unitPrice.toLocaleString(undefined, {
+								minimumFractionDigits: 2,
+							})}
+						</p>
 					</Row>
 					<Row>
 						<Form
