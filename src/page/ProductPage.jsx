@@ -299,7 +299,9 @@ function ProductPage() {
 								</FloatingLabel>
 							</Form.Group>
 						) : (
-							<p className="h4">${product.unitPrice}</p>
+							<p className="h4">${product.unitPrice.toLocaleString(undefined, {
+								minimumFractionDigits: 2,
+							})}</p>
 						)}
 					</Row>
 					{adminMode ? (
