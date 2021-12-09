@@ -34,6 +34,7 @@ function ProductPage() {
 		id,
 		onResolve: setProduct,
 		onReject: console.error,
+		initialValue: product ? product : null,
 	});
 
 	const handleAddToCart = async event => {
