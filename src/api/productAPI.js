@@ -22,3 +22,20 @@ export const getFeaturedProducts = async () => {
 	const res = await fetch(`${url}/product/featured`);
 	return await res.json();
 };
+
+//args: [product, accessToken]
+export const updateProduct = async (args, _, { signal }) => {
+	const res = await fetch(`${url}/product`, {
+		method: "PUT",
+		headers: {
+			Authorization: `Bearer ${args[1]}`,
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(args[0]),
+		signal,
+	});
+	if (!res.ok)
+		throw new Error(`Error updating product ${args[0].id}`, {
+			cause: res.status,
+		});
+};

@@ -1,16 +1,34 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Row, Col, Nav } from "react-bootstrap";
+import { Row, Col, Nav, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faTwitter,
 	faInstagram,
 	faFacebook,
 } from "@fortawesome/free-brands-svg-icons";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import logo from "../logo.svg";
+import AppContext from "../contexts";
 
 function Footer() {
+	const { getIdTokenClaims, isAuthenticated } = useAuth0();
+	const { setAdminMode } = useContext(AppContext);
+	const [roles, setRoles] = useState([]);
+
+	useEffect(() => {
+		async function getRoles() {
+			const claims = await getIdTokenClaims();
+			setRoles(claims?.["https://zion.ee-cognizantacademy.com/roles"]);
+		}
+		if (isAuthenticated) getRoles();
+	}, [isAuthenticated]);
+
+	const handleAdminSwitch = event => {
+		setAdminMode(event.target.checked);
+	};
+
 	return (
 		<footer className="mt-auto py-3 px-3 px-sm-5 border-top">
 			<Row className="d-flex align-items-center text-center row-cols-3">
@@ -60,6 +78,9 @@ function Footer() {
 					</Nav>
 				</Col>
 			</Row>
+			{roles && roles.includes("admin") ? (
+				<Form.Switch label="Admin mode" onChange={handleAdminSwitch} />
+			) : null}
 		</footer>
 	);
 }
